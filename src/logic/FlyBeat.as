@@ -1,11 +1,16 @@
 package logic {
-	import away3d.core.math.Quaternion;
-	import controllers.ControllerListener;
-	import rendering.GameWorld;
-	import flash.events.Event;
 	import flash.display.Sprite;
+	import flash.events.Event;
 	import flash.geom.Vector3D;
 	import flash.utils.getTimer;
+	
+	import away3d.core.math.Quaternion;
+	
+	import controllers.ControllerListener;
+	
+	import rendering.GameWorld;
+	
+	[SWF(width=800,height=600)]
 	
 	public class FlyBeat extends Sprite {
 		public function FlyBeat() {

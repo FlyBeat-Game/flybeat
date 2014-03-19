@@ -19,6 +19,7 @@ package rendering {
 		
 		private function loadComplete(e : LoaderEvent) {
 			stopLoading();
+			
 			papa.addChild(this);
 		}
 		
