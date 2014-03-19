@@ -17,14 +17,12 @@ package controllers {
 		private var orientationv:Vector3D;
 		public var controller:String = "remote";
 		
-		public function ControllerListener()
-		{
+		public function ControllerListener() {
 			orientationv = new Vector3D(0,0,0);
 			if (controller == "remote") startNetworkListener();
 			else trace("keyboard");
 		}
-		
-		/*BEGIN NETWORK SHIT*/
+
 		public function startNetworkListener() : void {
 			trace("Using network controller");
 			socket = new Socket();

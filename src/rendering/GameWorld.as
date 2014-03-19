@@ -13,7 +13,7 @@ package rendering
 		public function GameWorld() {
 			Parsers.enableAllBundled();
 	
-			plane = new SceneObject(scene, '../media/plane.awd');
+			plane = new SceneObject(scene, '../media/Gray Plane.awd');
 			surfaceA = new Mesh(new PlaneGeometry(700, 700));
 			surfaceB = new Mesh(new PlaneGeometry(700, 700));
 			surfaceC = new Mesh(new PlaneGeometry(700, 700));
