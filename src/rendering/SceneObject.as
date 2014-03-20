@@ -1,7 +1,8 @@
 package rendering {
-	import away3d.loaders.Loader3D;
-	import away3d.events.LoaderEvent;
 	import away3d.containers.Scene3D;
+	import away3d.entities.Mesh;
+	import away3d.events.LoaderEvent;
+	import away3d.loaders.Loader3D;
 	import flash.net.URLRequest;
 	
 	public class SceneObject extends Loader3D {
@@ -19,7 +20,6 @@ package rendering {
 		
 		private function loadComplete(e : LoaderEvent) {
 			stopLoading();
-			
 			papa.addChild(this);
 		}
 		
