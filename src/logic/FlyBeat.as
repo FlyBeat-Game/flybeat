@@ -56,7 +56,7 @@ package logic {
 		private var map = new SinusoidalMap();
 		
 		private var velocity = new Vector3D(0, 0, 0.2);
-		private var position = new Vector3D(0, 500, -600);
+		private var position = new Vector3D(0, 500, -800);
 		
 		// o mesmo que velocidade e posição, mas para a inclinação
 		private var torque = new Quaternion();
