@@ -2,38 +2,49 @@ package rendering
 {
 	import away3d.core.base.Geometry;
 	import away3d.core.base.SubGeometry;
-	import util.Vector2D;
+	import flash.geom.Vector3D;
 
 	internal class Obstacle extends Geometry {
-		public function Obstacle(off:Vector2D) {
+		public function Obstacle(off:Vector3D) {
+			off.x *= 300;
+			off.y *= 300;
+			off.z *= 100;
+			
+			var front = off.z;
+			var back = off.z + 100;
+			var left = off.x - 500;
+			var right = off.x + 500;
+			var top = off.y + 900;
+			var bottom = off.y + 100;
+			
 			var geom = new SubGeometry();
 			var verts = new Vector.<Number>();
-			verts.push(-1000, 0, 0);
-			verts.push(-500, 0, 0);
-			verts.push(-1000, 1000, 0);
-			verts.push(-500, 1000, 0);
+			verts.push(-1000, 0, front);
+			verts.push(left, 0, front);
+			verts.push(-1000, 1000, front);
+			verts.push(left, 1000, front);
 			
-			verts.push(1000, 0, 0);
-			verts.push(500, 0, 0);
-			verts.push(1000, 1000, 0);
-			verts.push(500, 1000, 0);
+			verts.push(1000, 0, front);
+			verts.push(right, 0, front);
+			verts.push(1000, 1000, front);
+			verts.push(right, 1000, front);
 			
-			verts.push(-1000, 900, 0);
-			verts.push(1000, 900, 0);
+			verts.push(-1000, top, front);
+			verts.push(1000, top, front);
 			
-			verts.push(-1000, 100, 0);
-			verts.push(1000, 100, 0);
+			verts.push(-1000, bottom, front);
+			verts.push(1000, bottom, front);
 			
-			verts.push(-500, 0, 100);
-			verts.push(-500, 1000, 100);
-			verts.push(500, 0, 100);
-			verts.push(500, 1000, 100);
+			verts.push(left, 0, back);
+			verts.push(left, 1000, back);
+			verts.push(right, 0, back);
+			verts.push(right, 1000, back);
 			
-			verts.push(-1000, 900, 100);
-			verts.push(1000, 900, 100);
+			verts.push(-1000, top, back);
+			verts.push(1000, top, back);
 			
-			verts.push(-1000, 100, 100);
-			verts.push(1000, 100, 100);
+			verts.push(-1000, bottom, back);
+			verts.push(1000, bottom, back);
 			
 			var indices = new Vector.<uint>();
 			indices.push(0,2,1);

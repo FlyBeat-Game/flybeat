@@ -1,8 +1,6 @@
 package logic {
 	import away3d.core.math.Quaternion;
-	
 	import controllers.ControllerListener;
-	
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.geom.Vector3D;

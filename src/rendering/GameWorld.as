@@ -3,12 +3,17 @@ package rendering
 	import away3d.containers.View3D;
 	import away3d.core.base.Object3D;
 	import away3d.core.math.Quaternion;
-	import away3d.materials.ColorMaterial;
 	import away3d.entities.Mesh;
 	import away3d.events.LoaderEvent;
-	import away3d.primitives.PlaneGeometry;
 	import away3d.loaders.parsers.*;
+	import away3d.materials.ColorMaterial;
+	import away3d.primitives.PlaneGeometry;
+	
 	import flash.geom.Vector3D;
+	
+	import logic.Map;
+	import logic.SinusoidalMap;
+	
 	import util.Vector2D;
 	
 	public class GameWorld extends View3D {
@@ -26,7 +31,11 @@ package rendering
 			scene.addChild(surfaceA);
 			scene.addChild(surfaceB);
 			scene.addChild(surfaceC);
-			addObstacle(null);
+			
+			var map:Map = new SinusoidalMap();
+			for (var i:int = 0; i < 100; i++)  { 
+				addObstacle(map.get(i));
+			}
 		}
 		
 		public function draw() {
@@ -43,8 +52,9 @@ package rendering
 			plane.eulers = camera.eulers;
 		}
 		
-		public function addObstacle(pos:Vector2D) {
-			scene.addChild(new Mesh(new Obstacle(null), new ColorMaterial(0xff0000)));
+		public function addObstacle(pos:Vector3D) {
+			var color = 0x050505 + (0xffffff - 0x050505) * Math.random();
+			scene.addChild(new Mesh(new Obstacle(pos), new ColorMaterial(color)));
 		}
 		
 		private var surfaceA:Mesh;

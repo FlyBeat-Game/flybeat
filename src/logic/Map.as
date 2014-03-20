@@ -1,9 +1,9 @@
 package logic
 {	
-	import util.Vector2D;
+	import flash.geom.Vector3D;
 	
 	public class Map {
-		public function get(index:Number) : Vector2D {
+		public function get(index:int) : Vector3D {
 			return null;
 		}
 	}
