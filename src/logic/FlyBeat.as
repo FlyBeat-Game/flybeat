@@ -1,15 +1,14 @@
 package logic {
+	import away3d.core.math.Quaternion;
+	
+	import controllers.ControllerListener;
+	
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.geom.Vector3D;
 	import flash.utils.getTimer;
 	
-	import away3d.core.math.Quaternion;
-	
-	import controllers.ControllerListener;
-	
 	import rendering.GameWorld;
-	
 	[SWF(width=800,height=600)]
 	
 	public class FlyBeat extends Sprite {
@@ -41,7 +40,6 @@ package logic {
 			var walked = velocity.clone();
 			walked.scaleBy(elapsed);
 			position.incrementBy(walked)
-			//trace(position); // trace faz "print"
 			
 			lastUpdate = time;
 			world.setPlayerPosition(position, angle);
@@ -55,6 +53,7 @@ package logic {
 		
 		private var world = new GameWorld();
 		private var controller = new ControllerListener();
+		private var map = new SinusoidalMap();
 		
 		private var velocity = new Vector3D(0, 0, 0.2);
 		private var position = new Vector3D(0, 500, -600);

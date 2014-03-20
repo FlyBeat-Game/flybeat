@@ -5,9 +5,10 @@ package rendering
 	import away3d.core.math.Quaternion;
 	import away3d.entities.Mesh;
 	import away3d.events.LoaderEvent;
-	import away3d.primitives.PlaneGeometry;
 	import away3d.loaders.parsers.*;
+	import away3d.primitives.PlaneGeometry;
 	import flash.geom.Vector3D;
+	import util.Vector2D;
 	
 	public class GameWorld extends View3D {
 		public function GameWorld() {
@@ -38,6 +39,10 @@ package rendering
 			
 			plane.position = pos.add(new Vector3D(0, -200, 1000));
 			plane.eulers = camera.eulers;
+		}
+		
+		public function addObstacle(pos:Vector2D) {
+			
 		}
 		
 		private var surfaceA:Mesh;
