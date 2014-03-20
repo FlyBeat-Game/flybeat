@@ -15,7 +15,7 @@ package rendering
 		public function GameWorld() {
 			Parsers.enableAllBundled();
 	
-			plane = new SceneObject(scene, '../media/Gray Plane.awd');
+			//plane = new SceneObject(scene, '../media/Gray Plane.awd');
 			surfaceA = new Mesh(new PlaneGeometry(700, 700), new ColorMaterial(0x0000ff));
 			surfaceB = new Mesh(new PlaneGeometry(700, 700), new ColorMaterial(0x0000ff));
 			surfaceC = new Mesh(new PlaneGeometry(700, 700), new ColorMaterial(0x0000ff));
@@ -26,7 +26,11 @@ package rendering
 			scene.addChild(surfaceA);
 			scene.addChild(surfaceB);
 			scene.addChild(surfaceC);
-			//addObstacle(null);
+			addObstacle(null);
+			
+			camera.rotationX = 30;
+			camera.z = -300;
+			camera.y = 200;
 		}
 		
 		public function draw() {
@@ -36,15 +40,15 @@ package rendering
 		}
 		
 		public function setPlayerPosition(pos:Vector3D, angle:Quaternion) {
-			angle.toEulerAngles(camera.eulers);
+			/*angle.toEulerAngles(camera.eulers);
 			camera.position = pos;
 			
 			plane.position = pos.add(new Vector3D(0, -200, 1000));
-			plane.eulers = camera.eulers;
+			plane.eulers = camera.eulers;*/
 		}
 		
 		public function addObstacle(pos:Vector2D) {
-			scene.addChild(new Mesh(new Obstacle()));
+			scene.addChild(new Mesh(new Obstacle(), new ColorMaterial(0xff0000)));
 		}
 		
 		private var surfaceA:Mesh;
