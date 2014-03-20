@@ -52,7 +52,7 @@ package logic {
 		}
 		
 		private var world = new GameWorld();
-		private var controller = new ControllerListener();
+		private var controller = new ControllerListener(stage);
 		private var map = new SinusoidalMap();
 		
 		private var velocity = new Vector3D(0, 0, 0.2);
