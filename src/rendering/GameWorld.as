@@ -5,9 +5,9 @@ package rendering
 	import away3d.core.math.Quaternion;
 	import away3d.entities.Mesh;
 	import away3d.events.LoaderEvent;
+	import away3d.lights.DirectionalLight;
 	import away3d.loaders.parsers.*;
 	import away3d.materials.ColorMaterial;
-	import away3d.primitives.PlaneGeometry;
 	
 	import flash.geom.Vector3D;
 	
@@ -19,18 +19,15 @@ package rendering
 	public class GameWorld extends View3D {
 		public function GameWorld() {
 			Parsers.enableAllBundled();
-	
 			plane = new SceneObject(scene, '../media/Gray Plane.awd');
-			surfaceA = new Mesh(new PlaneGeometry(700, 700), new ColorMaterial(0x0000ff));
-			surfaceB = new Mesh(new PlaneGeometry(700, 700), new ColorMaterial(0x0000ff));
-			surfaceC = new Mesh(new PlaneGeometry(700, 700), new ColorMaterial(0x0000ff));
+
+			var light = new DirectionalLight();
+			light.direction = new Vector3D(1, 0, 0);
+			light.ambient = 0.1;
+			light.diffuse = 0.7;
 			
-			surfaceB.z = 1000;
-			surfaceC.z = 2000;
-			
-			scene.addChild(surfaceA);
-			scene.addChild(surfaceB);
-			scene.addChild(surfaceC);
+			scene.addChild(light);
+			camera.lens.far = 10000;
 			
 			var map:Map = new SinusoidalMap();
 			for (var i:int = 0; i < 100; i++)  { 
@@ -39,21 +36,17 @@ package rendering
 		}
 		
 		public function draw() {
-			surfaceA.rotationY += 1;
-			surfaceC.rotationY += 3;
 			render();
 		}
 		
 		public function setPlayerPosition(pos:Vector3D, angle:Quaternion) {
-			angle.toEulerAngles(camera.eulers);
 			camera.position = pos;
-			
 			plane.position = pos.add(new Vector3D(0, -200, 1000));
-			plane.eulers = camera.eulers;
+			//angle.toEulerAngles(plane.eulers);
 		}
 		
 		public function addObstacle(pos:Vector3D) {
-			var color = 0x050505 + (0xffffff - 0x050505) * Math.random();
+			var color = 0x60 * (pos.y + 1) + int(0x60 * (pos.x + 1)) * 0x100;
 			scene.addChild(new Mesh(new Obstacle(pos), new ColorMaterial(color)));
 		}
 		
