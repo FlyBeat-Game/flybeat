@@ -1,12 +1,13 @@
 package controllers {
-	import flash.geom.Vector3D;
-	import flash.events.KeyboardEvent;
 	import flash.display.Stage;
+	import flash.events.KeyboardEvent;
+	import flash.geom.Vector3D;
+	import flash.ui.Keyboard;
 
 	// Diz a qualquer momento a inclinação dada pelo telemóvel ou teclado
 	public class KeyboardController {
 		private var orientationVector:Vector3D;
-		private var orientationStep:Number = 10/100;
+		private var orientationStep:Number = 1;
 		
 		public function KeyboardController(s:Stage,orientationv:Vector3D) {
 			orientationVector = orientationv;
@@ -15,29 +16,55 @@ package controllers {
 			trace("Keyboard listener started");
 		}
 		
-		private function keyDownHandler(event:KeyboardEvent):void {
-			var key:int = event.keyCode;
-			if (key == 87) updateOrientation(0,1);
-			if (key == 83) updateOrientation(0,-1);
-			if (key == 68) updateOrientation(1,0);
-			if (key == 65) updateOrientation(-1,0);
+		private function keyDownHandler(event:KeyboardEvent) {
+			if (event.keyCode == Keyboard.W)
+				top = true;
+			else if (event.keyCode == Keyboard.S)
+				down = true;
+			else if(event.keyCode == Keyboard.A)
+				left = true;
+			else if (event.keyCode == Keyboard.D)
+				right = true;
+				
+			updateOrientation();
 		}
 		
-		private function keyUpHandler(event:KeyboardEvent):void {
-			var key:int = event.keyCode;
-			if ((key == 87) || (key == 83)) orientationVector.y = 0;
-			if ((key == 68) || (key == 65)) orientationVector.x = 0;
+		private function keyUpHandler(event:KeyboardEvent) {
+			if (event.keyCode == Keyboard.W)
+				top = false;
+			else if (event.keyCode == Keyboard.S)
+				down = false;
+			else if(event.keyCode == Keyboard.A)
+				left = false;
+			else if (event.keyCode == Keyboard.D)
+				right = false;
+			
+			updateOrientation();
 		}
 		
-		private function updateOrientation(x:int,y:int):void{
-			if (x == 1) orientationVector.x+=orientationStep;
-			if (x == -1) orientationVector.x-=orientationStep;
-			if (y == 1) orientationVector.y+=orientationStep;
-			if (y == -1) orientationVector.y-=orientationStep;
-			if (orientationVector.x > 1) orientationVector.x = 1;
-			if (orientationVector.x < -1) orientationVector.x = -1;
-			if (orientationVector.y > 1) orientationVector.y = 1;
-			if (orientationVector.y < -1) orientationVector.y = -1;
+		private function updateOrientation() {
+			if (top)
+				orientationVector.y = 1;
+			else
+				orientationVector.y = 0;
+			
+			if (down)
+				orientationVector.y -= 1;
+			
+			if (right)
+				orientationVector.x = 1;
+			else
+				orientationVector.x = 0;
+			
+			if (left)
+				orientationVector.x -= 1;
+			
+			
 		}
+		
+		private var top:Boolean;
+		private var left:Boolean;
+		private var down:Boolean;
+		private var right:Boolean;
 	}
 }

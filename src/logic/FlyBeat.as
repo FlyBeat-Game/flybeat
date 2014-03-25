@@ -1,11 +1,14 @@
 package logic {
-	import away3d.core.math.Quaternion;
-	import controllers.ControllerListener;
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.geom.Vector3D;
 	import flash.utils.getTimer;
+	
+	import away3d.core.math.Quaternion;
+	
+	import controllers.ControllerListener;
+	
 	import rendering.DesignController;
 	import rendering.GameWorld;
 	[SWF(width=800,height=600)]
@@ -34,23 +37,21 @@ package logic {
 			// new DesignController(stage, world, this); // design purposes
 		}
 		
-		private function update(e:Event) {
-			var time = getTimer();
-			var elapsed = (time - lastUpdate);
-			var control = controller.getOrientation();
+		private function acelerationUpdate(control:Vector3D){
 			var attritionx = -1*velocity.x*0.1;
 			var attritiony = -1*velocity.y*0.1;
 			
 			/*var attritionx = -0.2*velocity.x/Math.abs(velocity.x);
 			var attritiony = -0.2*velocity.y/Math.abs(velocity.y);*/
 			
-			aceleration = control.clone();
+			var aceleration = control.clone();
+			aceleration.scaleBy(0.25)
 			
 			if (aceleration.x == 0){
 				aceleration.x = attritionx;
 			}
 			else if(control.x > 0 && velocity.x <0){
-					aceleration.x = aceleration.x + attritionx;
+				aceleration.x = aceleration.x + attritionx;
 			}
 			else if(control.x < 0 && velocity.x >0){
 				aceleration.x = aceleration.x + attritionx;
@@ -82,8 +83,15 @@ package logic {
 				velocity.y = 0.8;
 			}
 			else velocity.y = -0.8;
-			 
-			 trace(velocity);
+			
+			return velocity;
+		}
+		private function update(e:Event) {
+			var time = getTimer();
+			var elapsed = (time - lastUpdate);
+			var control = controller.getOrientation();
+			
+			velocity = acelerationUpdate(control);
 			
 			var walked = velocity.clone();
 			walked.scaleBy(elapsed);
