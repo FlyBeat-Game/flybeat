@@ -36,12 +36,43 @@ package logic {
 		
 		private function update(e:Event) {
 			var time = getTimer();
-			var elapsed = time - lastUpdate;
+			var elapsed = (time - lastUpdate);
 			var control = controller.getOrientation();
+			var attritionx = -1*velocity.x*0.7;
+			var attritiony = -1*velocity.y*0.7;
 			
-			var aceleration = new Vector3D(0,0,0);
-			aceleration.scaleBy(elapsed);
-			velocity.incrementBy(aceleration);
+			aceleration = control.clone();
+			aceleration.scaleBy(0.2);
+			
+			if (aceleration.x == 0){
+				aceleration.x = attritionx;
+			}
+			else if(control.x > 0 && velocity.x <0){
+					aceleration.x = aceleration.x + attritionx;
+			}
+			else if(control.x < 0 && velocity.x >0){
+				aceleration.x = aceleration.x + attritionx;
+			}
+			
+			if (aceleration.y == 0){
+				aceleration.y = attritiony;
+			}
+			else if(control.y > 0 && velocity.y <0){
+				aceleration.y = aceleration.y + attritiony;
+			}
+			else if(control.y < 0 && velocity.y >0){
+				aceleration.y = aceleration.y + attritiony;
+			}
+			
+			
+			if((velocity.x + aceleration.x) < 1 && (velocity.x + aceleration.x) > -1){
+				velocity.x = velocity.x + aceleration.x;
+			}
+			if(velocity.y+aceleration.y && velocity.y+aceleration.y > -1){
+				velocity.y = velocity.y+aceleration.y;
+			}
+			 
+			 trace(velocity);
 			
 			var walked = velocity.clone();
 			walked.scaleBy(elapsed);
@@ -60,7 +91,7 @@ package logic {
 		private var world = new GameWorld();
 		private var controller = new ControllerListener(stage);
 		private var map = new SinusoidalMap();
-		
+		private var aceleration = new Vector3D(0, 0, 0);
 		private var velocity = new Vector3D(0, 0, 0.2);
 		private var position = new Vector3D(0, 500, -800);
 		
