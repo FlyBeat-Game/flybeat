@@ -45,7 +45,7 @@ package logic {
 			var attritiony = -0.2*velocity.y/Math.abs(velocity.y);*/
 			
 			var aceleration = control.clone();
-			aceleration.scaleBy(0.25)
+			aceleration.scaleBy(0.10)
 			
 			if (aceleration.x == 0){
 				aceleration.x = attritionx;
