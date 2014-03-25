@@ -24,6 +24,7 @@ package controllers {
 		
 		public function startNetworkListener(hostName:String, port:uint) : void {
 			socket = new Socket();
+			socket.timeout = 500;
 			configListeners(socket);
 			if (hostName && port) socket.connect(hostName, port);
 			socket.writeUTF("start");
@@ -49,7 +50,8 @@ package controllers {
 		}
 		
 		private function closeHandler(event:Event):void {
-			trace("[DEBUG] Connection lost.");
+			trace("Connection lost. Switching to keyboard.");
+			var switchController:KeyboardController = new KeyboardController(stage,orientationVector);
 		}
 		
 		private function connectHandler(event:Event):void {
@@ -61,7 +63,7 @@ package controllers {
 		}
 		
 		private function ioErrorHandler(event:IOErrorEvent):void {
-			trace("Controller is offline. Switching to keyboard.");
+			trace("Network error. Switching to keyboard.");
 			var switchController:KeyboardController = new KeyboardController(stage,orientationVector);
 		}
 		
@@ -70,7 +72,8 @@ package controllers {
 		}
 		
 		private function securityErrorHandler(event:SecurityErrorEvent):void {
-			trace("securityErrorHandler: " + event);
+			trace("Controller is offline. Switching to keyboard.");
+			var switchController:KeyboardController = new KeyboardController(stage,orientationVector);
 		}
 		
 		private function toScale(degrees:int) : Number{
