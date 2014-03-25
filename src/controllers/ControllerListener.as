@@ -12,7 +12,7 @@ package controllers {
 		public function ControllerListener(s:Stage) {
 			orientationv = new Vector3D(0,0,0);
 			if (controllerType == "remote")
-				controller = new NetworkController(s,"localhost",8087,orientationv);
+				controller = new NetworkController(s,"192.168.43.1",8087,orientationv);
 			else controller = new KeyboardController(s,orientationv);
 		}
 		
