@@ -19,6 +19,7 @@ package rendering
 			stage.addEventListener(MouseEvent.MOUSE_UP, mouseUp);
 			stage.addEventListener(MouseEvent.CLICK, click);
 			stage.addEventListener(MouseEvent.DOUBLE_CLICK, doubleClick);
+			stage.addEventListener(MouseEvent.MOUSE_WHEEL, mouseWheel);
 		}
 		
 		private function mouseDown(event:MouseEvent) {
@@ -35,12 +36,16 @@ package rendering
 			stage.removeEventListener(Event.MOUSE_LEAVE, mouseUp);
 		}
 		
+		private function mouseWheel(event:MouseEvent) {
+			controller.distance += event.delta * 100;
+		}
+		
 		private function click(event:MouseEvent) {
 			controller.distance += 100;
 		}
 		
 		private function doubleClick(event:MouseEvent) {
-			controller.distance -= 200;
+			controller.distance -= 300;
 		}
 		
 		private function update(e:Event) {
