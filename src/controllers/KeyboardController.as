@@ -24,7 +24,9 @@ package controllers {
 		}
 		
 		private function keyUpHandler(event:KeyboardEvent):void {
-			trace("keyUpHandler: " + event.keyCode);
+			var key:int = event.keyCode;
+			if ((key == 87) || (key == 83)) orientationVector.y = 0;
+			if ((key == 68) || (key == 65)) orientationVector.x = 0;
 		}
 		
 		private function updateOrientation(x:int,y:int):void{

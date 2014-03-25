@@ -68,7 +68,7 @@ package logic {
 			if((velocity.x + aceleration.x) < 1 && (velocity.x + aceleration.x) > -1){
 				velocity.x = velocity.x + aceleration.x;
 			}
-			if(velocity.y+aceleration.y && velocity.y+aceleration.y > -1){
+			if(velocity.y+aceleration.y < 1 && velocity.y+aceleration.y > -1){
 				velocity.y = velocity.y+aceleration.y;
 			}
 			 
