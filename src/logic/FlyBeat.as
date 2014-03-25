@@ -38,11 +38,13 @@ package logic {
 			var time = getTimer();
 			var elapsed = (time - lastUpdate);
 			var control = controller.getOrientation();
-			var attritionx = -1*velocity.x*0.7;
-			var attritiony = -1*velocity.y*0.7;
+			var attritionx = -1*velocity.x*0.1;
+			var attritiony = -1*velocity.y*0.1;
+			
+			/*var attritionx = -0.2*velocity.x/Math.abs(velocity.x);
+			var attritiony = -0.2*velocity.y/Math.abs(velocity.y);*/
 			
 			aceleration = control.clone();
-			aceleration.scaleBy(0.2);
 			
 			if (aceleration.x == 0){
 				aceleration.x = attritionx;
@@ -58,19 +60,28 @@ package logic {
 				aceleration.y = attritiony;
 			}
 			else if(control.y > 0 && velocity.y <0){
-				aceleration.y = aceleration.y + attritiony;
+				aceleration.y = aceleration.y + attritiony*0.5;
 			}
 			else if(control.y < 0 && velocity.y >0){
-				aceleration.y = aceleration.y + attritiony;
+				aceleration.y = aceleration.y + attritiony*0.5;
 			}
 			
 			
-			if((velocity.x + aceleration.x) < 1 && (velocity.x + aceleration.x) > -1){
+			if((velocity.x + aceleration.x) < 0.8 && (velocity.x + aceleration.x) > -0.8){
 				velocity.x = velocity.x + aceleration.x;
 			}
+			else if((velocity.x + aceleration.x) > 0.8){
+				velocity.x = 0.8;
+			}
+			else velocity.x = -0.8;
+			
 			if(velocity.y+aceleration.y < 1 && velocity.y+aceleration.y > -1){
 				velocity.y = velocity.y+aceleration.y;
 			}
+			else if((velocity.y + aceleration.y) > 0.8){
+				velocity.y = 0.8;
+			}
+			else velocity.y = -0.8;
 			 
 			 trace(velocity);
 			

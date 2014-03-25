@@ -6,7 +6,7 @@ package controllers {
 	// Diz a qualquer momento a inclinação dada pelo telemóvel ou teclado
 	public class KeyboardController {
 		private var orientationVector:Vector3D;
-		private var orientationStep:Number = 1/100;
+		private var orientationStep:Number = 10/100;
 		
 		public function KeyboardController(s:Stage,orientationv:Vector3D) {
 			orientationVector = orientationv;
