@@ -1,5 +1,4 @@
-package rendering
-{
+package rendering {
 	import away3d.containers.View3D;
 	import away3d.core.base.Object3D;
 	import away3d.core.math.Quaternion;
@@ -56,9 +55,10 @@ package rendering
 			material.lightPicker = lights;
 			
 			var obstacle:SceneObject = new SceneObject(scene, '../media/Obstacle.awd', material);
-			obstacle.z = pos.z * 400;
+			obstacle.z = pos.z * 195;
 			obstacle.x = pos.x * 200;
 			obstacle.y = pos.y * 200;
+			obstacle.scale(2);
 			
 			scene.addChild(obstacle);
 		}
