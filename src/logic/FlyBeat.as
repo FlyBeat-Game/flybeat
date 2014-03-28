@@ -38,6 +38,7 @@ package logic {
 		}
 		
 		private function acelerationUpdate(control:Vector3D){
+			trace(control);
 			var attritionx = -1*velocity.x*0.1;
 			var attritiony = -1*velocity.y*0.1;
 			
@@ -45,7 +46,18 @@ package logic {
 			var attritiony = -0.2*velocity.y/Math.abs(velocity.y);*/
 			
 			var aceleration = control.clone();
-			aceleration.scaleBy(0.10)
+			if(aceleration.x <0){
+				aceleration.x=  -1*Math.sqrt(Math.abs(aceleration.x));
+			}
+			else aceleration.x=  Math.sqrt(aceleration.x);
+			
+			if(aceleration.y <0){
+				aceleration.y=  -1*Math.sqrt(Math.abs(aceleration.y));
+			}
+			else aceleration.y=  Math.sqrt(aceleration.y);
+			
+			
+			aceleration.scaleBy(0.2);
 			
 			if (aceleration.x == 0){
 				aceleration.x = attritionx;

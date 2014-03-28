@@ -44,20 +44,20 @@ package controllers {
 		
 		private function updateOrientation() {
 			if (top)
-				orientationVector.y = 1;
+				orientationVector.y = 0.8;
 			else
 				orientationVector.y = 0;
 			
 			if (down)
-				orientationVector.y -= 1;
+				orientationVector.y -= 0.8;
 			
 			if (right)
-				orientationVector.x = 1;
+				orientationVector.x = 0.8;
 			else
 				orientationVector.x = 0;
 			
 			if (left)
-				orientationVector.x -= 1;
+				orientationVector.x -= 0.8;
 			
 			
 		}
