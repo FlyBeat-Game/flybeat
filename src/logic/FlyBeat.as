@@ -38,7 +38,6 @@ package logic {
 		}
 		
 		private function acelerationUpdate(control:Vector3D){
-			trace(control);
 			var attritionx = -1*velocity.x*0.1;
 			var attritiony = -1*velocity.y*0.1;
 			
@@ -124,7 +123,7 @@ package logic {
 		private var map = new SinusoidalMap();
 		private var aceleration = new Vector3D(0, 0, 0);
 		private var velocity = new Vector3D(0, 0, 0.2);
-		private var position = new Vector3D(0, 500, -800);
+		private var position = new Vector3D(0, 500, -2000);
 		
 		private var torque = new Quaternion();
 		private var angle = new Quaternion();

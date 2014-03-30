@@ -47,6 +47,17 @@ package rendering {
 			camera.position = pos;
 			plane.position = pos.add(new Vector3D(0, -100, 200));
 			//angle.toEulerAngles(plane.eulers);
+			
+			var progress = Math.max(pos.z / 185 + 2, 0);
+			var next:int = int(progress) + 1;
+			var last = Math.min(next+10, obstacles.length);
+				
+			for (var i = next; i < last; i++) {
+				var ratio = Math.min(1 / (i - progress), 1);
+				
+				obstacles[i].y = obstacles[i].place.y * ratio;
+				obstacles[i].x = obstacles[i].place.x * ratio;
+			}
 		}
 		
 		public function addObstacle(pos:Vector3D) {
@@ -54,15 +65,17 @@ package rendering {
 			var material = new ColorMaterial(color);
 			material.lightPicker = lights;
 			
-			var obstacle:SceneObject = new SceneObject(scene, '../media/Obstacle.awd', material);
-			obstacle.z = pos.z * 195;
-			obstacle.x = pos.x * 200;
-			obstacle.y = pos.y * 200;
+			var obstacle = new Obstacle(scene, '../media/Obstacle.awd', material);
+			obstacle.z = pos.z * 185;
+			obstacle.place = pos;
+			obstacle.place.scaleBy(200);
 			obstacle.scale(2);
 			
 			scene.addChild(obstacle);
+			obstacles.push(obstacle);
 		}
 		
+		private var obstacles:Vector.<Obstacle> = new Vector.<Obstacle>();
 		private var lights:StaticLightPicker;
 		private var plane:Object3D;
 	}
