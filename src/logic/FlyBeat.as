@@ -67,14 +67,7 @@ package logic {
 			if (aceleration == 0 || (control > 0 && velocity < 0) || (control < 0 && velocity >0))
 				aceleration += velocity * -0.1;
 			
-			velocity += aceleration;
-			if (velocity < -MAX_VELOCITY) {
-				return -MAX_VELOCITY;
-			} else if (velocity > MAX_VELOCITY) {
-				return MAX_VELOCITY;
-			}
-
-			return velocity;
+			return Math.min(Math.max(velocity + aceleration, -MAX_VELOCITY), MAX_VELOCITY);
 		}
 		
 		private function resize(e:Event = null) {
