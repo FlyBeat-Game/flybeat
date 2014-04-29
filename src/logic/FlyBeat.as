@@ -1,13 +1,13 @@
 package logic {
+	import away3d.core.math.Quaternion;
+	
+	import controllers.ControllerListener;
+	
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.geom.Vector3D;
 	import flash.utils.getTimer;
-	
-	import away3d.core.math.Quaternion;
-	
-	import controllers.ControllerListener;
 	
 	import rendering.DesignController;
 	import rendering.GameWorld;
@@ -36,73 +36,11 @@ package logic {
 			
 			// new DesignController(stage, world, this); // design purposes
 		}
-		
-		private function acelerationUpdate(control:Vector3D){
-			var attritionx = -1*velocity.x*0.1;
-			var attritiony = -1*velocity.y*0.1;
-			
-			/*var attritionx = -0.2*velocity.x/Math.abs(velocity.x);
-			var attritiony = -0.2*velocity.y/Math.abs(velocity.y);*/
-			
-			var aceleration = control.clone();
-			if(aceleration.x <0){
-				aceleration.x=  -1*Math.sqrt(Math.abs(aceleration.x));
-			}
-			else aceleration.x=  Math.sqrt(aceleration.x);
-			
-			if(aceleration.y <0){
-				aceleration.y=  -1*Math.sqrt(Math.abs(aceleration.y));
-			}
-			else aceleration.y=  Math.sqrt(aceleration.y);
-			
-			
-			aceleration.scaleBy(0.2);
-			
-			if (aceleration.x == 0){
-				aceleration.x = attritionx;
-			}
-			else if(control.x > 0 && velocity.x <0){
-				aceleration.x = aceleration.x + attritionx;
-			}
-			else if(control.x < 0 && velocity.x >0){
-				aceleration.x = aceleration.x + attritionx;
-			}
-			
-			if (aceleration.y == 0){
-				aceleration.y = attritiony;
-			}
-			else if(control.y > 0 && velocity.y <0){
-				aceleration.y = aceleration.y + attritiony*0.5;
-			}
-			else if(control.y < 0 && velocity.y >0){
-				aceleration.y = aceleration.y + attritiony*0.5;
-			}
-			
-			
-			if((velocity.x + aceleration.x) < 0.8 && (velocity.x + aceleration.x) > -0.8){
-				velocity.x = velocity.x + aceleration.x;
-			}
-			else if((velocity.x + aceleration.x) > 0.8){
-				velocity.x = 0.8;
-			}
-			else velocity.x = -0.8;
-			
-			if(velocity.y+aceleration.y < 1 && velocity.y+aceleration.y > -1){
-				velocity.y = velocity.y+aceleration.y;
-			}
-			else if((velocity.y + aceleration.y) > 0.8){
-				velocity.y = 0.8;
-			}
-			else velocity.y = -0.8;
-			
-			return velocity;
-		}
+
 		private function update(e:Event) {
 			var time = getTimer();
 			var elapsed = (time - lastUpdate);
-			var control = controller.getOrientation();
-			
-			velocity = acelerationUpdate(control);
+			updateVelocity();
 			
 			var walked = velocity.clone();
 			walked.scaleBy(elapsed);
@@ -111,6 +49,32 @@ package logic {
 			lastUpdate = time;
 			world.setPlayerPosition(position, angle);
 			world.draw();
+		}
+		
+		private function updateVelocity() {
+			var control = controller.getOrientation();
+			velocity.x = computeVelocity(velocity.x, control.x);
+			velocity.y = computeVelocity(velocity.y, control.y);
+		}
+
+		private function computeVelocity(velocity:Number, control:Number) : Number {
+			var aceleration = control * 0.04;
+			if (aceleration < 0)
+				aceleration = -Math.sqrt(-aceleration);
+			else
+				aceleration = Math.sqrt(aceleration);
+			
+			if (aceleration == 0 || (control > 0 && velocity < 0) || (control < 0 && velocity >0))
+				aceleration += velocity * -0.1;
+			
+			velocity += aceleration;
+			if (velocity < -MAX_VELOCITY) {
+				return -MAX_VELOCITY;
+			} else if (velocity > MAX_VELOCITY) {
+				return MAX_VELOCITY;
+			}
+
+			return velocity;
 		}
 		
 		private function resize(e:Event = null) {
@@ -129,5 +93,7 @@ package logic {
 		private var angle = new Quaternion();
 		
 		private var lastUpdate = getTimer();
+		
+		private const MAX_VELOCITY = 0.8;
 	}
 }
