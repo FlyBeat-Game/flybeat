@@ -5,6 +5,7 @@ package rendering {
 	import away3d.entities.Mesh;
 	import away3d.events.LoaderEvent;
 	import away3d.lights.DirectionalLight;
+	import away3d.lights.PointLight;
 	import away3d.loaders.parsers.*;
 	import away3d.materials.ColorMaterial;
 	import away3d.materials.lightpickers.StaticLightPicker;
@@ -20,22 +21,32 @@ package rendering {
 		public function GameWorld() {
 			Parsers.enableAllBundled();
 
-			var light1 = new DirectionalLight();
+			/*var light1 = new DirectionalLight();
 			light1.direction = new Vector3D(1, 1, 0);
+			light1.castsShadows = false;
 			light1.ambient = 0.1;
-			light1.diffuse = 0.7;
+			light1.diffuse = 0.7;*/
 			
 			var light2 = new DirectionalLight();
 			light2.direction = new Vector3D(-1, -1, 0);
+			light2.castsShadows = false;
 			light2.ambient = 0.1;
-			light2.diffuse = 0.7;
+			light2.diffuse = 0.3;
 			
-			lights = new StaticLightPicker([light1, light2]);
+			planeLight = new PointLight();
+			planeLight.radius = 700;
+			planeLight.fallOff = 2000;
+			planeLight.castsShadows = false;
+			planeLight.diffuse = .7;
+			planeLight.ambient = 0;
+			
+			lights = new StaticLightPicker([light2, planeLight]);
 			plane = new SceneObject(scene, '../media/White Plane.awd');
 			plane.rotationY = 180;
 			plane.scale(.2);
 			
-			scene.addChild(light1);
+			scene.addChild(planeLight);
+			scene.addChild(light2);
 			camera.lens.far = 10000;
 		}
 		
@@ -46,6 +57,7 @@ package rendering {
 		public function setPlayerPosition(pos:Vector3D, angle:Quaternion) {
 			camera.position = pos;
 			plane.position = pos.add(new Vector3D(0, -100, 300));
+			planeLight.position = plane.position;
 			//angle.toEulerAngles(plane.eulers);
 			
 			var progress = Math.max(pos.z / OBSTACLE_DEPTH + 2, 0);
@@ -78,6 +90,7 @@ package rendering {
 		
 		private var obstacles:Vector.<Obstacle> = new Vector.<Obstacle>();
 		private var lights:StaticLightPicker;
+		private var planeLight:PointLight;
 		private var plane:Object3D;
 		
 		private const OBSTACLE_DEPTH:Number = 355;
