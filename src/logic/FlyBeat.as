@@ -55,7 +55,7 @@ package logic {
 		}
 
 		private function computeVelocity(velocity:Number, control:Number) : Number {
-			var aceleration = control * 0.04;
+			var aceleration = control * CONTROL_STRENGTH;
 			if (aceleration < 0)
 				aceleration = -Math.sqrt(-aceleration);
 			else
@@ -76,7 +76,7 @@ package logic {
 		private var controller = new ControllerListener(stage);
 		private var map = new SinusoidalMap();
 		private var aceleration = new Vector3D(0, 0, 0);
-		private var velocity = new Vector3D(0, 0, 0.3);
+		private var velocity = new Vector3D(0, 0, 0.5);
 		private var position = new Vector3D(0, 300, -2000);
 		
 		private var torque = new Quaternion();
@@ -84,7 +84,8 @@ package logic {
 		
 		private var lastUpdate = getTimer();
 		
-		private const MAX_VELOCITY = 0.3;
-		private const FRICTION = 0.1;
+		private const MAX_VELOCITY = 0.35;
+		private const FRICTION = 0.05;
+		private const CONTROL_STRENGTH = 0.01;
 	}
 }
