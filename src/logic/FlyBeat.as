@@ -1,17 +1,14 @@
 package logic {
 	import away3d.core.math.Quaternion;
-	
 	import controllers.ControllerListener;
-	
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.geom.Vector3D;
 	import flash.utils.getTimer;
-	
 	import rendering.DesignController;
 	import rendering.GameWorld;
-	[SWF(width=800,height=600)]
+	[SWF(width="800", height="600", wmode="direct")]
 	
 	public class FlyBeat extends Sprite {
 		public function FlyBeat() {
@@ -80,7 +77,7 @@ package logic {
 		private var map = new SinusoidalMap();
 		private var aceleration = new Vector3D(0, 0, 0);
 		private var velocity = new Vector3D(0, 0, 0.3);
-		private var position = new Vector3D(0, 500, -2000);
+		private var position = new Vector3D(0, 300, -2000);
 		
 		private var torque = new Quaternion();
 		private var angle = new Quaternion();
