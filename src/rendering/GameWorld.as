@@ -48,7 +48,7 @@ package rendering {
 			plane.position = pos.add(new Vector3D(0, -100, 300));
 			//angle.toEulerAngles(plane.eulers);
 			
-			var progress = Math.max(pos.z / 185 + 2, 0);
+			var progress = Math.max(pos.z / OBSTACLE_DEPTH + 2, 0);
 			var next:int = int(progress) + 1;
 			var last = Math.min(next+10, obstacles.length);
 				
@@ -65,11 +65,12 @@ package rendering {
 			var material = new ColorMaterial(color);
 			material.lightPicker = lights;
 			
-			var obstacle = new Obstacle(scene, '../media/Obstacle.awd', material);
-			obstacle.z = pos.z * 185;
+			var obstacle:Obstacle = new Obstacle(scene, '../media/RoundObstacle.obj', material);
+			obstacle.z = pos.z * OBSTACLE_DEPTH;
+			obstacle.rotationY = 90;
 			obstacle.place = pos;
-			obstacle.place.scaleBy(200);
-			obstacle.scale(2);
+			obstacle.place.scaleBy(300);
+			obstacle.scale(200);
 			
 			scene.addChild(obstacle);
 			obstacles.push(obstacle);
@@ -78,5 +79,7 @@ package rendering {
 		private var obstacles:Vector.<Obstacle> = new Vector.<Obstacle>();
 		private var lights:StaticLightPicker;
 		private var plane:Object3D;
+		
+		private const OBSTACLE_DEPTH:Number = 355;
 	}
 }
