@@ -45,7 +45,7 @@ package rendering {
 		
 		public function setPlayerPosition(pos:Vector3D, angle:Quaternion) {
 			camera.position = pos;
-			plane.position = pos.add(new Vector3D(0, -100, 200));
+			plane.position = pos.add(new Vector3D(0, -100, 300));
 			//angle.toEulerAngles(plane.eulers);
 			
 			var progress = Math.max(pos.z / 185 + 2, 0);
