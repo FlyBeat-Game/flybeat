@@ -1,11 +1,14 @@
 package logic {
-	import away3d.core.math.Quaternion;
-	import controllers.ControllerListener;
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.geom.Vector3D;
 	import flash.utils.getTimer;
+	
+	import away3d.core.math.Quaternion;
+	
+	import controllers.ControllerListener;
+	
 	import rendering.DesignController;
 	import rendering.GameWorld;
 	[SWF(width="800", height="600", wmode="direct")]
@@ -22,9 +25,9 @@ package logic {
 			addChild(world);
 			resize();
 			
-			var map:Map = new SinusoidalMap();
-			for (var i:int = 0; i < 100; i++)  { 
+			for (var i:int = 0; i < map.getLength(); i++)  { 
 				world.addObstacle(map.get(i));
+				trace(map.get(i));
 			}
 			
 			removeEventListener(Event.ADDED_TO_STAGE, startup);
@@ -33,11 +36,14 @@ package logic {
 			
 			// new DesignController(stage, world, this); // design purposes
 		}
-
+		
 		private function update(e:Event) {
 			var time = getTimer();
 			var elapsed = (time - lastUpdate);
-			updateVelocity();
+			
+			var control = controller.getOrientation();
+			updateVelocity(control);
+			world.animatePlane(control);
 			
 			var walked = velocity.clone();
 			walked.scaleBy(elapsed);
@@ -48,8 +54,7 @@ package logic {
 			world.draw();
 		}
 		
-		private function updateVelocity() {
-			var control = controller.getOrientation();
+		private function updateVelocity(control:Vector3D) {
 			velocity.x = computeVelocity(velocity.x, control.x);
 			velocity.y = computeVelocity(velocity.y, control.y);
 		}
@@ -74,6 +79,7 @@ package logic {
 		
 		private var world = new GameWorld();
 		private var controller = new ControllerListener(stage);
+		//private var map = new MusicMap("music120.mp3");
 		private var map = new SinusoidalMap();
 		private var aceleration = new Vector3D(0, 0, 0);
 		private var velocity = new Vector3D(0, 0, 0.5);

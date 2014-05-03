@@ -6,5 +6,9 @@ package logic
 		public function get(index:int) : Vector3D {
 			return null;
 		}
+		
+		public function getLength() : int{
+			return null;
+		}
 	}
 }

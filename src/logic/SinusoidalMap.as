@@ -10,5 +10,9 @@ package logic
 				i
 			);
 		}
+		
+		public override function getLength():int{
+			return 100;
+		}
 	}
 }

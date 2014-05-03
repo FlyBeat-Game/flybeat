@@ -1,4 +1,6 @@
 package rendering {
+	import flash.geom.Vector3D;
+	
 	import away3d.containers.View3D;
 	import away3d.core.base.Object3D;
 	import away3d.core.math.Quaternion;
@@ -6,11 +8,9 @@ package rendering {
 	import away3d.events.LoaderEvent;
 	import away3d.lights.DirectionalLight;
 	import away3d.lights.PointLight;
-	import away3d.loaders.parsers.*;
+	import away3d.loaders.parsers.Parsers;
 	import away3d.materials.ColorMaterial;
 	import away3d.materials.lightpickers.StaticLightPicker;
-	
-	import flash.geom.Vector3D;
 	
 	import logic.Map;
 	import logic.SinusoidalMap;
@@ -94,5 +94,37 @@ package rendering {
 		private var plane:Object3D;
 		
 		private const OBSTACLE_DEPTH:Number = 355;
+		
+		public function setPlaneRotation(v:Vector3D) : void{
+			plane.rotationX = v.x;
+			plane.rotationY = v.y;
+			plane.rotationZ = v.z;
+		}
+		
+		//João tenta melhorar esta cena, tem muito codigo
+		private const ROTATION_STEP:Number = 1;
+		public function animatePlane(control:Vector3D) : void{
+			if (control.x < 0){
+				if (plane.rotationZ < 20) plane.rotationZ += ROTATION_STEP*2;
+			}
+			else if (control.x > 0){
+				if (plane.rotationZ > -20) plane.rotationZ -= ROTATION_STEP*2;
+			}
+			else if (control.x == 0){
+				if (plane.rotationZ > 0) plane.rotationZ-=ROTATION_STEP;
+				if (plane.rotationZ < 0) plane.rotationZ+=ROTATION_STEP;
+			}
+			
+			if (control.y > 0){
+				if (plane.rotationX < 10) plane.rotationX += ROTATION_STEP;
+			}
+			else if (control.y < 0){
+				if (plane.rotationX > -10) plane.rotationX -= ROTATION_STEP;
+			}
+			else if (control.y == 0){
+				if (plane.rotationX > 0) plane.rotationX-=ROTATION_STEP;
+				if (plane.rotationX < 0) plane.rotationX+=ROTATION_STEP;
+			}
+		}
 	}
 }
