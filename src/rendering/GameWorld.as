@@ -44,15 +44,16 @@ package rendering {
 			camera.lens.far = 10000;
 		}
 
-		public function setPlayerPosition(pos:Vector3D, angle:Quaternion) {
+		public function setPlayerPosition(pos:Vector3D, angle:Vector3D) {
 			camera.position = pos;
 			plane.position = pos.add(new Vector3D(0, 0, 300));
 			planeLight.position = plane.position;
-			angle.toEulerAngles(plane.eulers);
+			plane.eulers = angle;
+			plane.eulers.z += 90;
 			
 			var progress = Math.max(pos.z / OBSTACLE_DEPTH + 2, 0);
 			var next:int = int(progress) + 1;
-			var last = Math.min(next+30, obstacles.length);
+			var last = Math.min(next+20, obstacles.length);
 				
 			for (var i = next; i < last; i++) {
 				var ratio = Math.min(1 / (i - progress), 1);

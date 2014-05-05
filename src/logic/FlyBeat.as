@@ -1,11 +1,14 @@
 package logic {
+	import away3d.core.math.Quaternion;
+	
+	import controllers.ControllerListener;
+	
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.geom.Vector3D;
 	import flash.utils.getTimer;
-	import away3d.core.math.Quaternion;
-	import controllers.ControllerListener;
+	
 	import rendering.DesignController;
 	import rendering.GameWorld;
 	
@@ -38,7 +41,12 @@ package logic {
 			var elapsed = (time - lastUpdate);
 			
 			var control = controller.getOrientation();
-			updateVelocity(control);
+			velocity.x = computeVelocity(velocity.x, control.x);
+			velocity.y = computeVelocity(velocity.y, control.y);
+			
+			control.scaleBy(elapsed / 50);
+			angle.z = computeVelocity(angle.z / 50, -control.x) * 50;
+			angle.x = computeVelocity(angle.x / 50, control.y) * 50;
 			
 			var walked = velocity.clone();
 			walked.scaleBy(elapsed);
@@ -47,11 +55,6 @@ package logic {
 			lastUpdate = time;
 			world.setPlayerPosition(position, angle);
 			world.render();
-		}
-		
-		private function updateVelocity(control:Vector3D) {
-			velocity.x = computeVelocity(velocity.x, control.x);
-			velocity.y = computeVelocity(velocity.y, control.y);
 		}
 
 		private function computeVelocity(velocity:Number, control:Number) : Number {
@@ -76,13 +79,11 @@ package logic {
 		private var controller = new ControllerListener(stage);
 		//private var map = new MusicMap("music120.mp3");
 		private var map = new SinusoidalMap();
-		private var aceleration = new Vector3D(0, 0, 0);
+		
+		private var aceleration = new Vector3D();
 		private var velocity = new Vector3D(0, 0, 0.7);
 		private var position = new Vector3D(0, 200, -2000);
-		
-		private var torque = new Quaternion();
-		private var angle = new Quaternion();
-		
+		private var angle = new Vector3D();
 		private var lastUpdate = getTimer();
 		
 		private const MAX_VELOCITY = 0.35;
