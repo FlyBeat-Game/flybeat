@@ -4,15 +4,12 @@ package logic {
 	import flash.events.MouseEvent;
 	import flash.geom.Vector3D;
 	import flash.utils.getTimer;
-	
 	import away3d.core.math.Quaternion;
-	
 	import controllers.ControllerListener;
-	
 	import rendering.DesignController;
 	import rendering.GameWorld;
-	[SWF(width="800", height="600", wmode="direct")]
 	
+	[SWF(width="1024", height="800", wmode="direct")]
 	public class FlyBeat extends Sprite {
 		public function FlyBeat() {
 			if (stage)
@@ -43,7 +40,6 @@ package logic {
 			
 			var control = controller.getOrientation();
 			updateVelocity(control);
-			world.animatePlane(control);
 			
 			var walked = velocity.clone();
 			walked.scaleBy(elapsed);
@@ -82,8 +78,8 @@ package logic {
 		//private var map = new MusicMap("music120.mp3");
 		private var map = new SinusoidalMap();
 		private var aceleration = new Vector3D(0, 0, 0);
-		private var velocity = new Vector3D(0, 0, 0.5);
-		private var position = new Vector3D(0, 300, -2000);
+		private var velocity = new Vector3D(0, 0, 0.7);
+		private var position = new Vector3D(0, 200, -2000);
 		
 		private var torque = new Quaternion();
 		private var angle = new Quaternion();
