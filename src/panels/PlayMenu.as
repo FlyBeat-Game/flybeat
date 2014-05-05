@@ -9,12 +9,20 @@ package panels {
 	
 	public class PlayMenu extends Panel {
 		public override function startup() {
-			chooseButton.x = 220;
-			chooseButton.y = 130;
-			
 			var back = addChild(new TextButton("<< Back", "home"));
 			back.x = 100;
 			back.y = 600;
+			
+			var cellphone = addChild(new TextButton("Looking for Devices...", null, fileLoaded));
+			cellphone.x = 150;
+			cellphone.y = 300;
+			
+			var keyboard = addChild(new TextButton("Use Keyboard", null, fileLoaded));
+			keyboard.x = 620;
+			keyboard.y = 300;
+			
+			chooseButton.x = 100;
+			chooseButton.y = 130;
 		}
 		
 		function chooseSong(event:Event) {
@@ -36,7 +44,7 @@ package panels {
 		}
 		
 		var chooseButton = addChild(new TextButton("Choose a Song", null, chooseSong));
-		var musicFilter:FileFilter = new FileFilter("Musics", "*.mp3;*.wma;");
+		var musicFilter:FileFilter = new FileFilter("Musics", "*.mp3;*.wav;");
 		var file:FileReference;
 		var music:Sound;
 	}
