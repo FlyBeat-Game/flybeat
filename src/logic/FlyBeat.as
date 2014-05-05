@@ -24,7 +24,6 @@ package logic {
 			
 			for (var i:int = 0; i < map.getLength(); i++)  { 
 				world.addObstacle(map.get(i));
-				trace(map.get(i));
 			}
 			
 			removeEventListener(Event.ADDED_TO_STAGE, startup);
@@ -47,7 +46,7 @@ package logic {
 			
 			lastUpdate = time;
 			world.setPlayerPosition(position, angle);
-			world.draw();
+			world.render();
 		}
 		
 		private function updateVelocity(control:Vector3D) {

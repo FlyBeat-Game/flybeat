@@ -11,8 +11,8 @@ package logic
 			);
 		}
 		
-		public override function getLength():int{
-			return 100;
+		public override function getLength():int {
+			return 500;
 		}
 	}
 }

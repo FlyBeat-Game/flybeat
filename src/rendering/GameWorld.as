@@ -1,6 +1,4 @@
 package rendering {
-	import flash.geom.Vector3D;
-	
 	import away3d.containers.View3D;
 	import away3d.core.base.Object3D;
 	import away3d.core.math.Quaternion;
@@ -11,8 +9,12 @@ package rendering {
 	import away3d.loaders.parsers.Parsers;
 	import away3d.materials.ColorMaterial;
 	import away3d.materials.lightpickers.StaticLightPicker;
+	
+	import flash.geom.Vector3D;
+	
 	import logic.Map;
 	import logic.SinusoidalMap;
+	
 	import util.Vector2D;
 	
 	public class GameWorld extends View3D {
@@ -41,11 +43,7 @@ package rendering {
 			scene.addChild(farLight);
 			camera.lens.far = 10000;
 		}
-		
-		public function draw() {
-			render();
-		}
-		
+
 		public function setPlayerPosition(pos:Vector3D, angle:Quaternion) {
 			camera.position = pos;
 			plane.position = pos.add(new Vector3D(0, 0, 300));
@@ -54,7 +52,7 @@ package rendering {
 			
 			var progress = Math.max(pos.z / OBSTACLE_DEPTH + 2, 0);
 			var next:int = int(progress) + 1;
-			var last = Math.min(next+10, obstacles.length);
+			var last = Math.min(next+30, obstacles.length);
 				
 			for (var i = next; i < last; i++) {
 				var ratio = Math.min(1 / (i - progress), 1);
@@ -65,11 +63,15 @@ package rendering {
 		}
 		
 		public function addObstacle(pos:Vector3D) {
-			var red = (0x00 * (COLOR_STEP - pos.z) + 0xD5 * pos.z) / COLOR_STEP;
-			var green = 0xBD;
-			var blue = (0xD5 * (COLOR_STEP - pos.z) + 0x00 * pos.z) / COLOR_STEP;
+			var colorBranch = int(pos.z / COLOR_STEP);
+			var step = pos.z - colorBranch * COLOR_STEP;
 			
-			var color = int(red) * 0x10000 + int(green) * 0x100 + int(blue);
+			var from = COLORS[colorBranch % COLORS.length];
+			var to = COLORS[(colorBranch+1) % COLORS.length];
+			var color = interpolateColor(from[0], to[0], step) * 0x10000 +
+						interpolateColor(from[1], to[1], step) * 0x100 +
+						interpolateColor(from[2], to[2], step);
+			
 			var material = new ColorMaterial(color, .9);
 			material.lightPicker = lights;
 			
@@ -85,12 +87,17 @@ package rendering {
 			obstacles.push(obstacle);
 		}
 		
-		private var obstacles:Vector.<Obstacle> = new Vector.<Obstacle>();
-		private var lights:StaticLightPicker;
-		private var planeLight:PointLight;
-		private var plane:Object3D;
+		function interpolateColor(from:int, to:int, step:int) : int {
+			return int((from * (COLOR_STEP - step) + to * step) / COLOR_STEP);
+		}
 		
-		private const OBSTACLE_DEPTH:Number = 355;
-		private const COLOR_STEP = 100;
+		var obstacles:Vector.<Obstacle> = new Vector.<Obstacle>();
+		var lights:StaticLightPicker;
+		var planeLight:PointLight;
+		var plane:Object3D;
+		
+		const OBSTACLE_DEPTH:Number = 355;
+		const COLORS = [[0x00, 0xBD, 0xD5], [0xD5, 0x00, 0xBD], [0xBD, 0xD5, 0x00]];
+		const COLOR_STEP = 100;
 	}
 }
