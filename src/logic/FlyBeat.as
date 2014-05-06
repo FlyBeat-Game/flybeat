@@ -1,14 +1,11 @@
 package logic {
 	import away3d.core.math.Quaternion;
-	
 	import controllers.ControllerListener;
-	
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.geom.Vector3D;
 	import flash.utils.getTimer;
-	
 	import rendering.DesignController;
 	import rendering.GameWorld;
 	
@@ -32,8 +29,6 @@ package logic {
 			removeEventListener(Event.ADDED_TO_STAGE, startup);
 			addEventListener(Event.ENTER_FRAME, update);
 			stage.addEventListener(Event.RESIZE, resize);
-			
-			// new DesignController(stage, world, this); // design purposes
 		}
 		
 		private function update(e:Event) {
@@ -46,7 +41,7 @@ package logic {
 			
 			control.scaleBy(elapsed / 50);
 			angle.z = computeVelocity(angle.z / 50, -control.x) * 50;
-			angle.x = computeVelocity(angle.x / 50, control.y) * 50;
+			angle.x = computeVelocity(angle.x / 50, -control.y) * 50;
 			
 			var walked = velocity.clone();
 			walked.scaleBy(elapsed);

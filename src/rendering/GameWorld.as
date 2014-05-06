@@ -27,6 +27,9 @@ package rendering {
 			farLight.ambient = 0.1;
 			farLight.diffuse = 0.3;
 			
+			var planeMaterial = new ColorMaterial(0xdddddd);
+			planeMaterial.lightPicker = lights;
+			
 			planeLight = new PointLight();
 			planeLight.radius = 700;
 			planeLight.fallOff = 2000;
@@ -35,9 +38,10 @@ package rendering {
 			planeLight.ambient = 0;
 			
 			lights = new StaticLightPicker([farLight, planeLight]);
-			plane = new SceneObject(scene, '../media/White Plane.awd');
+			plane = new SceneObject(scene, '../media/Spaceship.awd');
+			plane.setMaterial(planeMaterial);
 			plane.rotationY = 180;
-			plane.scale(.2);
+			plane.scale(.15);
 			
 			scene.addChild(planeLight);
 			scene.addChild(farLight);
@@ -46,7 +50,7 @@ package rendering {
 
 		public function setPlayerPosition(pos:Vector3D, angle:Vector3D) {
 			camera.position = pos;
-			plane.position = pos.add(new Vector3D(0, 0, 300));
+			plane.position = pos.add(new Vector3D(0, -30, 300));
 			planeLight.position = plane.position;
 			plane.eulers = angle;
 			plane.eulers.z += 90;
@@ -95,7 +99,7 @@ package rendering {
 		var obstacles:Vector.<Obstacle> = new Vector.<Obstacle>();
 		var lights:StaticLightPicker;
 		var planeLight:PointLight;
-		var plane:Object3D;
+		var plane:SceneObject;
 		
 		const OBSTACLE_DEPTH:Number = 355;
 		const COLORS = [[0x00, 0xBD, 0xD5], [0xD5, 0x00, 0xBD], [0xBD, 0xD5, 0x00]];
