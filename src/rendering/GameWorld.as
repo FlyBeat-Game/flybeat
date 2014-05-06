@@ -9,15 +9,15 @@ package rendering {
 	import away3d.loaders.parsers.Parsers;
 	import away3d.materials.ColorMaterial;
 	import away3d.materials.lightpickers.StaticLightPicker;
-	
 	import flash.geom.Vector3D;
-	
 	import logic.Map;
 	import logic.SinusoidalMap;
-	
 	import util.Vector2D;
 	
 	public class GameWorld extends View3D {
+		public var progress:Number;
+		public var next:int;
+		
 		public function GameWorld() {
 			Parsers.enableAllBundled();
 			
@@ -51,10 +51,10 @@ package rendering {
 			plane.eulers = angle;
 			plane.eulers.z += 90;
 			
-			var progress = Math.max(pos.z / OBSTACLE_DEPTH + 2, 0);
-			var next:int = int(progress) + 1;
+			progress = Math.max(pos.z / OBSTACLE_DEPTH + 2, 0);
+			next = int(progress) + 1;
+			
 			var last = Math.min(next+20, obstacles.length);
-				
 			for (var i = next; i < last; i++) {
 				var ratio = Math.min(1 / (i - progress), 1);
 				
@@ -99,6 +99,6 @@ package rendering {
 		
 		const OBSTACLE_DEPTH:Number = 355;
 		const COLORS = [[0x00, 0xBD, 0xD5], [0xD5, 0x00, 0xBD], [0xBD, 0xD5, 0x00]];
-		const COLOR_STEP = 100;
+		const COLOR_STEP = 30;
 	}
 }
