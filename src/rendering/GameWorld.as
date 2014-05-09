@@ -8,7 +8,10 @@ package rendering {
 	import away3d.lights.PointLight;
 	import away3d.loaders.parsers.Parsers;
 	import away3d.materials.ColorMaterial;
+	import away3d.materials.TextureMaterial;
 	import away3d.materials.lightpickers.StaticLightPicker;
+	import away3d.materials.methods.PhongSpecularMethod;
+	import away3d.utils.Cast;
 	import flash.geom.Vector3D;
 	import logic.Map;
 	import logic.SinusoidalMap;
@@ -18,40 +21,74 @@ package rendering {
 		public var progress:Number;
 		public var next:int;
 		
+		[Embed(source = "../media/WhiteMetal.jpg")]
+		public static var MetalTexture:Class;
+		
 		public function GameWorld() {
 			Parsers.enableAllBundled();
 			
-			var farLight = new DirectionalLight();
-			farLight.direction = new Vector3D(-0.2, -1, 0);
-			farLight.castsShadows = false;
-			farLight.ambient = 0.1;
-			farLight.diffuse = 0.3;
+			var staticLight = new DirectionalLight();
+			staticLight.direction = new Vector3D(-0.2, -1, 0);
+			staticLight.castsShadows = false;
+			staticLight.ambient = 0.1;
+			staticLight.diffuse = 0.3;
 			
-			var planeMaterial = new ColorMaterial(0xdddddd);
-			planeMaterial.lightPicker = lights;
-			
-			planeLight = new PointLight();
-			planeLight.radius = 700;
-			planeLight.fallOff = 2000;
+			var planeLight = new DirectionalLight();
+			planeLight.direction = new Vector3D(-0.2, -1, 0);
 			planeLight.castsShadows = false;
-			planeLight.diffuse = .7;
-			planeLight.ambient = 0;
+			planeLight.ambient = 0.6;
+			planeLight.diffuse = 0.3;
 			
-			lights = new StaticLightPicker([farLight, planeLight]);
-			plane = new SceneObject(scene, '../media/Spaceship.awd');
-			plane.setMaterial(planeMaterial);
+			beacon = new PointLight();
+			beacon.radius = 700;
+			beacon.fallOff = 2000;
+			beacon.castsShadows = false;
+			beacon.diffuse = .7;
+			beacon.ambient = 0;
+			beacon.specular = 0.5;
+			
+			var planeIllumination = new StaticLightPicker([planeLight]);
+			var metal = Cast.bitmapTexture(MetalTexture);
+			var darkMetal:TextureMaterial = new TextureMaterial(metal);
+			darkMetal.lightPicker = planeIllumination;
+			darkMetal.ambientColor = 0;
+			darkMetal.specular = 0.5;
+			
+			var lightMetal:TextureMaterial = new TextureMaterial(metal);
+			lightMetal.lightPicker = planeIllumination;
+			lightMetal.ambientColor = 0x555555;
+			lightMetal.specular = 0.4;
+			lightMetal.gloss = 20;
+			
+			dynamicMetal = new TextureMaterial(metal);
+			dynamicMetal.lightPicker = planeIllumination;
+			
+			lights = new StaticLightPicker([staticLight, beacon]);
+			plane = new SceneObject(scene, '../media/Spaceship.obj', function() {
+				for each (var mesh:Mesh in plane.meshes)
+					mesh.material = lightMetal;
+				
+				plane.meshes[13].material = dynamicMetal;
+				plane.meshes[14].material = dynamicMetal;
+				plane.meshes[24].material = dynamicMetal;
+				plane.meshes[32].material = dynamicMetal;
+				plane.meshes[37].material = dynamicMetal;
+				
+				plane.meshes[27].material = darkMetal;
+			});
 			plane.rotationY = 180;
-			plane.scale(.15);
+			plane.scale(30);
 			
+			scene.addChild(beacon);
+			scene.addChild(staticLight);
 			scene.addChild(planeLight);
-			scene.addChild(farLight);
 			camera.lens.far = 10000;
 		}
 
 		public function setPlayerPosition(pos:Vector3D, angle:Vector3D) {
 			camera.position = pos;
 			plane.position = pos.add(new Vector3D(0, -30, 300));
-			planeLight.position = plane.position;
+			beacon.position = plane.position;
 			plane.eulers = angle;
 			plane.eulers.z += 90;
 			
@@ -65,6 +102,8 @@ package rendering {
 				obstacles[i].y = obstacles[i].finalPosition.y * ratio;
 				obstacles[i].x = obstacles[i].finalPosition.x * ratio;
 			}
+			
+			dynamicMetal.ambientColor = obstacles[next].material.color;
 		}
 		
 		public function addObstacle(pos:Vector3D) {
@@ -80,8 +119,7 @@ package rendering {
 			var material = new ColorMaterial(color, .9);
 			material.lightPicker = lights;
 			
-			var obstacle:Obstacle = new Obstacle(scene, '../media/RoundObstacle.obj');
-			obstacle.setMaterial(material);
+			var obstacle:Obstacle = new Obstacle(scene, material);
 			obstacle.z = pos.z * OBSTACLE_DEPTH;
 			obstacle.rotationY = 90;
 			obstacle.finalPosition = pos;
@@ -96,9 +134,10 @@ package rendering {
 			return int((from * (COLOR_STEP - step) + to * step) / COLOR_STEP);
 		}
 		
+		var dynamicMetal:TextureMaterial;
 		var obstacles:Vector.<Obstacle> = new Vector.<Obstacle>();
 		var lights:StaticLightPicker;
-		var planeLight:PointLight;
+		var beacon:PointLight;
 		var plane:SceneObject;
 		
 		const OBSTACLE_DEPTH:Number = 355;
