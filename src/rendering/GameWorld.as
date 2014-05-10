@@ -1,7 +1,18 @@
 package rendering {
+	import away3d.animators.ParticleAnimationSet;
+	import away3d.animators.ParticleAnimator;
+	import away3d.animators.data.ParticleProperties;
+	import away3d.animators.data.ParticlePropertiesMode;
+	import away3d.animators.nodes.ParticleAccelerationNode;
+	import away3d.animators.nodes.ParticleBillboardNode;
+	import away3d.animators.nodes.ParticleColorNode;
+	import away3d.animators.nodes.ParticleFollowNode;
+	import away3d.animators.nodes.ParticlePositionNode;
+	import away3d.animators.nodes.ParticleScaleNode;
+	import away3d.animators.nodes.ParticleVelocityNode;
 	import away3d.containers.View3D;
+	import away3d.core.base.Geometry;
 	import away3d.core.base.Object3D;
-	import away3d.core.math.Quaternion;
 	import away3d.entities.Mesh;
 	import away3d.events.LoaderEvent;
 	import away3d.lights.DirectionalLight;
@@ -10,12 +21,12 @@ package rendering {
 	import away3d.materials.ColorMaterial;
 	import away3d.materials.TextureMaterial;
 	import away3d.materials.lightpickers.StaticLightPicker;
-	import away3d.materials.methods.PhongSpecularMethod;
+	import away3d.primitives.PlaneGeometry;
+	import away3d.tools.helpers.ParticleGeometryHelper;
 	import away3d.utils.Cast;
+	
+	import flash.geom.ColorTransform;
 	import flash.geom.Vector3D;
-	import logic.Map;
-	import logic.SinusoidalMap;
-	import util.Vector2D;
 	
 	public class GameWorld extends View3D {
 		public var progress:Number;
@@ -23,6 +34,9 @@ package rendering {
 		
 		[Embed(source = "../media/WhiteMetal.jpg")]
 		public static var MetalTexture:Class;
+		
+		[Embed(source = "../media/Particle.png")]
+		public static var FireTexture:Class;
 		
 		public function GameWorld() {
 			Parsers.enableAllBundled();
@@ -39,13 +53,14 @@ package rendering {
 			planeLight.ambient = 0.6;
 			planeLight.diffuse = 0.3;
 			
-			beacon = new PointLight();
+			var beacon = new PointLight();
 			beacon.radius = 700;
 			beacon.fallOff = 2000;
 			beacon.castsShadows = false;
 			beacon.diffuse = .7;
 			beacon.ambient = 0;
 			beacon.specular = 0.5;
+			beacon.z = 1;
 			
 			var planeIllumination = new StaticLightPicker([planeLight]);
 			var metal = Cast.bitmapTexture(MetalTexture);
@@ -75,20 +90,73 @@ package rendering {
 				plane.meshes[37].material = dynamicMetal;
 				
 				plane.meshes[27].material = darkMetal;
+				buildParticles();
 			});
 			plane.rotationY = 180;
 			plane.scale(30);
 			
-			scene.addChild(beacon);
+			plane.addChild(beacon);
 			scene.addChild(staticLight);
 			scene.addChild(planeLight);
 			camera.lens.far = 10000;
+		}
+		
+		function buildParticles() {
+			var fireAnimationSet = new ParticleAnimationSet(true, true);
+			fireAnimationSet.addAnimation(new ParticlePositionNode(ParticlePropertiesMode.LOCAL_STATIC));
+			fireAnimationSet.addAnimation(new ParticleScaleNode(ParticlePropertiesMode.GLOBAL, false, false, 2, 0.5));
+			fireAnimationSet.addAnimation(new ParticleFollowNode(true, false));
+			fireAnimationSet.addAnimation(new ParticleAccelerationNode(0, new Vector3D(0, 0, -100)));
+			fireAnimationSet.addAnimation(new ParticleColorNode(ParticlePropertiesMode.GLOBAL, true, true, false, false, new ColorTransform(0, 0, 0, 1, 0xFF, 0x66, 0x22), new ColorTransform(0, 0, 0, 1, 0x99)));
+			fireAnimationSet.addAnimation(new ParticleVelocityNode(ParticlePropertiesMode.LOCAL_STATIC));
+			fireAnimationSet.initParticleFunc = initParticleFunc;
+			var animator:ParticleAnimator = new ParticleAnimator(fireAnimationSet);
+
+			var particle = new PlaneGeometry(20, 20, 1, 1, false);
+			var geometrySet:Vector.<Geometry> = new Vector.<Geometry>;
+			for (var i:int = 0; i < 50; i++)
+				geometrySet.push(particle);
+			
+			var particleGeometry = ParticleGeometryHelper.generateGeometry(geometrySet);
+			var particleMaterial = new TextureMaterial(Cast.bitmapTexture(FireTexture));
+			particleMaterial.blendMode = "add";
+			particleMaterial.smooth = false;
+			particleMaterial.mipmap = false;
+			particleMaterial.alphaBlending = false;
+			
+			var particleMesh:Mesh = new Mesh(particleGeometry, particleMaterial);
+			particleMesh.animator = animator;
+			particleMesh.scale(1.0/60);
+			/*particleMesh.x = -1.5;
+			particleMesh.y = -0.2;
+			particleMesh.z = -0.63;*/
+			particleMesh.x = -0.4;
+			particleMesh.y = -0.85;
+			particleMesh.z = -0.5;
+			animator.start();
+			
+			var particleMesh2 = particleMesh.clone();
+			particleMesh2.animator = animator;
+			particleMesh2.x = 0.1;
+			
+			plane.addChild(particleMesh);
+			plane.addChild(particleMesh2);
+		}
+		
+		function initParticleFunc(prop:ParticleProperties):void {
+			prop.startTime = Math.random() * 2;
+			prop.duration = Math.random() * 0.6 + 0.1;
+			
+			prop[ParticleVelocityNode.VELOCITY_VECTOR3D] = new Vector3D(100 * (Math.random() - 0.5), 100 * (Math.random() - 0.5), -400);
+			prop[ParticlePositionNode.POSITION_VECTOR3D] = new Vector3D(
+				2 * (Math.random() - 0.5),
+				2 * (Math.random() - 0.5),
+				2 * (Math.random() - 0.5));
 		}
 
 		public function setPlayerPosition(pos:Vector3D, angle:Vector3D) {
 			camera.position = pos;
 			plane.position = pos.add(new Vector3D(0, -30, 300));
-			beacon.position = plane.position;
 			plane.eulers = angle;
 			plane.eulers.z += 90;
 			
@@ -137,7 +205,6 @@ package rendering {
 		var dynamicMetal:TextureMaterial;
 		var obstacles:Vector.<Obstacle> = new Vector.<Obstacle>();
 		var lights:StaticLightPicker;
-		var beacon:PointLight;
 		var plane:SceneObject;
 		
 		const OBSTACLE_DEPTH:Number = 355;
