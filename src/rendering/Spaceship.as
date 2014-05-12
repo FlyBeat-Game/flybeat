@@ -46,16 +46,16 @@ package rendering {
 			}
 		}
 		
-		public function setEngineUsage(usage:Vector3D) {
+		public function setEngineUsage(turbo:Number, wings:Number) {
 			if (turboAnimator != null) {
 				var left, right, state;
-				var y = -usage.x / 40 + 1.5;
+				var y = -turbo/2 + 1.5;
 				
-				if (usage.z < 0) {
-					left = -usage.z / 20 + 1;
+				if (wings < 0) {
+					left = -wings + 1;
 					right = 1;
 				} else {
-					right = usage.z / 20 + 1;
+					right = wings + 1;
 					left = 1;
 				}
 				

@@ -60,7 +60,7 @@ package rendering {
 			plane.eulers = angle;
 			plane.eulers.z += 90;
 			plane.setColor(obstacles[next].material.color);
-			plane.setEngineUsage(angle);
+			plane.setEngineUsage(angle.x/20, angle.z/20);
 		}
 		
 		public function addObstacle(pos:Vector3D) {
