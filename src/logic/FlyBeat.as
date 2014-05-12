@@ -39,9 +39,8 @@ package logic {
 			velocity.x = computeVelocity(velocity.x, control.x);
 			velocity.y = computeVelocity(velocity.y, control.y);
 			
-			control.scaleBy(elapsed / 50);
-			angle.z = computeVelocity(angle.z / 50, -control.x) * 50;
-			angle.x = computeVelocity(angle.x / 50, -control.y) * 50;
+			angle.z = computeVelocity(angle.z / 50, -control.x * elapsed / 50) * 50;
+			angle.x = computeVelocity(angle.x / 50, -control.y * elapsed / 50) * 50;
 			
 			var walked = velocity.clone();
 			walked.scaleBy(elapsed);
