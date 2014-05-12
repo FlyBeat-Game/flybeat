@@ -5,8 +5,11 @@ package rendering {
 	import away3d.lights.DirectionalLight;
 	import away3d.lights.PointLight;
 	import away3d.loaders.parsers.Parsers;
+	import away3d.primitives.SkyBox;
 	import away3d.materials.ColorMaterial;
 	import away3d.materials.lightpickers.StaticLightPicker;
+	import away3d.textures.BitmapCubeTexture;
+	import away3d.utils.Cast;
 	
 	import flash.geom.Vector3D;
 	
@@ -38,6 +41,7 @@ package rendering {
 			plane.scale(30);
 			
 			plane.addChild(beacon);
+			scene.addChild(new SkyBox(SpaceTexture));
 			scene.addChild(staticLight);
 			scene.addChild(plane);
 			camera.lens.far = 10000;
@@ -98,5 +102,19 @@ package rendering {
 		const OBSTACLE_DEPTH:Number = 355;
 		const COLORS = [[0x00, 0xBD, 0xD5], [0xD5, 0x00, 0xBD], [0xBD, 0xD5, 0x00]];
 		const COLOR_STEP = 30;
+		
+		[Embed(source="../media/Space_posX.jpg")]
+		public static var SpacePosX:Class;
+		[Embed(source="../media/Space_posY.jpg")]
+		public static var SpacePosY:Class;
+		[Embed(source="../media/Space_posZ.jpg")]
+		public static var SpacePosZ:Class;
+		[Embed(source="../media/Space_negX.jpg")]
+		public static var SpaceNegX:Class;
+		[Embed(source="../media/Space_negY.jpg")]
+		public static var SpaceNegY:Class;
+		[Embed(source="../media/Space_negZ.jpg")]
+		public static var SpaceNegZ:Class;
+		public static var SpaceTexture:BitmapCubeTexture = new BitmapCubeTexture(Cast.bitmapData(SpacePosX), Cast.bitmapData(SpaceNegX), Cast.bitmapData(SpacePosY), Cast.bitmapData(SpaceNegY), Cast.bitmapData(SpacePosZ), Cast.bitmapData(SpaceNegZ));
 	}
 }
