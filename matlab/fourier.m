@@ -1,7 +1,19 @@
-function notes = fourier(w,fs)
-    bpm = 120;
+function b = fourier(w,fs)
+    if (size(w,2) > 1)
+        fusao = (w(:,1)+w(:,2))/2;
+        w = fusao;
+    end
+    b = tempo(w,fs);
+    %get bpm
+    bpm = 174;
     intervalo = (60/bpm)*1000;
-    r = abs(stfft(w,fs,intervalo*2));
-    f = freqs(r);
+    r = abs(stfft(w,fs,intervalo,intervalo,0));
+    wstep = floor(intervalo/1000*fs);
+    [f,amps] = getFreqs(r,fs,wstep,0);
     notes = getNotes(f);
+    
+     nnotes = {'-';'Dó';'Dó#';'Ré';'Ré#';'Mi';'Fá';'Fá#';'Sol';'Sol#';'Lá';'Lá#';'Si';'Dó2'};
+     for i=1:length(notes)
+         disp(nnotes(notes(i)));
+     end
 end
