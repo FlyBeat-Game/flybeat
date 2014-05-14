@@ -26,26 +26,20 @@ package logic {
 			addChild(world)
 			resize()
 			
-			for (var i:int = 0; i < map.getLength(); i++)  { 
+			for (var i:int = 0; i < map.getLength(); i++)
 				world.addObstacle(map.get(i))
-			}
 			
 			removeEventListener(Event.ADDED_TO_STAGE, startup)
 			addEventListener(Event.ENTER_FRAME, update)
 			stage.addEventListener(Event.RESIZE, resize)
-			stage.addEventListener("collision", function(e:Event) {
-				collisionTime = getTimer() + COLLISION_DURATION
-				
-				velocity.x = (Collision(e).center.x - position.x) / COLLISION_DURATION;
-				velocity.y = (Collision(e).center.y - position.y) / COLLISION_DURATION;
-			})
+			stage.addEventListener("collision", collided)
 		}
 		
 		private function update(e:Event) {
 			var time = getTimer()
 			var elapsed = (time - lastUpdate)
 			
-			if (time > collisionTime) {
+			if (time > lastCollision) {
 				var control = controller.getOrientation()
 				velocity.x = computeVelocity(velocity.x, control.x)
 				velocity.y = computeVelocity(velocity.y, control.y)
@@ -76,6 +70,12 @@ package logic {
 			return Math.min(Math.max(velocity + aceleration, -MAX_VELOCITY), MAX_VELOCITY);
 		}
 		
+		private function collided(e:Event) {
+			lastCollision = getTimer() + COLLISION_DURATION / 2
+			velocity.x = (Collision(e).center.x - position.x) / COLLISION_DURATION
+			velocity.y = (Collision(e).center.y - position.y) / COLLISION_DURATION
+		}
+		
 		private function resize(e:Event = null) {
 			world.width = stage.stageWidth;
 			world.height = stage.stageHeight;
@@ -92,7 +92,7 @@ package logic {
 		private var angle = new Vector3D();
 		
 		private var lastUpdate = getTimer();
-		private var collisionTime = 0;
+		private var lastCollision = 0;
 		
 		private const MAX_VELOCITY = 0.35;
 		private const FRICTION = 0.05;
