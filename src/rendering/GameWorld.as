@@ -5,18 +5,16 @@ package rendering {
 	import away3d.lights.DirectionalLight;
 	import away3d.lights.PointLight;
 	import away3d.loaders.parsers.Parsers;
-	import away3d.primitives.SkyBox;
 	import away3d.materials.ColorMaterial;
 	import away3d.materials.lightpickers.StaticLightPicker;
+	import away3d.primitives.SkyBox;
 	import away3d.textures.BitmapCubeTexture;
 	import away3d.utils.Cast;
 	
+	import flash.events.Event;
 	import flash.geom.Vector3D;
 	
 	public class GameWorld extends View3D {
-		public var progress:Number;
-		public var next:int;
-		
 		public function GameWorld() {
 			Parsers.enableAllBundled();
 			
@@ -47,9 +45,11 @@ package rendering {
 			camera.lens.far = 10000;
 		}
 
-		public function setPlayerPosition(pos:Vector3D, angle:Vector3D) {
-			progress = Math.max(pos.z / OBSTACLE_DEPTH + 2, 0);
-			next = int(progress) + 1;
+		public function setPosition(pos:Vector3D, angle:Vector3D) {
+			var progress = Math.max(pos.z / OBSTACLE_DEPTH + 2, 0);
+			var next = int(progress) + 1;
+			if (next >= obstacles.length)
+				return stage.dispatchEvent(new Event("win"));
 			
 			var last = Math.min(next+20, obstacles.length);
 			for (var i = next; i < last; i++) {
@@ -58,6 +58,9 @@ package rendering {
 				obstacles[i].y = obstacles[i].finalPosition.y * ratio;
 				obstacles[i].x = obstacles[i].finalPosition.x * ratio;
 			}
+			
+			if (isCollidingWith(int(progress)) || isCollidingWith(next))
+				stage.dispatchEvent(new Collision(obstacles[next].position));
 			
 			camera.position = pos;
 			plane.position = pos.add(new Vector3D(0, -30, 300));
@@ -91,6 +94,12 @@ package rendering {
 			obstacles.push(obstacle);
 		}
 		
+		function isCollidingWith(i:int) : Boolean {
+			var xOff:Number = obstacles[i].x - camera.position.x;
+			var yOff:Number = obstacles[i].y - camera.position.y + 100;
+			return (xOff * xOff + yOff * yOff) > OBSTACLE_RADIUS_SQUARED;
+		}
+		
 		function interpolateColor(from:int, to:int, step:int) : int {
 			return int((from * (COLOR_STEP - step) + to * step) / COLOR_STEP);
 		}
@@ -100,6 +109,7 @@ package rendering {
 		var plane:Spaceship;
 		
 		const OBSTACLE_DEPTH:Number = 355;
+		const OBSTACLE_RADIUS_SQUARED = 450*450;
 		const COLORS = [[0x00, 0xBD, 0xD5], [0xD5, 0x00, 0xBD], [0xBD, 0xD5, 0x00]];
 		const COLOR_STEP = 30;
 		

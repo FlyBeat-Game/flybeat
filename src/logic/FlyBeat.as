@@ -1,13 +1,17 @@
 package logic {
 	import away3d.core.math.Quaternion;
-	import controllers.ControllerListener;
+	
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
 	import flash.geom.Vector3D;
 	import flash.utils.getTimer;
+	
+	import controllers.ControllerListener;
+	
 	import rendering.DesignController;
 	import rendering.GameWorld;
+	import rendering.Collision;
 	
 	[SWF(width="1024", height="800", wmode="direct")]
 	public class FlyBeat extends Sprite {
@@ -19,36 +23,44 @@ package logic {
 		}
 	
 		private function startup(e:Event) {
-			addChild(world);
-			resize();
+			addChild(world)
+			resize()
 			
 			for (var i:int = 0; i < map.getLength(); i++)  { 
-				world.addObstacle(map.get(i));
+				world.addObstacle(map.get(i))
 			}
 			
-			removeEventListener(Event.ADDED_TO_STAGE, startup);
-			addEventListener(Event.ENTER_FRAME, update);
-			stage.addEventListener(Event.RESIZE, resize);
+			removeEventListener(Event.ADDED_TO_STAGE, startup)
+			addEventListener(Event.ENTER_FRAME, update)
+			stage.addEventListener(Event.RESIZE, resize)
+			stage.addEventListener("collision", function(e:Event) {
+				collisionTime = getTimer() + COLLISION_DURATION
+				
+				velocity.x = (Collision(e).center.x - position.x) / COLLISION_DURATION;
+				velocity.y = (Collision(e).center.y - position.y) / COLLISION_DURATION;
+			})
 		}
 		
 		private function update(e:Event) {
-			var time = getTimer();
-			var elapsed = (time - lastUpdate);
+			var time = getTimer()
+			var elapsed = (time - lastUpdate)
 			
-			var control = controller.getOrientation();
-			velocity.x = computeVelocity(velocity.x, control.x);
-			velocity.y = computeVelocity(velocity.y, control.y);
+			if (time > collisionTime) {
+				var control = controller.getOrientation()
+				velocity.x = computeVelocity(velocity.x, control.x)
+				velocity.y = computeVelocity(velocity.y, control.y)
+				
+				angle.z = computeVelocity(angle.z / 50, -control.x * elapsed / 50) * 50
+				angle.x = computeVelocity(angle.x / 50, -control.y * elapsed / 50) * 50
+			}
 			
-			angle.z = computeVelocity(angle.z / 50, -control.x * elapsed / 50) * 50;
-			angle.x = computeVelocity(angle.x / 50, -control.y * elapsed / 50) * 50;
-			
-			var walked = velocity.clone();
-			walked.scaleBy(elapsed);
+			var walked = velocity.clone()
+			walked.scaleBy(elapsed)
 			position.incrementBy(walked)
 			
-			lastUpdate = time;
-			world.setPlayerPosition(position, angle);
-			world.render();
+			lastUpdate = time
+			world.setPosition(position, angle)
+			world.render()
 		}
 
 		private function computeVelocity(velocity:Number, control:Number) : Number {
@@ -78,10 +90,13 @@ package logic {
 		private var velocity = new Vector3D(0, 0, 0.7);
 		private var position = new Vector3D(0, 200, -2000);
 		private var angle = new Vector3D();
+		
 		private var lastUpdate = getTimer();
+		private var collisionTime = 0;
 		
 		private const MAX_VELOCITY = 0.35;
 		private const FRICTION = 0.05;
 		private const CONTROL_STRENGTH = 0.01;
+		private const COLLISION_DURATION = 500;
 	}
 }
