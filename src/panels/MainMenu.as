@@ -4,31 +4,28 @@ package panels {
 
 	public class MainMenu extends Panel {
 		public override function update(e:Event = null) {
-			var centerX = stage.stageWidth / 2
-			var buttonX = centerX - start.width / 2 + 65
-			var buttonY = stage.stageHeight / 2 - start.height / 2 + 15
+			var centerX = (stage.stageWidth - start.width) / 2 + 65
+			var centerY = (stage.stageHeight - start.height) / 2 + 15
 				
-			header.x = centerX  - header.width / 2
-			header.y = 100
-		
+			header.reposition()
 			start.setRotation(0)
-			start.x = buttonX - 200
-			start.y = buttonY
+			start.x = centerX - 200
+			start.y = centerY
 				
 			scores.setRotation(0xF0)
-			scores.x = buttonX + 200
-			scores.y = buttonY
+			scores.x = centerX + 200
+			scores.y = centerY
 			
 			credits.setRotation(0xF)
-			credits.x = buttonX - 200
-			credits.y = buttonY + 100
+			credits.x = centerX - 200
+			credits.y = centerY + 100
 				
 			exit.setRotation(0xFF)
-			exit.x = buttonX + 200
-			exit.y = buttonY + 100
+			exit.x = centerX + 200
+			exit.y = centerY + 100
 		}
 		
-		var header = addChild(new NormalText("FlyBeat", 40));
+		var header = addChild(new Header("FlyBeat"));
 		var start = addChild(new TextButton("Start", "play"))
 		var scores = addChild(new TextButton("Scores", "scores"))
 		var credits = addChild(new TextButton("Credits", "credits"))

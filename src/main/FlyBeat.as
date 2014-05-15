@@ -35,6 +35,9 @@ package main {
 		function showPanel(target:Panel) {
 			mainMenu.visible = false;
 			playMenu.visible = false;
+			highscores.visible = false;
+			credits.visible = false;
+			
 			target.visible = true;
 			target.update();
 		}
