@@ -5,8 +5,10 @@ package main {
 	import flash.utils.getTimer;
 	
 	import panels.*;
+	
+	import world.GameWorld;
 
-	[SWF(width="1024", height="720", wmode="direct", backgroundColor="0x000000")]
+	[SWF(width="1024", height="720", wmode="direct")]
 	public class FlyBeat extends Sprite {
 		public function FlyBeat() {
 			if (stage)
@@ -22,6 +24,7 @@ package main {
 			stage.addEventListener("scores", function() {showPanel(highscores)});
 			stage.addEventListener("credits", function() {showPanel(credits)});
 			
+			game.startup();
 			mainMenu.startup();
 			playMenu.startup();
 			highscores.startup();
@@ -36,6 +39,7 @@ package main {
 			target.update();
 		}
 		
+		var game = addChild(new GameWorld());
 		var mainMenu = addChild(new MainMenu());
 		var playMenu = addChild(new PlayMenu());
 		var highscores = addChild(new Highscores());
