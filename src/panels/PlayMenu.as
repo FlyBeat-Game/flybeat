@@ -4,6 +4,8 @@ package panels {
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
+	import flash.text.TextField;
+	import flash.text.TextFieldType;
 	import flash.ui.Keyboard;
 	
 	public class PlayMenu extends Panel {
@@ -14,9 +16,13 @@ package panels {
 			controller.y = 350
 				
 			var addressTip = address.addChild(new NormalText("Device Name:", 15))
-			address.x = 580 - address.width / 2
 			addressTip.y = -40
-			addressTip.x = 5
+			addressTip.x = -30
+			
+			address.text.selectable = true
+			address.text.type = TextFieldType.INPUT
+			address.text.maxChars = 40
+			address.x = 525
 			address.y = 460
 			
 			keyboard.addChild(new KeyboardImage)
@@ -33,9 +39,9 @@ package panels {
 			
 			song.x = 145;
 			song.y = 250;
-
-			selected.x = 130 + song.width
+			
 			selected.y = 250
+			displaySelected("None Selected")
 			
 			play.setRotation(0xFF)
 			back.setRotation(0x0F)
@@ -54,15 +60,20 @@ package panels {
 			play.x = stage.stageWidth - play.width
 		}
 		
-		public function useKeyboard(useKeys:Boolean) {
+		function useKeyboard(useKeys:Boolean) {
 			keyboard.alpha = useKeys ? 1 : 0.3
 			cell.alpha = useKeys ? 0.3 : 1
 			address.visible = !useKeys
 		}
 		
+		function displaySelected(label:String) {
+			selected.setText(label.substring(0, Math.min(label.length, 50)))
+			selected.x = 284 + selected.text.width / 2
+		}
+		
 		var header = addChild(new Header("Flybeat"))
 		var song = addChild(new SquareButton("Choose Song", "a"))
-		var selected = addChild(new TextBox("Rosinha - Eu Levo no Pacote", 15))
+		var selected = addChild(new TextBox("", 15))
 			
 		var keyboard = addChild(new Sprite)
 		var cell = addChild(new Sprite)
