@@ -56,9 +56,9 @@ package panels {
 			scaleY = show ? 1.1 : 1
 		}
 		
-		[Embed(source = "../media/Button.png", mimeType = "image/png")]
+		[Embed(source = "../../media/Button.png", mimeType = "image/png")]
 		public var NormalTexture:Class;
-		[Embed(source = "../media/Button-Over.png", mimeType = "image/png")]
+		[Embed(source = "../../media/Button-Over.png", mimeType = "image/png")]
 		public var OverTexture:Class;
 	}
 }

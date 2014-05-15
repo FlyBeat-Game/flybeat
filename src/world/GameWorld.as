@@ -24,7 +24,7 @@ package world {
 			height = stage.stageHeight
 		}
 		
-		[Embed(source="../media/Space.jpg")]
+		[Embed(source="../../media/Space.jpg")]
 		public static var Space:Class;
 		public static var SpaceBitmap = Cast.bitmapData(Space);
 	}
