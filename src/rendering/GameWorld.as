@@ -90,7 +90,7 @@ package rendering {
 			obstacle.finalPosition.scaleBy(300);
 			obstacle.scale(200);
 			
-			scene.addChild(obstacle);
+			//scene.addChild(obstacle);
 			obstacles.push(obstacle);
 		}
 		
