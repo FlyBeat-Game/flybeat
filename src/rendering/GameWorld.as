@@ -1,58 +1,55 @@
 package rendering {
 	import away3d.containers.View3D;
 	import away3d.core.base.Object3D;
-	import away3d.core.math.Quaternion;
-	import away3d.entities.Mesh;
 	import away3d.events.LoaderEvent;
 	import away3d.lights.DirectionalLight;
 	import away3d.lights.PointLight;
 	import away3d.loaders.parsers.Parsers;
 	import away3d.materials.ColorMaterial;
 	import away3d.materials.lightpickers.StaticLightPicker;
+	import away3d.primitives.SkyBox;
+	import away3d.textures.BitmapCubeTexture;
+	import away3d.utils.Cast;
+	
+	import flash.events.Event;
 	import flash.geom.Vector3D;
-	import logic.Map;
-	import logic.SinusoidalMap;
-	import util.Vector2D;
 	
 	public class GameWorld extends View3D {
-		public var progress:Number;
-		public var next:int;
-		
 		public function GameWorld() {
 			Parsers.enableAllBundled();
 			
-			var farLight = new DirectionalLight();
-			farLight.direction = new Vector3D(-0.2, -1, 0);
-			farLight.castsShadows = false;
-			farLight.ambient = 0.1;
-			farLight.diffuse = 0.3;
+			var staticLight = new DirectionalLight();
+			staticLight.direction = new Vector3D(-0.2, -1, 0);
+			staticLight.castsShadows = false;
+			staticLight.ambient = 0.1;
+			staticLight.diffuse = 0.3;
 			
-			planeLight = new PointLight();
-			planeLight.radius = 700;
-			planeLight.fallOff = 2000;
-			planeLight.castsShadows = false;
-			planeLight.diffuse = .7;
-			planeLight.ambient = 0;
+			var beacon = new PointLight();
+			beacon.radius = 700;
+			beacon.fallOff = 2000;
+			beacon.castsShadows = false;
+			beacon.diffuse = .7;
+			beacon.ambient = 0;
+			beacon.specular = 0.5;
+			beacon.z = 1;
 			
-			lights = new StaticLightPicker([farLight, planeLight]);
-			plane = new SceneObject(scene, '../media/White Plane.awd');
+			lights = new StaticLightPicker([staticLight, beacon]);
+			plane = new Spaceship();
 			plane.rotationY = 180;
-			plane.scale(.2);
+			plane.scale(30);
 			
-			scene.addChild(planeLight);
-			scene.addChild(farLight);
+			plane.addChild(beacon);
+			scene.addChild(new SkyBox(SpaceTexture));
+			scene.addChild(staticLight);
+			scene.addChild(plane);
 			camera.lens.far = 10000;
 		}
 
-		public function setPlayerPosition(pos:Vector3D, angle:Vector3D) {
-			camera.position = pos;
-			plane.position = pos.add(new Vector3D(0, 0, 300));
-			planeLight.position = plane.position;
-			plane.eulers = angle;
-			plane.eulers.z += 90;
-			
-			progress = Math.max(pos.z / OBSTACLE_DEPTH + 2, 0);
-			next = int(progress) + 1;
+		public function setPosition(pos:Vector3D, angle:Vector3D) {
+			var progress = Math.max(pos.z / OBSTACLE_DEPTH + 2, 0);
+			var next = int(progress) + 1;
+			if (next >= obstacles.length)
+				return stage.dispatchEvent(new Event("win"));
 			
 			var last = Math.min(next+20, obstacles.length);
 			for (var i = next; i < last; i++) {
@@ -61,6 +58,16 @@ package rendering {
 				obstacles[i].y = obstacles[i].finalPosition.y * ratio;
 				obstacles[i].x = obstacles[i].finalPosition.x * ratio;
 			}
+			
+			if (isCollidingWith(int(progress)) || isCollidingWith(next))
+				stage.dispatchEvent(new Collision(obstacles[next].position));
+			
+			camera.position = pos;
+			plane.position = pos.add(new Vector3D(0, -30, 300));
+			plane.eulers = angle;
+			plane.eulers.z += 90;
+			plane.setColor(obstacles[next].material.color);
+			plane.setEngineUsage(angle.x/20, angle.z/20);
 		}
 		
 		public function addObstacle(pos:Vector3D) {
@@ -76,8 +83,7 @@ package rendering {
 			var material = new ColorMaterial(color, .9);
 			material.lightPicker = lights;
 			
-			var obstacle:Obstacle = new Obstacle(scene, '../media/RoundObstacle.obj');
-			obstacle.setMaterial(material);
+			var obstacle:Obstacle = new Obstacle(material);
 			obstacle.z = pos.z * OBSTACLE_DEPTH;
 			obstacle.rotationY = 90;
 			obstacle.finalPosition = pos;
@@ -88,17 +94,37 @@ package rendering {
 			obstacles.push(obstacle);
 		}
 		
+		function isCollidingWith(i:int) : Boolean {
+			var xOff:Number = obstacles[i].x - camera.position.x;
+			var yOff:Number = obstacles[i].y - camera.position.y + 100;
+			return (xOff * xOff + yOff * yOff) > OBSTACLE_RADIUS_SQUARED;
+		}
+		
 		function interpolateColor(from:int, to:int, step:int) : int {
 			return int((from * (COLOR_STEP - step) + to * step) / COLOR_STEP);
 		}
 		
 		var obstacles:Vector.<Obstacle> = new Vector.<Obstacle>();
 		var lights:StaticLightPicker;
-		var planeLight:PointLight;
-		var plane:Object3D;
+		var plane:Spaceship;
 		
 		const OBSTACLE_DEPTH:Number = 355;
+		const OBSTACLE_RADIUS_SQUARED = 450*450;
 		const COLORS = [[0x00, 0xBD, 0xD5], [0xD5, 0x00, 0xBD], [0xBD, 0xD5, 0x00]];
 		const COLOR_STEP = 30;
+		
+		[Embed(source="../media/Space_posX.jpg")]
+		public static var SpacePosX:Class;
+		[Embed(source="../media/Space_posY.jpg")]
+		public static var SpacePosY:Class;
+		[Embed(source="../media/Space_posZ.jpg")]
+		public static var SpacePosZ:Class;
+		[Embed(source="../media/Space_negX.jpg")]
+		public static var SpaceNegX:Class;
+		[Embed(source="../media/Space_negY.jpg")]
+		public static var SpaceNegY:Class;
+		[Embed(source="../media/Space_negZ.jpg")]
+		public static var SpaceNegZ:Class;
+		public static var SpaceTexture:BitmapCubeTexture = new BitmapCubeTexture(Cast.bitmapData(SpacePosX), Cast.bitmapData(SpaceNegX), Cast.bitmapData(SpacePosY), Cast.bitmapData(SpaceNegY), Cast.bitmapData(SpacePosZ), Cast.bitmapData(SpaceNegZ));
 	}
 }

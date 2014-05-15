@@ -16,9 +16,11 @@ while 1
         data = data(2:length(data));
         try
             [w,fs] = audioread(data);
-            notes = fourier(w,fs);
+            [notes,bpm] = fourier(w,fs);
             sdata = num2str(notes);
-            fwrite(t, sdata);
+            sdata2 = num2str(bpm);
+            fwrite(t,sdata);
+            fwrite(t,sdata2);
         catch me
             disp('Invalid file.');
         end
