@@ -47,5 +47,7 @@ package   {
 		var highscores = addChild(new Highscores());
 		var credits = addChild(new Credits());
 		var loading = addChild(new Loading());
+		
+		/*Teste*/
 	}
 }
