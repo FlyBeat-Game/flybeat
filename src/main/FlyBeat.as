@@ -45,7 +45,7 @@ package main {
 		var game = addChild(new GameWorld());
 		var mainMenu = addChild(new MainMenu());
 		var playMenu = addChild(new PlayMenu());
-		var highscores = addChild(new Highscores());
+		var highscores = addChild(new Scores());
 		var credits = addChild(new Credits());
 	}
 }
