@@ -18,18 +18,18 @@ package main {
 		}
 		
 		function startup(e:Event) {
-			removeEventListener(Event.ADDED_TO_STAGE, startup);
-			stage.addEventListener("home", function() {showPanel(mainMenu)});
-			stage.addEventListener("play", function() {showPanel(playMenu)});
-			stage.addEventListener("scores", function() {showPanel(highscores)});
-			stage.addEventListener("credits", function() {showPanel(credits)});
+			removeEventListener(Event.ADDED_TO_STAGE, startup)
+			stage.addEventListener("home", function() {showPanel(mainMenu)})
+			stage.addEventListener("play", function() {showPanel(playMenu)})
+			stage.addEventListener("scores", function() {showPanel(highscores)})
+			stage.addEventListener("credits", function() {showPanel(credits)})
 			
-			game.startup();
-			mainMenu.startup();
-			playMenu.startup();
-			highscores.startup();
-			credits.startup();
-			showPanel(mainMenu);
+			game.startup()
+			mainMenu.startup()
+			playMenu.startup()
+			highscores.startup()
+			credits.startup()
+			showPanel(mainMenu)
 		}
 		
 		function showPanel(target:Panel) {

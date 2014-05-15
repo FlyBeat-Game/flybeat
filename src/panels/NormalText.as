@@ -6,13 +6,14 @@ package panels {
 		public function NormalText(label:String, size:int) {
 			super()
 			
-			defaultTextFormat = new TextFormat("Ethnocentric", size, 0xffffff)
+			defaultTextFormat = new TextFormat("FlyBeat_Ethno", size, 0xffffff)
+			embedFonts = true
 			selectable = false
 			autoSize = "center"
 			text = label
 		}
 		
-		[Embed(source="../media/Ethnocentric.ttf", fontName="Ethnocentric", embedAsCFF= "false")]
+		[Embed(source="../media/Ethnocentric.ttf", fontName = "FlyBeat_Ethno", mimeType = "application/x-font", fontWeight="normal",  fontStyle="normal", advancedAntiAliasing="true", embedAsCFF="false")]
 		public var Font:Class;
 	}
 }
