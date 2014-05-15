@@ -9,7 +9,6 @@ package world {
 	public class GameWorld extends View3D  {
 		public function startup() {
 			scene.addChild(new SkyBox(new BitmapCubeTexture(SpaceBitmap, SpaceBitmap, SpaceBitmap, SpaceBitmap, SpaceBitmap, SpaceBitmap)));
-			
 			stage.addEventListener(Event.RESIZE, resize)
 			addEventListener(Event.ENTER_FRAME, update)
 			resize()

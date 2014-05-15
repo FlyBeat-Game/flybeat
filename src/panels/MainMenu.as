@@ -3,7 +3,7 @@ package panels {
 	import flash.system.System
 
 	public class MainMenu extends Panel {
-		public override function update(e:Event = null) {
+		public override function resize(e:Event = null) {
 			var centerX = (stage.stageWidth - start.width) / 2 + 65
 			var centerY = (stage.stageHeight - start.height) / 2 + 15
 				
@@ -26,10 +26,10 @@ package panels {
 		}
 		
 		var header = addChild(new Header("FlyBeat"));
-		var start = addChild(new TextButton("Start", "play"))
-		var scores = addChild(new TextButton("Scores", "scores"))
-		var credits = addChild(new TextButton("Credits", "credits"))
-		var exit = addChild(new TextButton("Exit", function(e:Event) {
+		var start = addChild(new LegButton("Start", "play"))
+		var scores = addChild(new LegButton("Scores", "scores"))
+		var credits = addChild(new LegButton("Credits", "credits"))
+		var exit = addChild(new LegButton("Exit", function(e:Event) {
 			System.exit(0)
 		}))
 	}

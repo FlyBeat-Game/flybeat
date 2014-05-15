@@ -10,7 +10,7 @@ package panels {
 			embedFonts = true
 			selectable = false
 			autoSize = "center"
-			text = label
+			htmlText = label
 		}
 		
 		[Embed(source="../../media/Ethnocentric.ttf", fontName = "FlyBeat_Ethno", mimeType = "application/x-font",  fontStyle="normal", advancedAntiAliasing="true", embedAsCFF="false")]

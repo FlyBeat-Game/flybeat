@@ -33,13 +33,13 @@ package main {
 		}
 		
 		function showPanel(target:Panel) {
-			mainMenu.visible = false;
-			playMenu.visible = false;
-			highscores.visible = false;
-			credits.visible = false;
+			mainMenu.visible = false
+			playMenu.visible = false
+			highscores.visible = false
+			credits.visible = false
 			
-			target.visible = true;
-			target.update();
+			target.visible = true
+			target.update()
 		}
 		
 		var game = addChild(new GameWorld());
