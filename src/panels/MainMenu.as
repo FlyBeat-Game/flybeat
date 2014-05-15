@@ -1,17 +1,36 @@
 package panels {
-	public class MainMenu extends Panel {
-		public override function startup() {
-			var start = addChild(new TextButton("NEW TUNNEL", "play"));
-			start.x = 220;
-			start.y = 130;
+	import flash.events.Event
+	import flash.system.System
 
-			var scores = addChild(new TextButton("HIGHBEATS", "scores"));
-			scores.x = 710;
-			scores.y = 130;
+	public class MainMenu extends Panel {
+		public override function resize(e:Event = null) {
+			var centerX = (stage.stageWidth - start.width) / 2 + 65
+			var centerY = (stage.stageHeight - start.height) / 2 + 15
+				
+			header.reposition()
+			start.setRotation(0)
+			start.x = centerX - 200
+			start.y = centerY
+				
+			scores.setRotation(0xF0)
+			scores.x = centerX + 200
+			scores.y = centerY
 			
-			var credits = addChild(new TextButton("CREDITS", "credits"));
-			credits.x = 500;
-			credits.y = 360;
+			credits.setRotation(0xF)
+			credits.x = centerX - 200
+			credits.y = centerY + 100
+				
+			exit.setRotation(0xFF)
+			exit.x = centerX + 200
+			exit.y = centerY + 100
 		}
+		
+		var header = addChild(new Header("FlyBeat"));
+		var start = addChild(new LegButton("Start", "play"))
+		var scores = addChild(new LegButton("Scores", "scores"))
+		var credits = addChild(new LegButton("Credits", "credits"))
+		var exit = addChild(new LegButton("Exit", function(e:Event) {
+			System.exit(0)
+		}))
 	}
 }

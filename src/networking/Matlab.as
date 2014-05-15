@@ -8,15 +8,19 @@ package networking
 	import flash.events.SecurityErrorEvent;
 	import flash.net.Socket;
 	
-	public class Matlab {
+	import panels.Panel;
+	
+	public class Matlab{
 		private var socket:Socket;
 		private var recvstr:String;
 		private const port:int = 8086;
 		private var notes:Array;
-		private var filename:String;
+		private var bpm:int;
+		private var energy:Array;
+		private var panel:Panel;
 		
-		public function Matlab(filename:String) {
-			filename = filename;
+		public function Matlab(panel:Panel) {
+			this.panel = panel;
 			startMatlabAnalyzer("localhost",port);
 		}
 		
@@ -39,8 +43,16 @@ package networking
 		
 		private function readResponse():void{
 			recvstr = socket.readUTFBytes(socket.bytesAvailable);
-			notes = parseArray(recvstr);
+			var s:Array = recvstr.split(";");
+			bpm = parseInt(s[0]);
+			notes = parseArray(s[1]);
+			energy = parseArray(s[2]);
+			
+			trace(bpm);
 			trace(notes);
+			trace(energy);
+			
+			panel.stage.dispatchEvent(new Event("matlabComplete"));
 		}
 		
 		private function responseHandler(event:ProgressEvent):void {
@@ -49,12 +61,12 @@ package networking
 		
 		private function closeHandler(event:Event):void {
 			trace("[DEBUG MATLAB] Done.");
+			if (notes == null) musicNotesError();
+			startMatlabAnalyzer("localhost",port);
 		}
 		
 		private function connectHandler(event:Event):void {
 			trace("[DEBUG MATLAB] Connected to Matlab server.");
-			socket.writeUTF("music120.mp3");
-			socket.flush();
 		}
 		
 		private function dataHandler(event:DataEvent):void {
@@ -62,7 +74,8 @@ package networking
 		}
 		
 		private function ioErrorHandler(event:IOErrorEvent):void {
-			trace("Network error. Aborting...");
+			trace("Matlab module is offline. Aborting...");
+			musicNotesError();
 		}
 		
 		private function progressHandler(event:ProgressEvent):void {
@@ -70,7 +83,12 @@ package networking
 		}
 		
 		private function securityErrorHandler(event:SecurityErrorEvent):void {
-			trace("Matlab module is offline. Aborting...");
+			trace("Security error. Aborting...");
+			musicNotesError();
+		}
+		
+		private function musicNotesError():void{
+			if (notes == null) panel.stage.dispatchEvent(new Event("musicNotesError"));
 		}
 		
 		private function parseArray(s:String):Array{
@@ -82,16 +100,24 @@ package networking
 		}
 		
 		private function toScale(note:int):Number{
-			return ((note-1)*2/12)-1;
+			return ((note-1)*2/13)-1;
+		}
+		
+		public function getBPM():int{
+			return bpm;
 		}
 		
 		public function getNotes():Array{
 			return notes;
 		}
 		
-		public function getLength():int{
-			if (notes == null) return 0;
-			return notes.length;
+		public function getEnergy():Array{
+			return energy;
+		}
+		
+		public function sendFilename(filename:String):void{
+			socket.writeUTF(filename);
+			socket.flush();
 		}
 	}
 }
