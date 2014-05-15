@@ -14,7 +14,7 @@ while 1
     if get(t,'BytesAvailable') > 1
         data = strcat(data,fread(t, t.BytesAvailable, 'uchar')');
         data = data(2:length(data));
-
+        try
             [w,fs] = audioread(data);
             [notes,e,bpm] = fourier(w,fs);
             sdata1 = num2str(bpm);
@@ -26,6 +26,8 @@ while 1
             sdata = strcat(sdata,';');
             sdata = strcat(sdata,sdata3); 
             fwrite(t,sdata);
+        catch me
+        end
     end
     fclose(t);
 end;
