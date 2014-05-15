@@ -6,7 +6,7 @@ function e = energy(w,fs,timeStep)
     cur = 1;
     for i=1:steps
         wave = abswave(cur:cur+wstep);
-        e(i) = trapz(wave);
+        e(i) = sum(wave);
         cur = cur + wstep;
     end
 end
