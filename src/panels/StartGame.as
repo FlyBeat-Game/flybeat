@@ -106,14 +106,21 @@ package panels {
 			soundChannel = music.play()
 			
 			var musicInfo:String;
-			if (music.id3.songName == null) musicInfo = event.target.name
-			else musicInfo = music.id3.songName + " - " + music.id3.artist
-			displaySelected(musicInfo);
+
+			if (music.id3.songName == null)
+				musicInfo = event.target.name
+			else
+				musicInfo = music.id3.songName + " - " + music.id3.artist
 			
+			displaySelected(musicInfo);
 			Game.sound = music
 			Game.soundPath = event.target.nativePath
 			
+			displaySelected(musicInfo)
 			play.setDisabled(0)
+			
+			Game.sound = music
+			Game.soundPath = event.target.nativePath
 		}
 		
 		var header = addChild(new Header("New Game"))	

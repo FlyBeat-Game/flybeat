@@ -3,10 +3,8 @@ package panels {
 	import common.Game;
 	
 	public class Loading extends Panel {
-		private var matlabServer:Matlab;
-		
 		public override function startup() {
-			matlabServer = new Matlab(this);
+			matlabServer = new Matlab(this)
 		}
 		
 		public override function shown() {
@@ -14,6 +12,6 @@ package panels {
 			trace(Game.soundPath);
 		}
 		
-		
+		private var matlabServer:Matlab
 	}
 }
