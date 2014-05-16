@@ -5,6 +5,7 @@ package common {
 		public static function reset() : void {
 			score = 0
 			progress = 0
+			fuel = 100
 		}
 		
 		public static var sound:Sound
