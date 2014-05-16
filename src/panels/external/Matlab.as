@@ -8,9 +8,9 @@ package panels.external
 	import flash.events.SecurityErrorEvent;
 	import flash.net.Socket;
 	
-	import panels.Panel;
-	
 	import common.Game;
+	
+	import panels.Panel;
 	
 	public class Matlab{
 		private var socket:Socket;
@@ -54,8 +54,6 @@ package panels.external
 			trace(bpm);
 			trace(notes);
 			trace(energy);
-			trace(notes.length);
-			trace(energy.length);
 			
 			panel.stage.dispatchEvent(new Event("buildMap"));
 		}
@@ -94,17 +92,17 @@ package panels.external
 		
 		private function matlabError():void{
 			if ((Game.notes == null) || (Game.energy == null)) {
-				//panel.stage.dispatchEvent(new Event("exit"));
+				//exit?
 			}
 		}
 		
 		private function parseArray(s:String):Array{
 			if (s == null) return null;
-			var n:Array = s.split("  ");
-			for (var i:int=0;i<n.length;i++){
-				if (n[i] == null) n[i] = 0;
+			var n:Array = new Array();
+			n = s.split(",");
+			/*for (var i:int=0;i<n.length;i++){
 				n[i] = toScale(n[i]);
-			}
+			}*/
 			return n;
 		}
 		

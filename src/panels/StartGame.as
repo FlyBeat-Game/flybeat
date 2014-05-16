@@ -117,10 +117,11 @@ package panels {
 			Game.soundPath = event.target.nativePath
 			
 			displaySelected(musicInfo)
-			play.setDisabled(0)
 			
 			Game.sound = music
 			Game.soundPath = event.target.nativePath
+			
+			play.setDisabled(0)
 		}
 		
 		var header = addChild(new Header("New Game"))	

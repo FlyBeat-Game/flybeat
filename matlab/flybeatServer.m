@@ -2,7 +2,7 @@
 disp('Starting server...');
 t = tcpip('0.0.0.0', 8086, 'NetworkRole', 'server');
 set(t,'Timeout',86400);
-set(t,'OutputBufferSize',10000);
+set(t,'OutputBufferSize',100000);
 
 while 1
     fopen(t);
@@ -18,13 +18,13 @@ while 1
             [w,fs] = audioread(data);
             [notes,e,bpm] = fourier(w,fs);
             sdata1 = num2str(bpm);
-            sdata2 = num2str(notes);
-            sdata3 = num2str(e);
+            sdata2 = commas(notes);
+            sdata3 = commas(e);
             sdata = sdata1;
             sdata = strcat(sdata,';');
             sdata = strcat(sdata,sdata2);
             sdata = strcat(sdata,';');
-            sdata = strcat(sdata,sdata3); 
+            sdata = strcat(sdata,sdata3);
             fwrite(t,sdata);
         catch me
         end

@@ -8,8 +8,8 @@ package panels {
 		}
 		
 		public override function shown() {
-			matlabServer.sendFilename(Game.soundPath);
-			trace(Game.soundPath);
+			matlabServer.sendFilename(Game.soundPath)
+			trace(Game.soundPath)
 		}
 		
 		private var matlabServer:Matlab
