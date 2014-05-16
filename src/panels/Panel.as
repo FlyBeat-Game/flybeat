@@ -8,7 +8,7 @@ package panels {
 			resize()
 		}
 		
-		public function update() {}
+		public function shown() {}
 		public function resize(e:Event = null) {}
 	}
 }

@@ -8,6 +8,12 @@ package panels {
 	import flash.text.TextFieldType;
 	import flash.ui.Keyboard;
 	
+	import common.Game;
+	import panels.widgets.TextBox;
+	import panels.widgets.SquareButton;
+	import panels.widgets.LegButton;
+	import panels.widgets.NormalText;
+	
 	public class PlayMenu extends Panel {
 		public function PlayMenu() {
 			var controller = addChild(new SquareButton("Controller", ""))
@@ -48,7 +54,8 @@ package panels {
 			back.x = 140
 		}
 		
-		public override function update() {
+		public override function shown() {
+			game = new Game()
 			useKeyboard(1)
 		}
 		
@@ -71,6 +78,7 @@ package panels {
 			selected.x = 284 + selected.text.width / 2
 		}
 		
+		var game : Game
 		var header = addChild(new Header("Flybeat"))
 		var song = addChild(new SquareButton("Choose Song", "a"))
 		var selected = addChild(new TextBox("", 15))

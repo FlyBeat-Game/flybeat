@@ -39,7 +39,7 @@ package main {
 			credits.visible = false
 			
 			target.visible = true
-			target.update()
+			target.shown()
 		}
 		
 		var game = addChild(new GameWorld());

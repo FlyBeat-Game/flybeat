@@ -2,6 +2,8 @@ package panels {
 	import flash.events.Event
 	import flash.system.System
 
+	import panels.widgets.LegButton;
+
 	public class MainMenu extends Panel {
 		public override function resize(e:Event = null) {
 			var centerX = (stage.stageWidth - start.width) / 2 + 65
