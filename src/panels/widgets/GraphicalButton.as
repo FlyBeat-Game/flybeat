@@ -10,6 +10,7 @@ package panels.widgets {
 			background.addChild(normal)
 			background.addChild(over)
 			
+			callback = event
 			mouseChildren = false
 			addChild(background)
 			addChild(new NormalText(label, 17))
@@ -17,15 +18,15 @@ package panels.widgets {
 			showOver(0)
 			
 			addEventListener(MouseEvent.MOUSE_OUT, onMouseOut)
-			addEventListener(MouseEvent.CLICK, event is String ? function() {
-				stage.dispatchEvent(new Event(event))
-			} : event)
+			addEventListener(MouseEvent.CLICK, onClick)
 		}
 		
 		public function showOver(show:Boolean) {
 			var background = getChildAt(0)
 			background.getChildAt(0).visible = !show
-				background.getChildAt(1).visible = show
+			background.getChildAt(1).visible = show
+			
+			this.
 			
 			scaleX = show ? 1.1 : 1
 			scaleY = show ? 1.1 : 1
@@ -42,7 +43,17 @@ package panels.widgets {
 			buttonMode = !disable
 		}
 		
+		function onClick(e:Event) {
+			if (buttonMode)
+				if (callback is String)
+					stage.dispatchEvent(new Event(callback))
+				else
+					callback(e)
+		}
+		
 		function onMouseOut(e:MouseEvent) {showOver(0)}
 		function onMouseOver(e:MouseEvent) {showOver(1)}
+		
+		var callback
 	}
 }
