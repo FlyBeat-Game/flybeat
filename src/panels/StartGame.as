@@ -17,7 +17,9 @@ package panels {
 	import panels.widgets.TextBox;
 	import flash.filesystem.File;
 	import flash.net.FileFilter;
+	
 	import flash.media.Sound;
+	import flash.media.SoundChannel;
 	
 	public class StartGame extends Panel {
 		public function StartGame() {
@@ -98,15 +100,18 @@ package panels {
 		function fileLoaded(event:Event) {
 			var music = new Sound()
 			music.loadCompressedDataFromByteArray(file.data, file.data.length)
-			music.play()
+			
+			if (soundChannel != null)
+				soundChannel.stop()
+			soundChannel = music.play()
 			
 			var musicInfo:String;
 			if (music.id3.songName == null) musicInfo = event.target.name
 			else musicInfo = music.id3.songName + " - " + music.id3.artist
 			displaySelected(musicInfo);
 			
-			Game.sound = music;
-			Game.soundPath = event.target.nativePath;
+			Game.sound = music
+			Game.soundPath = event.target.nativePath
 			
 			play.setDisabled(0)
 		}
@@ -124,6 +129,7 @@ package panels {
 		
 		var musicFilter:FileFilter = new FileFilter("Music files", "*.mp3;*.wav;")
 		var file:File
+		var soundChannel:SoundChannel
 		
 		[Embed(source = "../../media/Keyboard.png", mimeType = "image/png")]
 		public var KeyboardImage:Class;
