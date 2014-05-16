@@ -9,6 +9,7 @@ package panels {
 		}
 		
 		public function shown() {}
+		public function hidden() {}
 		public function resize(e:Event = null) {}
 	}
 }

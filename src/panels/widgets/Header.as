@@ -1,5 +1,4 @@
-package panels {
-	import panels.widgets.NormalText;
+package panels.widgets {
 
 	public class Header extends NormalText {
 		public function Header(label:String) {

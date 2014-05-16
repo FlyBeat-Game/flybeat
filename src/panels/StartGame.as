@@ -1,4 +1,6 @@
 package panels {
+	import common.Game;
+	
 	import flash.display.Bitmap;
 	import flash.display.DisplayObject;
 	import flash.display.Sprite;
@@ -8,14 +10,14 @@ package panels {
 	import flash.text.TextFieldType;
 	import flash.ui.Keyboard;
 	
-	import common.Game;
-	import panels.widgets.TextBox;
-	import panels.widgets.SquareButton;
+	import panels.widgets.Header;
 	import panels.widgets.LegButton;
 	import panels.widgets.NormalText;
+	import panels.widgets.SquareButton;
+	import panels.widgets.TextBox;
 	
-	public class PlayMenu extends Panel {
-		public function PlayMenu() {
+	public class StartGame extends Panel {
+		public function StartGame() {
 			var controller = addChild(new SquareButton("Controller", ""))
 			controller.setDisabled(1)
 			controller.x = 145
@@ -55,7 +57,7 @@ package panels {
 		}
 		
 		public override function shown() {
-			game = new Game()
+			Game.reset()
 			useKeyboard(1)
 		}
 		
@@ -78,8 +80,7 @@ package panels {
 			selected.x = 284 + selected.text.width / 2
 		}
 		
-		var game : Game
-		var header = addChild(new Header("Flybeat"))
+		var header = addChild(new Header("New Game"))	
 		var song = addChild(new SquareButton("Choose Song", "a"))
 		var selected = addChild(new TextBox("", 15))
 			

@@ -3,9 +3,7 @@ package main {
 	import flash.events.Event;
 	import flash.geom.Vector3D;
 	import flash.utils.getTimer;
-	
 	import panels.*;
-	
 	import world.GameWorld;
 
 	[SWF(width="1024", height="720", wmode="direct")]
@@ -19,33 +17,36 @@ package main {
 		
 		function startup(e:Event) {
 			removeEventListener(Event.ADDED_TO_STAGE, startup)
-			stage.addEventListener("home", function() {showPanel(mainMenu)})
-			stage.addEventListener("play", function() {showPanel(playMenu)})
-			stage.addEventListener("scores", function() {showPanel(highscores)})
+			stage.addEventListener("home", function() {showPanel(home)})
+			stage.addEventListener("play", function() {showPanel(start)})
+			stage.addEventListener("scores", function() {showPanel(scores)})
 			stage.addEventListener("credits", function() {showPanel(credits)})
+			stage.addEventListener("load", function() {showPanel(loading)})
+			stage.addEventListener("start", function() {showPanel(overlay)})
 			
-			game.startup()
-			mainMenu.startup()
-			playMenu.startup()
-			highscores.startup()
-			credits.startup()
-			showPanel(mainMenu)
+			for (var i = 0; i<numChildren; i++)
+				Object(getChildAt(i)).startup()
+
+			showPanel(home)
 		}
 		
-		function showPanel(target:Panel) {
-			mainMenu.visible = false
-			playMenu.visible = false
-			highscores.visible = false
-			credits.visible = false
+		function showPanel(panel:Panel) {
+			for (var i = 1; i < numChildren; i++) {
+				var child:Panel = Panel(getChildAt(i))
+				child.visible = false
+				child.hidden()
+			}
 			
-			target.visible = true
-			target.shown()
+			panel.visible = true
+			panel.shown()
 		}
 		
-		var game = addChild(new GameWorld());
-		var mainMenu = addChild(new MainMenu());
-		var playMenu = addChild(new PlayMenu());
-		var highscores = addChild(new Scores());
-		var credits = addChild(new Credits());
+		var game = addChild(new GameWorld)
+		var home = addChild(new MainMenu)
+		var start = addChild(new StartGame)
+		var scores = addChild(new Scores)
+		var credits = addChild(new Credits)
+		var loading = addChild(new Loading)
+		var overlay = addChild(new GameOverlay)
 	}
 }

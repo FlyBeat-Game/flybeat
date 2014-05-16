@@ -2,6 +2,7 @@ package panels {
 	import flash.events.Event;
 	import panels.widgets.LegButton;
 	import panels.widgets.NormalText;
+	import panels.widgets.Header;
 	
 	public class Credits extends Panel {
 		public override function resize(e:Event = null) {

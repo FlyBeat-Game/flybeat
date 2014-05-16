@@ -3,6 +3,7 @@ package panels {
 	import flash.system.System
 
 	import panels.widgets.LegButton;
+	import panels.widgets.Header;
 
 	public class MainMenu extends Panel {
 		public override function resize(e:Event = null) {
