@@ -54,8 +54,10 @@ package panels.external
 			trace(bpm);
 			trace(notes);
 			trace(energy);
+			trace(notes.length);
+			trace(energy.length);
 			
-			panel.stage.dispatchEvent(new Event("matlabComplete"));
+			panel.stage.dispatchEvent(new Event("buildMap"));
 		}
 		
 		private function responseHandler(event:ProgressEvent):void {
@@ -100,6 +102,7 @@ package panels.external
 			if (s == null) return null;
 			var n:Array = s.split("  ");
 			for (var i:int=0;i<n.length;i++){
+				if (n[i] == null) n[i] = 0;
 				n[i] = toScale(n[i]);
 			}
 			return n;
