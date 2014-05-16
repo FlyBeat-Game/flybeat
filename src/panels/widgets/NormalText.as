@@ -13,7 +13,7 @@ package panels.widgets {
 			htmlText = label
 		}
 		
-		[Embed(source="../../../media/Ethnocentric.ttf", fontName = "FlyBeat_Ethno", mimeType = "application/x-font",  fontStyle="normal", advancedAntiAliasing="true", embedAsCFF="false")]
+		[Embed(source="../../../media/Ethnocentric.otf", fontName = "FlyBeat_Ethno", mimeType = "application/x-font",  fontStyle="normal", advancedAntiAliasing="true", embedAsCFF="false")]
 		public var Font:Class;
 	}
 }

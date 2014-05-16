@@ -1,4 +1,4 @@
-package main {
+package {
 	import flash.display.Sprite;
 	import flash.display.StageAlign;
 	import flash.display.StageDisplayState;
@@ -11,8 +11,8 @@ package main {
 	import flash.desktop.NativeApplication;
 
 	[SWF(width="1024", height="720", wmode="direct")]
-	public class FlyBeat extends Sprite {
-		public function FlyBeat() {
+	public class FlyBeatAir extends Sprite {
+		public function FlyBeatAir() {
 			if (stage)
 				startup(null);
 			else
