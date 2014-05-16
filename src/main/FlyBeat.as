@@ -1,13 +1,14 @@
 package main {
 	import flash.display.Sprite;
+	import flash.display.StageAlign;
+	import flash.display.StageDisplayState;
+	import flash.display.StageScaleMode;
 	import flash.events.Event;
 	import flash.geom.Vector3D;
 	import flash.utils.getTimer;
-	import flash.display.*;
-	
 	import panels.*;
-	
 	import world.GameWorld;
+	import flash.desktop.NativeApplication;
 
 	[SWF(width="1024", height="720", wmode="direct")]
 	public class FlyBeat extends Sprite {
@@ -20,11 +21,12 @@ package main {
 		
 		function startup(e:Event) {
 			removeEventListener(Event.ADDED_TO_STAGE, startup)
-			stage.addEventListener("home", function() {showPanel(mainMenu)})
-			stage.addEventListener("play", function() {showPanel(playMenu)})
-			stage.addEventListener("scores", function() {showPanel(highscores)})
+			stage.addEventListener("home", function() {showPanel(home)})
+			stage.addEventListener("play", function() {showPanel(start)})
+			stage.addEventListener("scores", function() {showPanel(scores)})
 			stage.addEventListener("credits", function() {showPanel(credits)})
-			stage.addEventListener("loading", function() {showPanel(credits)})
+			stage.addEventListener("load", function() {showPanel(loading)})
+			stage.addEventListener("start", function() {showPanel(overlay)})
 			
 			stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE;
 			stage.stageWidth = width;
@@ -32,30 +34,29 @@ package main {
 			stage.scaleMode = StageScaleMode.NO_SCALE;
 			stage.align = StageAlign.TOP_LEFT;
 			
-			game.startup()
-			mainMenu.startup()
-			playMenu.startup()
-			highscores.startup()
-			credits.startup()
-			loading.startup()
-			showPanel(mainMenu)
+			for (var i = 0; i<numChildren; i++)
+				Object(getChildAt(i)).startup()
+
+			showPanel(home)
 		}
 		
-		function showPanel(target:Panel) {
-			mainMenu.visible = false;
-			playMenu.visible = false;
-			highscores.visible = false;
-			credits.visible = false;
-			loading.visible = false;
-			target.visible = true;
-			target.update();
+		function showPanel(panel:Panel) {
+			for (var i = 1; i < numChildren; i++) {
+				var child:Panel = Panel(getChildAt(i))
+				child.visible = false
+				child.hidden()
+			}
+			
+			panel.visible = true
+			panel.shown()
 		}
 		
-		var game = addChild(new GameWorld());
-		var mainMenu = addChild(new MainMenu());
-		var playMenu = addChild(new PlayMenu());
-		var highscores = addChild(new Scores());
-		var credits = addChild(new Credits());
-		var loading = addChild(new Loading());
+		var game = addChild(new GameWorld)
+		var home = addChild(new MainMenu)
+		var start = addChild(new StartGame)
+		var scores = addChild(new Scores)
+		var credits = addChild(new Credits)
+		var loading = addChild(new Loading)
+		var overlay = addChild(new GameOverlay)
 	}
 }

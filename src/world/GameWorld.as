@@ -1,5 +1,7 @@
 package world {
 	import flash.events.Event;
+	import flash.media.SoundMixer;
+	import flash.utils.ByteArray;
 	import flash.utils.getTimer;
 	
 	import away3d.containers.View3D;
@@ -19,7 +21,8 @@ package world {
 			var time = getTimer()
 			var elapsed = (time - lastUpdate)
 			
-			camera.rotationY += elapsed/60000*360
+			camera.rotationY += elapsed/120000*360
+			readSpectrum(elapsed)
 			
 			lastUpdate = time
 			render()
@@ -30,8 +33,24 @@ package world {
 			height = stage.stageHeight
 		}
 		
-		private var lastUpdate = 0;
+		function readSpectrum(elapsed:Number){
+			SoundMixer.computeSpectrum(myByteArray, false, 0);
+			var n:Number;
+			var rotation:Number = 0;
 			
+			for(var i = 0; i < 256; i += 8){
+				n = myByteArray.readFloat()
+				rotation += (elapsed/200) * Math.abs(n);
+			}
+			
+			rotation = Math.min(Math.max(rotation, 0.05), 1.5);
+			camera.rotationX -= rotation;
+			camera.rotationZ += rotation/1.1;
+		}
+		
+		private var lastUpdate = 0;
+		private var myByteArray:ByteArray = new ByteArray();
+		
 		[Embed(source="../../media/skybox2/Space_posX.jpg")]
 		public static var SpacePosX:Class;
 		[Embed(source="../../media/skybox2/Space_posY.jpg")]

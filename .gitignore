@@ -1,2 +1,2 @@
-#Ignored files (namespace version issue)
-**/Main-app.xml
+bin-debug/*
+*.DS_Store
