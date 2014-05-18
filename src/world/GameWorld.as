@@ -26,13 +26,14 @@ package world {
 			scene.addChild(new SkyBox(new BitmapCubeTexture(Cast.bitmapData(SpacePosX), Cast.bitmapData(SpaceNegX), Cast.bitmapData(SpacePosY), Cast.bitmapData(SpaceNegY), Cast.bitmapData(SpacePosZ), Cast.bitmapData(SpaceNegZ))))
 			stage.addEventListener(Event.RESIZE, resize)
 			addEventListener(Event.ENTER_FRAME, update)
-			//addEventListener("home", showBackground)
+			addEventListener("home", showBackground)
 			addEventListener("buildMap", loadGame)
 			
 			camera.lens.far = 10000
 			content.visible = false
 			resize()
 			
+			// TEST CODE //
 			Game.notes = new Array()
 			Game.energy = new Array()
 				
@@ -42,22 +43,21 @@ package world {
 			}
 			
 			loadGame(null)
+			// TEST CODE END //
 			
 		}
 		
 		function showBackground(e:Event) {
-			/*content.visible = false
+			content.visible = false
 			isBackground = true
-				
-			for (var i = 0; i < arcs.length; i++)
-				content.removeChild(arcs[i])
-					
-			arcs = new Vector.<Arc>*/
+			resetArcs()
 		}
 		
 		function loadGame(e:Event) {
 			if (plane == null)
 				loadContent()
+			else
+				resetArcs()
 				
 			for (var i = 0; i < Game.notes.length; i++) {
 				var note = Game.notes[i]
@@ -115,6 +115,13 @@ package world {
 			
 			content.addChild(arc)
 			arcs.push(arc)
+		}
+		
+		function resetArcs() {
+			for (var i = 0; i < arcs.length; i++)
+				content.removeChild(arcs[i])
+			
+			arcs = new Vector.<Arc>
 		}
 		
 		function startGame(e:Event) {
