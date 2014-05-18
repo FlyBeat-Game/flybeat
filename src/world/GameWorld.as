@@ -27,9 +27,10 @@ package world {
 			stage.addEventListener(Event.RESIZE, resize)
 			addEventListener(Event.ENTER_FRAME, update)
 			//addEventListener("home", showBackground)
-			addEventListener("buildMap", startGame)
+			addEventListener("buildMap", loadGame)
 			
 			camera.lens.far = 10000
+			content.visible = false
 			resize()
 			
 			Game.notes = new Array()
@@ -40,7 +41,7 @@ package world {
 				Game.energy.push(Math.sin(i*i / 40 * Math.PI))
 			}
 			
-			startGame(null)
+			loadGame(null)
 			
 		}
 		
@@ -51,28 +52,23 @@ package world {
 			for (var i = 0; i < arcs.length; i++)
 				content.removeChild(arcs[i])
 					
-			arcs = new Vector.<Arc>()*/
+			arcs = new Vector.<Arc>*/
 		}
 		
-		function startGame(e:Event) {
+		function loadGame(e:Event) {
 			if (plane == null)
 				loadContent()
 				
-			aceleration	= new Vector3D()
-			velocity = new Vector3D(0, 0, 0.7)
-			position = new Vector3D(0, 200, -2000)
-			angle = new Vector3D()
-				
 			for (var i = 0; i < Game.notes.length; i++) {
 				var note = Game.notes[i]
-				if (note != -1) {
+				if (note != -1)
 					addArc(new Vector3D(note / 6.5 - 1.0, Game.energy[i], i))
-				}
 			}
-		
-			isBackground = false
-			content.visible = true
-			camera.eulers = new Vector3D(0, 0, 0)
+			
+			if (SceneObject.numLoading > 0)	
+				SceneObject.events.addEventListener("modelsLoaded", startGame)
+			else
+				startGame(null)
 		}
 		
 		function loadContent() {
@@ -91,7 +87,7 @@ package world {
 			beacon.ambient = 0
 			beacon.z = 1
 			
-			lights = new StaticLightPicker([staticLight, beacon]);
+			lights = new StaticLightPicker([staticLight, beacon])
 			plane = new Spaceship
 			plane.addChild(beacon)
 				
@@ -121,9 +117,17 @@ package world {
 			arcs.push(arc)
 		}
 		
-		function resize(e:Event = null) {
-			width = stage.stageWidth
-			height = stage.stageHeight
+		function startGame(e:Event) {
+			SceneObject.events.removeEventListener("modelsLoaded", startGame)
+			
+			aceleration	= new Vector3D()
+			velocity = new Vector3D(0, 0, 0.7)
+			position = new Vector3D(0, 200, -2000)
+			angle = new Vector3D()
+				
+			isBackground = false
+			content.visible = true
+			camera.eulers = new Vector3D(0, 0, 0)
 		}
 		
 		function update(e:Event) {
@@ -191,9 +195,14 @@ package world {
 			
 			return Math.min(Math.max(velocity + aceleration, -MAX_VELOCITY), MAX_VELOCITY);
 		}
-		
+	
 		function interpolateColor(from:int, to:int, step:int) : int {
 			return int((from * (COLOR_STEP - step) + to * step) / COLOR_STEP);
+		}
+		
+		function resize(e:Event = null) {
+			width = stage.stageWidth
+			height = stage.stageHeight
 		}
 		
 		var lastUpdate = 0
