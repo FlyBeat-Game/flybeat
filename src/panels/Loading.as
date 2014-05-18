@@ -1,5 +1,6 @@
 package panels {
 	import panels.external.Matlab;
+	import common.Game;
 	
 	public class Loading extends Panel {
 		public override function startup() {
@@ -7,7 +8,8 @@ package panels {
 		}
 		
 		public override function shown() {
-			//matlabServer.sendFilename("music120.mp3");
+			matlabServer.sendFilename(Game.soundPath)
+			trace(Game.soundPath)
 		}
 		
 		private var matlabServer:Matlab
