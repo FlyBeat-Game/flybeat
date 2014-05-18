@@ -1,35 +1,36 @@
 package panels.controllers {
+	import common.Controller;
+	
 	import flash.display.Stage;
 	import flash.events.KeyboardEvent;
 	import flash.geom.Vector3D;
 	import flash.ui.Keyboard;
 
-	// Diz a qualquer momento a inclinação dada pelo telemóvel ou teclado
-	public class KeyboardController {
-		private var orientationVector:Vector3D;
-		private var orientationStep:Number = 1;
-		
-		public function KeyboardController(s:Stage,orientationv:Vector3D) {
-			orientationVector = orientationv;
+	public class KeyboardController implements Controller {
+		public function KeyboardController(s:Stage) {
 			s.addEventListener(KeyboardEvent.KEY_DOWN, keyDownHandler);
 			s.addEventListener(KeyboardEvent.KEY_UP, keyUpHandler);
 			trace("Keyboard listener started");
 		}
 		
-		private function keyDownHandler(event:KeyboardEvent) {
-			if (event.keyCode == Keyboard.W)
+		public function getOrientation() : Vector3D {
+			return orientation
+		}
+		
+		function keyDownHandler(event:KeyboardEvent) {
+			if (event.keyCode == Keyboard.W || event.keyCode == Keyboard.UP)
 				top = true;
-			else if (event.keyCode == Keyboard.S)
+			else if (event.keyCode == Keyboard.S || event.keyCode == Keyboard.DOWN)
 				down = true;
-			else if(event.keyCode == Keyboard.A)
+			else if(event.keyCode == Keyboard.A || event.keyCode == Keyboard.LEFT)
 				left = true;
-			else if (event.keyCode == Keyboard.D)
+			else if (event.keyCode == Keyboard.D || event.keyCode == Keyboard.RIGHT)
 				right = true;
 				
 			updateOrientation();
 		}
 		
-		private function keyUpHandler(event:KeyboardEvent) {
+		function keyUpHandler(event:KeyboardEvent) {
 			if (event.keyCode == Keyboard.W)
 				top = false;
 			else if (event.keyCode == Keyboard.S)
@@ -42,29 +43,18 @@ package panels.controllers {
 			updateOrientation();
 		}
 		
-		private function updateOrientation() {
-			if (top)
-				orientationVector.y = 0.8;
-			else
-				orientationVector.y = 0;
-			
+		function updateOrientation() {
+			orientation.y = top ? 0.8 : 0
+			orientation.x = right ? 0.8 : 0
+				
 			if (down)
-				orientationVector.y -= 0.8;
-			
-			if (right)
-				orientationVector.x = 0.8;
-			else
-				orientationVector.x = 0;
-			
+				orientation.y -= 0.8
 			if (left)
-				orientationVector.x -= 0.8;
-			
-			
+				orientation.x -= 0.8
 		}
 		
-		private var top:Boolean;
-		private var left:Boolean;
-		private var down:Boolean;
-		private var right:Boolean;
+		var step:Number = 1
+		var orientation:Vector3D = new Vector3D
+		var top:Boolean, left:Boolean, down:Boolean, right:Boolean
 	}
 }

@@ -102,10 +102,8 @@ package world {
 			
 			coloredMetal.lightPicker = illumination;
 			meshes[13].material = coloredMetal;
-			meshes[14].material = coloredMetal;
-			meshes[24].material = coloredMetal;
-			meshes[32].material = coloredMetal;
-			meshes[37].material = coloredMetal;
+			meshes[16].material = coloredMetal;
+			meshes[41].material = coloredMetal;
 			meshes[27].material = darkMetal;
 		}
 		
