@@ -1,11 +1,9 @@
 package panels {
 	import common.Game;
-	
 	import flash.display.Bitmap;
 	import flash.display.Shape;
 	import flash.display.Sprite;
 	import flash.events.Event;
-	
 	import panels.widgets.NormalText;
 
 	public class GameOverlay extends Panel {
