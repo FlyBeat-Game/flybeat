@@ -34,7 +34,7 @@ package world {
 			resize()
 			
 			// TEST CODE //
-			Game.notes = new Array()
+			/*Game.notes = new Array()
 			Game.energy = new Array()
 				
 			for (var i = 0; i < 100; i++) {
@@ -42,7 +42,7 @@ package world {
 				Game.energy.push(Math.sin(i*i / 40 * Math.PI))
 			}
 			
-			loadGame(null)
+			loadGame(null) Comi a tua mãe*/
 			// TEST CODE END //
 			
 		}
