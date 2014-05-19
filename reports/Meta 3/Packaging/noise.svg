@@ -16,9 +16,30 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.48.4 r9939"
-   sodipodi:docname="New document 1">
+   sodipodi:docname="noise.svg">
   <defs
      id="defs4">
+    <pattern
+       inkscape:collect="always"
+       xlink:href="#Strips1_5"
+       id="pattern5350"
+       patternTransform="matrix(0.5810511,0,0,10.089473,-71.97921,-7.7445119)" />
+    <pattern
+       inkscape:stockid="Stripes 1:5"
+       id="Strips1_5"
+       patternTransform="translate(0,0) scale(10,10)"
+       height="1"
+       width="6"
+       patternUnits="userSpaceOnUse"
+       inkscape:collect="always">
+      <rect
+         id="rect4604"
+         height="2"
+         width="1"
+         y="-0.5"
+         x="0"
+         style="fill:black;stroke:none" />
+    </pattern>
     <inkscape:path-effect
        effect="skeletal"
        id="path-effect6102"
@@ -349,17 +370,38 @@
        prop_units="false"
        vertical_pattern="false"
        fuse_tolerance="0" />
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient5973-7"
+       id="linearGradient5981-1"
+       x1="706.64288"
+       y1="488.07648"
+       x2="-570.92859"
+       y2="509.50504"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(-14.285714,252.85714)" />
+    <linearGradient
+       id="linearGradient5973-7">
+      <stop
+         style="stop-color:#08ffff;stop-opacity:1;"
+         offset="0"
+         id="stop5975-4" />
+      <stop
+         style="stop-color:#808080;stop-opacity:0;"
+         offset="1"
+         id="stop5977-0" />
+    </linearGradient>
   </defs>
   <sodipodi:namedview
      id="base"
-     pagecolor="#000000"
+     pagecolor="#ffffff"
      bordercolor="#666666"
      borderopacity="1.0"
-     inkscape:pageopacity="0"
+     inkscape:pageopacity="1"
      inkscape:pageshadow="2"
-     inkscape:zoom="0.7"
-     inkscape:cx="925.7401"
-     inkscape:cy="516.97258"
+     inkscape:zoom="1.4"
+     inkscape:cx="383.01918"
+     inkscape:cy="634.11681"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -496,5 +538,71 @@
        inkscape:export-filename="C:\Users\Rui\Desktop\TrabalhosGit\Flybeat\flybeat\reports\Meta 3\Packaging\Speaker.png"
        inkscape:export-xdpi="90"
        inkscape:export-ydpi="90" />
+    <path
+       style="fill:#ff0000;fill-opacity:1;fill-rule:evenodd;stroke:none"
+       d="m 27.405693,980.08335 0,-48.48733 36.874309,0 36.874298,0 0,48.48733 0,48.48735 -36.874298,0 -36.874309,0 0,-48.48735 z"
+       id="path5326"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="C:\Users\Rui\Desktop\TrabalhosGit\Flybeat\flybeat\reports\Meta 3\Packaging\scorefill.png"
+       inkscape:export-xdpi="21.984592"
+       inkscape:export-ydpi="21.984592" />
+    <path
+       style="fill:#ff3a00;fill-opacity:1;fill-rule:evenodd;stroke:none"
+       d="m 118.05503,980.08335 0,-48.48733 37.64253,0 37.64253,0 0,48.48733 0,48.48735 -37.64253,0 -37.64253,0 0,-48.48735 z"
+       id="path5330"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="C:\Users\Rui\Desktop\TrabalhosGit\Flybeat\flybeat\reports\Meta 3\Packaging\scorefill.png"
+       inkscape:export-xdpi="21.984592"
+       inkscape:export-ydpi="21.984592" />
+    <path
+       style="fill:#ff8100;fill-opacity:1;fill-rule:evenodd;stroke:none"
+       d="m 210.2408,980.08335 0,-48.48733 36.87432,0 36.87431,0 0,48.48733 0,48.48735 -36.87431,0 -36.87432,0 0,-48.48735 z"
+       id="path5332"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="C:\Users\Rui\Desktop\TrabalhosGit\Flybeat\flybeat\reports\Meta 3\Packaging\scorefill.png"
+       inkscape:export-xdpi="21.984592"
+       inkscape:export-ydpi="21.984592" />
+    <path
+       style="fill:#ffe200;fill-opacity:1;fill-rule:evenodd;stroke:none"
+       d="m 300.89016,980.08335 0,-48.48733 36.87431,0 36.8743,0 0,48.48733 0,48.48735 -36.8743,0 -36.87431,0 0,-48.48735 z"
+       id="path5334"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="C:\Users\Rui\Desktop\TrabalhosGit\Flybeat\flybeat\reports\Meta 3\Packaging\scorefill.png"
+       inkscape:export-xdpi="21.984592"
+       inkscape:export-ydpi="21.984592" />
+    <path
+       style="fill:#dbff00;fill-opacity:1;fill-rule:evenodd;stroke:none"
+       d="m 391.5395,980.08335 0,-48.48733 37.64252,0 37.64252,0 0,48.48733 0,48.48735 -37.64252,0 -37.64252,0 0,-48.48735 z"
+       id="path5336"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="C:\Users\Rui\Desktop\TrabalhosGit\Flybeat\flybeat\reports\Meta 3\Packaging\scorefill.png"
+       inkscape:export-xdpi="21.984592"
+       inkscape:export-ydpi="21.984592" />
+    <path
+       style="fill:#6eff00;fill-opacity:1;fill-rule:evenodd;stroke:none"
+       d="m 483.72527,980.08335 0,-48.48733 36.87431,0 36.87431,0 0,48.48733 0,48.48735 -36.87431,0 -36.87431,0 0,-48.48735 z"
+       id="path5338"
+       inkscape:connector-curvature="0"
+       inkscape:export-filename="C:\Users\Rui\Desktop\TrabalhosGit\Flybeat\flybeat\reports\Meta 3\Packaging\scorefill.png"
+       inkscape:export-xdpi="21.984592"
+       inkscape:export-ydpi="21.984592" />
+    <path
+       style="fill:#00ff00;fill-opacity:1;fill-rule:evenodd;stroke:none"
+       d="m 574.37462,980.08335 0,-48.48733 37.64252,0 37.64252,0 0,48.48733 0,48.48735 -37.64252,0 -37.64252,0 0,-48.48735 z"
+       id="path5340"
+       inkscape:connector-curvature="0"
+       inkscape:export-xdpi="21.984592"
+       inkscape:export-ydpi="21.984592"
+       inkscape:export-filename="C:\Users\Rui\Desktop\TrabalhosGit\Flybeat\flybeat\reports\Meta 3\Packaging\scorefill.png" />
+    <path
+       style="fill:#00ff47;fill-opacity:1;fill-rule:evenodd;stroke:none"
+       d="m 491.12879,866.50036 0,-41.92134 24.24366,0 24.24366,0 0,41.92134 0,41.92133 -24.24366,0 -24.24366,0 0,-41.92133 z"
+       id="path5342"
+       inkscape:connector-curvature="0" />
+    <path
+       style="fill:#00ffbb;fill-opacity:1;fill-rule:evenodd;stroke:none"
+       d="m 550.72779,866.50036 0,-41.92134 24.24366,0 24.24366,0 0,41.92134 0,41.92133 -24.24366,0 -24.24366,0 0,-41.92133 z"
+       id="path5344"
+       inkscape:connector-curvature="0" />
   </g>
 </svg>
