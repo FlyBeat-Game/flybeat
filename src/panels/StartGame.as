@@ -4,7 +4,6 @@ package panels {
 	import flash.events.MouseEvent;
 	import flash.filesystem.File;
 	import flash.media.Sound;
-	import flash.media.SoundChannel;
 	import flash.net.FileFilter;
 	import flash.text.TextFieldType;
 	
@@ -122,9 +121,9 @@ package panels {
 			var music = new Sound()
 			music.loadCompressedDataFromByteArray(file.data, file.data.length)
 			
-			if (soundChannel != null)
-				soundChannel.stop()
-			//soundChannel = music.play()
+			if (Game.soundChannel != null)
+				Game.soundChannel.stop()
+			Game.soundChannel = music.play()
 			
 			var musicInfo:String
 
@@ -206,7 +205,6 @@ package panels {
 		
 		var musicFilter:FileFilter = new FileFilter("Music files", "*.mp3;*.wav;")
 		var file:File
-		var soundChannel:SoundChannel
 		
 		var keyboardController:KeyboardController
 		var deviceController:NetworkController

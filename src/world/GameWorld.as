@@ -59,6 +59,9 @@ package world {
 		}
 		
 		function loadGame(e:Event) {
+			if (Game.soundChannel != null)
+				Game.soundChannel.stop()
+			
 			if (plane == null)
 				loadContent()
 			else
@@ -175,9 +178,9 @@ package world {
 				walked.scaleBy(elapsed)
 				position.incrementBy(walked)
 				
-				if ((position.z > arcs[current].z - OBSTACLE_DISTANCE) && (!soundPlaying)){
+				if ((position.z > arcs[current].z - OBSTACLE_DISTANCE) && (!soundPlaying)){					
+					Game.soundChannel = Game.sound.play()
 					soundPlaying = true;
-					Game.sound.play()
 				}
 				
 				if (position.z > arcs[current].z) {
