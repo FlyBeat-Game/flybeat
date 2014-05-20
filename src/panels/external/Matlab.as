@@ -15,7 +15,7 @@ package panels.external {
 	public class Matlab{
 		private var socket:Socket
 		private var recvstr:String = ""
-		private const port:int = 8096
+		private const port:int = 8086
 		private var panel:Panel
 		
 		public function Matlab(panel:Panel) {

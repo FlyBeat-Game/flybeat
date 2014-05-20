@@ -1,6 +1,6 @@
 %main script
 disp('Starting server...');
-t = tcpip('0.0.0.0', 8096, 'NetworkRole', 'server');
+t = tcpip('0.0.0.0', 8086, 'NetworkRole', 'server');
 set(t,'Timeout',5);
 set(t,'OutputBufferSize',10000000);
 fopen(t);

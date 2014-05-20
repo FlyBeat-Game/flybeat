@@ -26,9 +26,9 @@ package panels {
 			controller.x = 145
 			controller.y = 350
 				
-			var addressTip = address.addChild(new NormalText("Device Name:", 15))
+			var addressTip = address.addChild(new NormalText("IP Address:", 15))
 			addressTip.y = -40
-			addressTip.x = -30
+			addressTip.x = -18
 			
 			address.text.selectable = true
 			address.text.type = TextFieldType.INPUT
