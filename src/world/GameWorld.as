@@ -39,7 +39,7 @@ package world {
 				
 			for (var i = 0; i < 100; i++) {
 				if (i % 10 > 3) {
-					Game.notes.push(Math.sin(i / 20 * Math.PI) * 50 + 50)
+					Game.notes.push(Math.sin(i / 20 * Math.PI) * 6.5 + 6.5)
 					Game.energy.push(Math.sin(i*i / 40 * Math.PI) * 50 + 50)
 				} else {
 					Game.notes.push(-1)
@@ -138,7 +138,7 @@ package world {
 			stage.dispatchEvent(new Event("start"))
 			
 			aceleration	= new Vector3D()
-			velocity = new Vector3D(0, 0, 0.7)
+			velocity = new Vector3D(0, 0, Game.bpm * OBSTACLE_DISTANCE / (60*1000))
 			position = new Vector3D(0, 0, -2000)
 			angle = new Vector3D()
 
