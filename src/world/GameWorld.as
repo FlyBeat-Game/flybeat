@@ -39,8 +39,8 @@ package world {
 				
 			for (var i = 0; i < 100; i++) {
 				if (i % 10 > 3) {
-					Game.notes.push(Math.sin(i / 20 * Math.PI) * 6 + 7)
-					Game.energy.push(Math.sin(i*i / 40 * Math.PI))
+					Game.notes.push(Math.sin(i / 20 * Math.PI) * 50 + 50)
+					Game.energy.push(Math.sin(i*i / 40 * Math.PI) * 50 + 50)
 				} else {
 					Game.notes.push(-1)
 					Game.energy.push(0)
@@ -67,7 +67,7 @@ package world {
 			for (var i = 0; i < Game.notes.length; i++) {
 				var note = Game.notes[i]
 				if (note != -1)
-					addArc(new Vector3D(note / 6.5 - 1.0, Game.energy[i], i))
+					addArc(new Vector3D(note / 50 - 1.0, Game.energy[i] / 50 - 1.0, i))
 			}
 			
 			if (SceneObject.numLoading > 0)	
