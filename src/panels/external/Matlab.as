@@ -51,7 +51,7 @@ package panels.external {
 			Game.notes = notes
 			Game.energy = energy
 			
-			trace(bpm)
+			trace("[MATLAB] BPM=" + bpm)
 			
 			panel.stage.dispatchEvent(new Event("buildMap"))
 		}

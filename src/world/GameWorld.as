@@ -67,7 +67,7 @@ package world {
 			for (var i = 0; i < Game.notes.length; i++) {
 				var note = Game.notes[i]
 				if (note != -1)
-					addArc(new Vector3D(note / 50 - 1.0, Game.energy[i] / 50 - 1.0, i))
+					addArc(new Vector3D(note / 6.5 - 1.0, Game.energy[i] / 50 - 1.0, i))
 			}
 			
 			if (SceneObject.numLoading > 0)	
