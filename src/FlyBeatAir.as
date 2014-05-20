@@ -1,4 +1,5 @@
 package {
+	import flash.desktop.NativeApplication;
 	import flash.display.Sprite;
 	import flash.display.StageAlign;
 	import flash.display.StageDisplayState;
@@ -7,8 +8,8 @@ package {
 	import flash.geom.Vector3D;
 	import flash.utils.getTimer;
 	import panels.*;
+	
 	import world.GameWorld;
-	import flash.desktop.NativeApplication;
 
 	[SWF(width="1024", height="720", wmode="direct")]
 	public class FlyBeatAir extends Sprite {
@@ -37,7 +38,7 @@ package {
 			for (var i = 0; i < numChildren; i++)
 				Object(getChildAt(i)).startup()
 
-			showPanel(home)
+			showPanel(new Panel)
 		}
 		
 		function showPanel(panel:Panel) {
