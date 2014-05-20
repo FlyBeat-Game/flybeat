@@ -1,10 +1,11 @@
 package panels {
-	import panels.external.Matlab;
 	import common.Game;
+	import flash.events.Event;
+	import panels.external.Matlab;
+	import panels.widgets.NormalText;
 	
 	public class Loading extends Panel {
-		public override function startup() {
-			super.startup()
+		public function Loading() {
 			matlabServer = new Matlab(this)
 		}
 		
@@ -12,6 +13,12 @@ package panels {
 			matlabServer.sendFilename(Game.soundPath)
 		}
 		
-		private var matlabServer:Matlab
+		public override function resize(e:Event = null) {
+			header.x = (stage.stageWidth - header.width) / 2
+			header.y = (stage.stageHeight - header.height) / 2
+		}
+		
+		var header = addChild(new NormalText('Loading', 40))
+		var matlabServer:Matlab
 	}
 }

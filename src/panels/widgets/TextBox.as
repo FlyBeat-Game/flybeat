@@ -27,6 +27,14 @@ package panels.widgets {
 			shape.graphics.endFill()
 		}
 		
+		public function setColor(color:Number) : void {
+			shape.alpha = 0.3
+			shape.graphics.clear()
+			shape.graphics.beginFill(color)
+			shape.graphics.drawRect(-text.width / 2, 0, text.width + 20, text.height + 30)
+			shape.graphics.endFill()
+		}
+		
 		public var text:NormalText
 		public var shape:Shape
 	}

@@ -2,7 +2,7 @@
 disp('Starting server...');
 t = tcpip('0.0.0.0', 8086, 'NetworkRole', 'server');
 set(t,'Timeout',5);
-set(t,'OutputBufferSize',1000000);
+set(t,'OutputBufferSize',10000000);
 fopen(t);
 disp('Server started!');
 disp('New client!');
@@ -24,7 +24,9 @@ while 1
             sdata = strcat(sdata,sdata2);
             sdata = strcat(sdata,';');
             sdata = strcat(sdata,sdata3);
+            sdata = strcat(sdata,'e');
             fwrite(t,sdata);
+            sdata
         catch me
         end
     end

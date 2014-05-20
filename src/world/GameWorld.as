@@ -39,8 +39,8 @@ package world {
 				
 			for (var i = 0; i < 100; i++) {
 				if (i % 10 > 3) {
-					Game.notes.push(Math.sin(i / 20 * Math.PI) * 6 + 7)
-					Game.energy.push(Math.sin(i*i / 40 * Math.PI))
+					Game.notes.push(Math.sin(i / 20 * Math.PI) * 6.5 + 6.5)
+					Game.energy.push(Math.sin(i*i / 40 * Math.PI) * 50 + 50)
 				} else {
 					Game.notes.push(-1)
 					Game.energy.push(0)
@@ -67,7 +67,7 @@ package world {
 			for (var i = 0; i < Game.notes.length; i++) {
 				var note = Game.notes[i]
 				if (note != -1)
-					addArc(new Vector3D(note / 6.5 - 1.0, Game.energy[i], i))
+					addArc(new Vector3D(note / 6.5 - 1.0, Game.energy[i] / 50 - 1.0, i))
 			}
 			
 			if (SceneObject.numLoading > 0)	
@@ -135,20 +135,17 @@ package world {
 		
 		function startGame(e:Event) {
 			SceneObject.events.removeEventListener("modelsLoaded", startGame)
-			
-			isBackground = false
+			stage.dispatchEvent(new Event("start"))
 			
 			aceleration	= new Vector3D()
-			velocity = new Vector3D(0, 0, 0.7)
-			position = new Vector3D(0, 0, -2000)
-			angle = new Vector3D()
-
+			velocity = new Vector3D(0, 0, Game.bpm * OBSTACLE_DISTANCE / (60*1000))
+			position = new Vector3D(0, 0, -velocity.z*7000)
+			angle = new Vector3D
 			current = 0
-			
+				
 			isBackground = false
 			content.visible = true
 			camera.eulers = new Vector3D
-			Game.sound.play()
 		}
 
 		function update(e:Event) {
@@ -156,7 +153,7 @@ package world {
 			var elapsed:Number = (time - lastUpdate)
 			
 			if (isBackground) {
-				/*SoundMixer.computeSpectrum(spectrum, false, 0)
+				SoundMixer.computeSpectrum(spectrum, false, 0)
 				
 				var rotate:Number = 0
 				for (var i = 0; i < 256; i += 8)
@@ -165,7 +162,7 @@ package world {
 				rotate = Math.min(Math.max(rotate, 0.05), 1.5)
 				camera.rotationY += elapsed/334
 				camera.rotationZ += rotate/1.1
-				camera.rotationX -= rotate*/
+				camera.rotationX -= rotate
 			} else {
 				var control:Vector3D = Game.controller.getOrientation()
 				velocity.x = computeVelocity(velocity.x, control.x)
@@ -177,20 +174,25 @@ package world {
 				var walked:Vector3D = velocity.clone()
 				walked.scaleBy(elapsed)
 				position.incrementBy(walked)
-
+				
+				if ((position.z > arcs[current].z - OBSTACLE_DISTANCE) && (!soundPlaying)){
+					soundPlaying = true;
+					Game.sound.play()
+				}
+				
 				if (position.z > arcs[current].z) {
 					if (arcs[current].visible) {
 						Game.fuel -= 10
-						if (Game.fuel <= 0)
-							return stage.dispatchEvent(new Event("lost"))
+						/*if (Game.fuel <= 0)
+							return stage.dispatchEvent(new Event("lost"))*/
 					}
 					
 					current++
-				}		
-						
+				}
+				
 				if (current >= arcs.length)
 					return stage.dispatchEvent(new Event("win"))
-
+					
 				for (var i = current; i < Math.min(current+20, arcs.length); i++) {
 					var ratio = Math.min(OBSTACLE_DISTANCE * 3 / (arcs[i].z - position.z), 1)
 					
@@ -220,10 +222,10 @@ package world {
 				var zOff:Number = arc.z - plane.position.z
 				
 				if (zOff*zOff < 500) {
-					var xOff:Number = arc.x - plane.position.x
+					var xOff:Number = Math.abs(arc.x - plane.position.x) - 30
 					var yOff:Number = arc.y - plane.position.y
 					
-					if (xOff*xOff + yOff*yOff < 5000) {
+					if (xOff*xOff + yOff*yOff < 8000) {
 						arc.visible = false
 						
 						Game.progress += 1.0/arcs.length
@@ -263,6 +265,8 @@ package world {
 		
 		var aceleration:Vector3D, velocity:Vector3D, position:Vector3D, angle:Vector3D;
 		var current:Number;
+		
+		var soundPlaying:Boolean = false;
 		
 		public static const MAX_VELOCITY = 0.35;
 		public static const FRICTION = 0.05;
