@@ -25,9 +25,10 @@ package world {
 			scene.addChild(content)
 			scene.addChild(new SkyBox(new BitmapCubeTexture(Cast.bitmapData(SpacePosX), Cast.bitmapData(SpaceNegX), Cast.bitmapData(SpacePosY), Cast.bitmapData(SpaceNegY), Cast.bitmapData(SpacePosZ), Cast.bitmapData(SpaceNegZ))))
 			stage.addEventListener(Event.RESIZE, resize)
+			stage.addEventListener("buildMap", loadGame)
+				
 			addEventListener(Event.ENTER_FRAME, update)
 			addEventListener("home", showBackground)
-			stage.addEventListener("buildMap", loadGame)
 			
 			camera.lens.far = 10000
 			content.visible = false

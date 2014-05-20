@@ -84,7 +84,7 @@ package panels.external
 		
 		private function matlabError():void{
 			trace("Matlab module is not running. Aborting...")
-			NativeApplication.nativeApplication.exit()
+			// NativeApplication.nativeApplication.exit()
 		}
 		
 		private function parseArray(s:String):Array{
