@@ -14,7 +14,7 @@ package panels.external {
 	
 	public class Matlab{
 		private var socket:Socket
-		private var recvstr:String
+		private var recvstr:String = ""
 		private const port:int = 8086
 		private var panel:Panel
 		
@@ -41,19 +41,22 @@ package panels.external {
 		}
 		
 		private function readResponse():void{
-			recvstr = socket.readUTFBytes(socket.bytesAvailable)
-			var s:Array = recvstr.split(";")
-			var bpm:int = parseInt(s[0])
-			var notes:Array = parseArray(s[1])
-			var energy:Array = parseArray(s[2])
-			
-			Game.bpm = bpm
-			Game.notes = notes
-			Game.energy = energy
-			
-			trace("[MATLAB] BPM=" + bpm)
-			
-			panel.stage.dispatchEvent(new Event("buildMap"))
+			recvstr += socket.readUTFBytes(socket.bytesAvailable)
+				
+			if (recvstr.charAt(recvstr.length-1) == "e"){
+				var s:Array = recvstr.split(";")
+				var bpm:int = parseInt(s[0])
+				var notes:Array = parseArray(s[1])
+				var energy:Array = parseArray(s[2])
+				
+				Game.bpm = bpm
+				Game.notes = notes
+				Game.energy = energy
+				
+				trace("[MATLAB] BPM=" + bpm)
+				
+				panel.stage.dispatchEvent(new Event("buildMap"))
+			}
 		}
 		
 		private function responseHandler(event:ProgressEvent):void {

@@ -26,7 +26,6 @@ while 1
             sdata = strcat(sdata,sdata3);
             sdata = strcat(sdata,'e');
             fwrite(t,sdata);
-            sdata
         catch me
         end
     end
