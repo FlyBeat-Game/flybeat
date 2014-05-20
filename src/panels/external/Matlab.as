@@ -84,21 +84,14 @@ package panels.external
 		
 		private function matlabError():void{
 			trace("Matlab module is not running. Aborting...")
-			NativeApplication.nativeApplication.exit()
+			//NativeApplication.nativeApplication.exit()
 		}
 		
 		private function parseArray(s:String):Array{
 			if (s == null) return null
 			var n:Array = new Array()
 			n = s.split(",")
-			for (var i:int=0;i<n.length;i++){
-				n[i] = toScale(n[i])
-			}
 			return n
-		}
-		
-		private function toScale(note:int):Number{
-			return ((note-1)*2/13)-1
 		}
 		
 		public function sendFilename(filename:String):void{

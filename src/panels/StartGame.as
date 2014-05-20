@@ -48,7 +48,7 @@ package panels {
 			cell.buttonMode = true
 			cell.x = 550
 			cell.y = 325
-			
+					
 			song.x = 145
 			song.y = 250
 			
@@ -90,6 +90,7 @@ package panels {
 					deviceController.closeSocket()
 				keyboardController.resume()
 				Game.controller = keyboardController
+				validController = true
 			}
 			else {
 				keyboardController.stop()
@@ -141,7 +142,7 @@ package panels {
 			Game.sound = music
 			Game.soundPath = event.target.nativePath
 			
-			play.setDisabled(0)
+			updatePlayState();
 		}
 		
 		function connectDevice(ipAddress:String) {
@@ -169,13 +170,24 @@ package panels {
 		}
 		
 		function deviceFailure(){
-			keyboardController.resume()
-			Game.controller = keyboardController
+			addressTextBox.setColor(0xff0000)
+			validController = false
+			updatePlayState()
 		}
 		
 		function deviceConnected(){
 			keyboardController.stop()
 			Game.controller = deviceController
+			addressTextBox.setColor(0x00ff00)
+			validController = true
+			updatePlayState()
+		}
+		
+		function updatePlayState(){
+			if ((validController) && (file != null))
+				play.setDisabled(0)
+			else
+				play.setDisabled(1)
 		}
 		
 		var header = addChild(new Header("New Game"))	
@@ -184,8 +196,9 @@ package panels {
 			
 		var keyboard = addChild(new Sprite)
 		var cell = addChild(new Sprite)
+		var online = addChild(new Sprite)
 		
-		var addressTextBox = new TextBox("192.168.43.1", 13)
+		var addressTextBox:TextBox  = new TextBox("192.168.43.2", 13)
 		var address = addChild(addressTextBox)
 			
 		var back = addChild(new LegButton("Back", "home"))
@@ -196,7 +209,8 @@ package panels {
 		var soundChannel:SoundChannel
 		
 		var keyboardController:KeyboardController
-		var deviceController:NetworkController;
+		var deviceController:NetworkController
+		var validController:Boolean = true;
 		
 		[Embed(source = "../../media/Keyboard.png", mimeType = "image/png")]
 		public var KeyboardImage:Class;
