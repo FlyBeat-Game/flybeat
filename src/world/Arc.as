@@ -9,19 +9,20 @@ package world {
 		public function Arc(material:ColorMaterial) {
 			super(Model, onLoad)
 			this.material = material
-			this.rotationY = 90
-			this.scale(10)
+			this.rotationX = 90
+			this.scale(15)
 		}
 		
 		private function onLoad(e:LoaderEvent) {
-			meshes[0].material = material;
+			meshes[0].material = material
 		}
 		
 		public var finalPosition:Vector3D;
 		public var material:ColorMaterial;
+		public var visited:Boolean = false;
 		
 		[Embed(source="../../media/Arc.obj", mimeType="application/octet-stream")]
-		public static var ModelData:Class;
+		public static const ModelData:Class;
 		public static const Model = new ModelData;
 	}
 }

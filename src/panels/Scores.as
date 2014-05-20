@@ -1,6 +1,5 @@
 package panels {
 	import flash.events.Event;
-	
 	import panels.widgets.Header;
 	import panels.widgets.LegButton;
 	import panels.widgets.NormalText;
@@ -46,6 +45,7 @@ package panels {
 				i += 1
 			}
 		}
+		
 		var header = addChild(new Header("Highscores"))
 		var back = addChild(new LegButton("Back", "home"))
 		var beats = addChild(new NormalText('<font color="#48A2A2">Beats</font>', 18))

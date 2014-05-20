@@ -11,8 +11,8 @@ package panels.widgets {
 		}
 		
 		[Embed(source = "../../../media/SquareButton.png", mimeType = "image/png")]
-		public var NormalTexture:Class;
+		public const NormalTexture:Class;
 		[Embed(source = "../../../media/SquareButton-Over.png", mimeType = "image/png")]
-		public var OverTexture:Class;
+		public const OverTexture:Class;
 	}
 }

@@ -1,15 +1,11 @@
-package panels.widgets
-{
+package panels.widgets {
 	import flash.display.Bitmap;
 	import flash.display.Shape;
 	import flash.display.Sprite;
-	
 	import panels.widgets.NormalText;
 	
-	public class ScoreDisplay extends Sprite
-	{
-		public function ScoreDisplay(beatScore:Number,song:String,score:Number,stageWidth:Number)
-		{
+	public class ScoreDisplay extends Sprite {
+		public function ScoreDisplay(beatScore:Number,song:String,score:Number,stageWidth:Number) {
 			beatsBorder = addChild(new BeatsBorder)
 			
 			songName = addChild(new NormalText(song.toString(),14))
@@ -32,8 +28,6 @@ package panels.widgets
 				
 			songScore.x= stageWidth-songScore.width
 			songScore.y= beatsBorder.height/2 - songName.height/2
-			
-			
 		}
 		
 		var beatsBorder, beatsFill = addChild(new Sprite)
@@ -45,7 +39,5 @@ package panels.widgets
 		
 		[Embed(source = "../../../media/Beats-Fill.png", mimeType = "image/png")]
 		public var BeatsFill:Class;
-		
-		
 	}
 }

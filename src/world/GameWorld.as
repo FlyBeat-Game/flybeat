@@ -9,9 +9,7 @@ package world {
 	import away3d.primitives.SkyBox;
 	import away3d.textures.BitmapCubeTexture;
 	import away3d.utils.Cast;
-	
 	import common.Game;
-	
 	import flash.events.Event;
 	import flash.geom.Vector3D;
 	import flash.media.SoundMixer;
@@ -25,9 +23,10 @@ package world {
 			scene.addChild(content)
 			scene.addChild(new SkyBox(new BitmapCubeTexture(Cast.bitmapData(SpacePosX), Cast.bitmapData(SpaceNegX), Cast.bitmapData(SpacePosY), Cast.bitmapData(SpaceNegY), Cast.bitmapData(SpacePosZ), Cast.bitmapData(SpaceNegZ))))
 			stage.addEventListener(Event.RESIZE, resize)
+			stage.addEventListener("buildMap", loadGame)
+				
 			addEventListener(Event.ENTER_FRAME, update)
 			addEventListener("home", showBackground)
-			stage.addEventListener("buildMap", loadGame)
 			
 			camera.lens.far = 10000
 			content.visible = false
@@ -68,7 +67,7 @@ package world {
 			for (var i = 0; i < Game.notes.length; i++) {
 				var note = Game.notes[i]
 				if (note != -1)
-					addArc(new Vector3D(note / 6.5 - 1.0, Game.energy[i],i))
+					addArc(new Vector3D(note / 6.5 - 1.0, Game.energy[i], i))
 			}
 			
 			if (SceneObject.numLoading > 0)	
@@ -136,8 +135,7 @@ package world {
 		
 		function startGame(e:Event) {
 			SceneObject.events.removeEventListener("modelsLoaded", startGame)
-			
-			isBackground = false
+			stage.dispatchEvent(new Event("start"))
 			
 			aceleration	= new Vector3D()
 			velocity = new Vector3D(0, 0, 0.7)
