@@ -22,6 +22,6 @@ package world {
 		
 		[Embed(source="../../media/Arc.obj", mimeType="application/octet-stream")]
 		public static var ModelData:Class;
-		public static var Model = new ModelData;
+		public static const Model = new ModelData;
 	}
 }

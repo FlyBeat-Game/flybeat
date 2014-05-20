@@ -36,10 +36,16 @@ package world {
 			// TEST CODE //
 			/*Game.notes = new Array()
 			Game.energy = new Array()
+			Game.reset()
 				
 			for (var i = 0; i < 100; i++) {
-				Game.notes.push(Math.sin(i / 20 * Math.PI) * 6 + 7)
-				Game.energy.push(Math.sin(i*i / 40 * Math.PI))
+				if (i % 10 > 3) {
+					Game.notes.push(Math.sin(i / 20 * Math.PI) * 6 + 7)
+					Game.energy.push(Math.sin(i*i / 40 * Math.PI))
+				} else {
+					Game.notes.push(-1)
+					Game.energy.push(0)
+				}
 			}
 			
 			loadGame(null)*/
@@ -96,8 +102,8 @@ package world {
 		}
 		
 		function addArc(pos:Vector3D) {
-			var colorBranch = int(pos.z / COLOR_STEP)
-			var step = pos.z - colorBranch * COLOR_STEP
+			var colorBranch = int(arcs.length / COLOR_STEP)
+			var step = arcs.length - colorBranch * COLOR_STEP
 			
 			var from = COLORS[colorBranch % COLORS.length]
 			var to = COLORS[(colorBranch+1) % COLORS.length]
@@ -109,7 +115,7 @@ package world {
 			material.lightPicker = lights
 			
 			var arc:Arc = new Arc(material)
-			arc.z = pos.z * OBSTACLE_DEPTH
+			arc.z = pos.z * OBSTACLE_DISTANCE
 			arc.finalPosition = pos
 			arc.finalPosition.scaleBy(300)
 			
@@ -124,6 +130,10 @@ package world {
 			arcs = new Vector.<Arc>
 		}
 		
+		function interpolateColor(from:int, to:int, step:int) : int {
+			return int((from * (COLOR_STEP - step) + to * step) / COLOR_STEP);
+		}
+		
 		function startGame(e:Event) {
 			SceneObject.events.removeEventListener("modelsLoaded", startGame)
 			
@@ -131,15 +141,17 @@ package world {
 			
 			aceleration	= new Vector3D()
 			velocity = new Vector3D(0, 0, 0.7)
-			position = new Vector3D(0, 200, -2000)
+			position = new Vector3D(0, 0, -2000)
 			angle = new Vector3D()
+
+			current = 0
 			
+			isBackground = false
 			content.visible = true
-			camera.eulers = new Vector3D(0, 0, 0)
-				
+			camera.eulers = new Vector3D
 			Game.sound.play()
 		}
-		
+
 		function update(e:Event) {
 			var time:Number = getTimer()
 			var elapsed:Number = (time - lastUpdate)
@@ -166,48 +178,74 @@ package world {
 				var walked:Vector3D = velocity.clone()
 				walked.scaleBy(elapsed)
 				position.incrementBy(walked)
+
+				if (position.z > arcs[current].z) {
+					if (arcs[current].visible) {
+						Game.fuel -= 10
+						if (Game.fuel <= 0)
+							return stage.dispatchEvent(new Event("lost"))
+					}
 					
-				var progress:Number = Math.max(position.z / OBSTACLE_DEPTH + 2, 0)
-				var next:int = int(progress) + 1
-				var last:int = Math.min(next+20, arcs.length)
-				
-				if (next >= arcs.length)
+					current++
+				}		
+						
+				if (current >= arcs.length)
 					return stage.dispatchEvent(new Event("win"))
-				
-				for (var i = next; i < last; i++) {
-					var ratio = Math.min(1 / (i - progress), 1)
+
+				for (var i = current; i < Math.min(current+20, arcs.length); i++) {
+					var ratio = Math.min(OBSTACLE_DISTANCE * 3 / (arcs[i].z - position.z), 1)
 					
 					arcs[i].y = arcs[i].finalPosition.y * ratio
 					arcs[i].x = arcs[i].finalPosition.x * ratio
 				}
-				
-				plane.setColor(arcs[next].material.color)
+			
+				plane.setColor(arcs[current].material.color)
 				plane.setEngineUsage(angle.x/20, angle.z/20)
 				plane.position = position.add(new Vector3D(0, -30, 300))
 				plane.eulers = angle
 				plane.eulers.z += 90
 				camera.position = position
+				
+				if (current > 0)
+					checkIntersection(arcs[current-1])
+				checkIntersection(arcs[current])
+				checkIntersection(arcs[current+1])
 			}
 			
 			lastUpdate = time
 			render()
 		}
 		
+		function checkIntersection(arc:Arc) {
+			if (arc.visible) {
+				var zOff:Number = arc.z - plane.position.z
+				
+				if (zOff*zOff < 500) {
+					var xOff:Number = arc.x - plane.position.x
+					var yOff:Number = arc.y - plane.position.y
+					
+					if (xOff*xOff + yOff*yOff < 5000) {
+						arc.visible = false
+						
+						Game.progress += 1.0/arcs.length
+						Game.fuel = Math.min(Game.fuel+5, 100)
+						Game.score += Game.fuel
+					}
+				}
+			}
+		}
+		
 		function computeVelocity(velocity:Number, control:Number) : Number {
-			var aceleration = control * CONTROL_STRENGTH;
+			var aceleration = control * CONTROL_STRENGTH
 			if (aceleration < 0)
-				aceleration = -Math.sqrt(-aceleration);
+				aceleration = -Math.sqrt(-aceleration)
 			else
-				aceleration = Math.sqrt(aceleration);
+				aceleration = Math.sqrt(aceleration)
 			
 			if (aceleration == 0 || (control > 0 && velocity < 0) || (control < 0 && velocity >0))
-				aceleration += velocity * - FRICTION;
+				aceleration += velocity * - FRICTION
 			
-			return Math.min(Math.max(velocity + aceleration, -MAX_VELOCITY), MAX_VELOCITY);
-		}
-	
-		function interpolateColor(from:int, to:int, step:int) : int {
-			return int((from * (COLOR_STEP - step) + to * step) / COLOR_STEP);
+			return Math.min(Math.max(velocity + aceleration, -MAX_VELOCITY), MAX_VELOCITY)
 		}
 		
 		function resize(e:Event = null) {
@@ -223,13 +261,15 @@ package world {
 		var lights:StaticLightPicker;
 		var plane:Spaceship;
 		var arcs:Vector.<Arc> = new Vector.<Arc>;
+		
 		var aceleration:Vector3D, velocity:Vector3D, position:Vector3D, angle:Vector3D;
+		var current:Number;
 		
 		public static const MAX_VELOCITY = 0.35;
 		public static const FRICTION = 0.05;
 		public static const CONTROL_STRENGTH = 0.01;
-		public static const OBSTACLE_DEPTH = 355;
-		public static const OBSTACLE_RADIUS_SQUARED = 450*450;
+		
+		public static const OBSTACLE_DISTANCE = 355;
 		public static const COLORS = [[0x00, 0xBD, 0xD5], [0xD5, 0x00, 0xBD], [0xBD, 0xD5, 0x00]];
 		public static const COLOR_STEP = 30;
 		
