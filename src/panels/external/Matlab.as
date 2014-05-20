@@ -1,5 +1,4 @@
-package panels.external
-{	
+package panels.external {	
 	import flash.desktop.NativeApplication;
 	import flash.events.DataEvent;
 	import flash.events.Event;

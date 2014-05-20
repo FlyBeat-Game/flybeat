@@ -9,9 +9,7 @@ package world {
 	import away3d.primitives.SkyBox;
 	import away3d.textures.BitmapCubeTexture;
 	import away3d.utils.Cast;
-	
 	import common.Game;
-	
 	import flash.events.Event;
 	import flash.geom.Vector3D;
 	import flash.media.SoundMixer;
@@ -69,7 +67,7 @@ package world {
 			for (var i = 0; i < Game.notes.length; i++) {
 				var note = Game.notes[i]
 				if (note != -1)
-					addArc(new Vector3D(note / 6.5 - 1.0, Game.energy[i],i))
+					addArc(new Vector3D(note / 6.5 - 1.0, Game.energy[i], i))
 			}
 			
 			if (SceneObject.numLoading > 0)	
