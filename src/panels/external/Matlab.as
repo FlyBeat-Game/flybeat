@@ -1,5 +1,6 @@
 package panels.external
 {	
+	import flash.desktop.NativeApplication;
 	import flash.events.DataEvent;
 	import flash.events.Event;
 	import flash.events.IEventDispatcher;
@@ -13,106 +14,96 @@ package panels.external
 	import panels.Panel;
 	
 	public class Matlab{
-		private var socket:Socket;
-		private var recvstr:String;
-		private const port:int = 8086;
-		private var panel:Panel;
+		private var socket:Socket
+		private var recvstr:String
+		private const port:int = 8086
+		private var panel:Panel
 		
 		public function Matlab(panel:Panel) {
-			this.panel = panel;
-			startMatlabAnalyzer("localhost",port);
+			this.panel = panel
+			startMatlabAnalyzer("localhost", port)
 		}
 		
 		public function startMatlabAnalyzer(hostName:String, port:uint) : void {
-			socket = new Socket();
-			socket.timeout = 500;
-			configListeners(socket);
-			if (hostName && port) socket.connect(hostName, port);
+			socket = new Socket()
+			socket.timeout = 500
+			configListeners(socket)
+			if (hostName && port) socket.connect(hostName, port)
 		}
 		
 		private function configListeners(dispatcher:IEventDispatcher):void {
-			dispatcher.addEventListener(Event.CLOSE, closeHandler);
-			dispatcher.addEventListener(Event.CONNECT, connectHandler);
-			dispatcher.addEventListener(DataEvent.DATA, dataHandler);
-			dispatcher.addEventListener(IOErrorEvent.IO_ERROR, ioErrorHandler);
-			dispatcher.addEventListener(ProgressEvent.PROGRESS, progressHandler);
-			dispatcher.addEventListener(ProgressEvent.SOCKET_DATA, responseHandler);
-			dispatcher.addEventListener(SecurityErrorEvent.SECURITY_ERROR, securityErrorHandler);
+			dispatcher.addEventListener(Event.CLOSE, closeHandler)
+			dispatcher.addEventListener(Event.CONNECT, connectHandler)
+			dispatcher.addEventListener(DataEvent.DATA, dataHandler)
+			dispatcher.addEventListener(IOErrorEvent.IO_ERROR, ioErrorHandler)
+			dispatcher.addEventListener(ProgressEvent.PROGRESS, progressHandler)
+			dispatcher.addEventListener(ProgressEvent.SOCKET_DATA, responseHandler)
+			dispatcher.addEventListener(SecurityErrorEvent.SECURITY_ERROR, securityErrorHandler)
 		}
 		
 		private function readResponse():void{
-			recvstr = socket.readUTFBytes(socket.bytesAvailable);
-			var s:Array = recvstr.split(";");
-			var bpm:int = parseInt(s[0]);
-			var notes:Array = parseArray(s[1]);
-			var energy:Array = parseArray(s[2]);
+			recvstr = socket.readUTFBytes(socket.bytesAvailable)
+			var s:Array = recvstr.split(";")
+			var bpm:int = parseInt(s[0])
+			var notes:Array = parseArray(s[1])
+			var energy:Array = parseArray(s[2])
 			
-			Game.bpm = bpm;
-			Game.notes = notes;
-			Game.energy = energy;
+			Game.bpm = bpm
+			Game.notes = notes
+			Game.energy = energy
 			
-			trace(bpm);
-			trace(notes);
-			trace(energy);
+			trace(bpm)
 			
-			panel.stage.dispatchEvent(new Event("buildMap"));
+			panel.stage.dispatchEvent(new Event("buildMap"))
 		}
 		
 		private function responseHandler(event:ProgressEvent):void {
-			readResponse();
+			readResponse()
 		}
 		
 		private function closeHandler(event:Event):void {
-			trace("[DEBUG MATLAB] Done.");
-			if (Game.notes == null) matlabError();
-			startMatlabAnalyzer("localhost",port);
+			/*if (Game.notes == null)
+				startMatlabAnalyzer("localhost", port)*/
 		}
 		
 		private function connectHandler(event:Event):void {
-			trace("[DEBUG MATLAB] Connected to Matlab server.");
+			trace("[MATLAB] Connected to Matlab server.")
 		}
 		
-		private function dataHandler(event:DataEvent):void {
-			trace("dataHandler: " + event);
-		}
+		private function dataHandler(event:DataEvent):void {	}
 		
 		private function ioErrorHandler(event:IOErrorEvent):void {
-			trace("Matlab module is offline. Aborting...");
-			matlabError();
+			matlabError()
 		}
 		
-		private function progressHandler(event:ProgressEvent):void {
-			trace("progressHandler loaded:" + event.bytesLoaded + " total: " + event.bytesTotal);
-		}
+		private function progressHandler(event:ProgressEvent):void { }
 		
 		private function securityErrorHandler(event:SecurityErrorEvent):void {
-			trace("Security error. Aborting...");
-			matlabError();
+			matlabError()
 		}
 		
 		private function matlabError():void{
-			if ((Game.notes == null) || (Game.energy == null)) {
-				//exit?
-			}
+			trace("Matlab module is not running. Aborting...")
+			NativeApplication.nativeApplication.exit()
 		}
 		
 		private function parseArray(s:String):Array{
-			if (s == null) return null;
-			var n:Array = new Array();
-			n = s.split(",");
-			/*for (var i:int=0;i<n.length;i++){
-				n[i] = toScale(n[i]);
-			}*/
-			return n;
+			if (s == null) return null
+			var n:Array = new Array()
+			n = s.split(",")
+			for (var i:int=0;i<n.length;i++){
+				n[i] = toScale(n[i])
+			}
+			return n
 		}
 		
 		private function toScale(note:int):Number{
-			return ((note-1)*2/13)-1;
+			return ((note-1)*2/13)-1
 		}
 		
 		public function sendFilename(filename:String):void{
-			socket.writeUTF(filename);
-			socket.flush();
+			socket.writeUTF(filename)
+			socket.flush()
 		}
 	}
 }

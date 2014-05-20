@@ -4,12 +4,12 @@ package panels {
 	
 	public class Loading extends Panel {
 		public override function startup() {
+			super.startup()
 			matlabServer = new Matlab(this)
 		}
 		
 		public override function shown() {
 			matlabServer.sendFilename(Game.soundPath)
-			trace(Game.soundPath)
 		}
 		
 		private var matlabServer:Matlab

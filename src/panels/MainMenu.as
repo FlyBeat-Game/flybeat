@@ -1,7 +1,6 @@
 package panels {
 	import flash.desktop.NativeApplication;
 	import flash.events.Event;
-	import flash.system.System;
 	
 	import panels.widgets.Header;
 	import panels.widgets.LegButton;
@@ -34,7 +33,7 @@ package panels {
 		var scores = addChild(new LegButton("Scores", "scores"))
 		var credits = addChild(new LegButton("Credits", "credits"))
 		var exit = addChild(new LegButton("Exit", function(e:Event) {
-			NativeApplication.nativeApplication.exit();
+			NativeApplication.nativeApplication.exit()
 		}))
 	}
 }

@@ -27,14 +27,14 @@ package world {
 			stage.addEventListener(Event.RESIZE, resize)
 			addEventListener(Event.ENTER_FRAME, update)
 			addEventListener("home", showBackground)
-			addEventListener("buildMap", loadGame)
+			stage.addEventListener("buildMap", loadGame)
 			
 			camera.lens.far = 10000
 			content.visible = false
 			resize()
 			
 			// TEST CODE //
-			Game.notes = new Array()
+			/*Game.notes = new Array()
 			Game.energy = new Array()
 				
 			for (var i = 0; i < 100; i++) {
@@ -42,7 +42,7 @@ package world {
 				Game.energy.push(Math.sin(i*i / 40 * Math.PI))
 			}
 			
-			loadGame(null)
+			loadGame(null)*/
 			// TEST CODE END //
 			
 		}
@@ -62,7 +62,7 @@ package world {
 			for (var i = 0; i < Game.notes.length; i++) {
 				var note = Game.notes[i]
 				if (note != -1)
-					addArc(new Vector3D(note / 6.5 - 1.0, Game.energy[i], i))
+					addArc(new Vector3D(note / 6.5 - 1.0, Game.energy[i],i))
 			}
 			
 			if (SceneObject.numLoading > 0)	
@@ -127,14 +127,17 @@ package world {
 		function startGame(e:Event) {
 			SceneObject.events.removeEventListener("modelsLoaded", startGame)
 			
+			isBackground = false
+			
 			aceleration	= new Vector3D()
 			velocity = new Vector3D(0, 0, 0.7)
 			position = new Vector3D(0, 200, -2000)
 			angle = new Vector3D()
-				
-			isBackground = false
+			
 			content.visible = true
 			camera.eulers = new Vector3D(0, 0, 0)
+				
+			Game.sound.play()
 		}
 		
 		function update(e:Event) {
@@ -142,7 +145,7 @@ package world {
 			var elapsed:Number = (time - lastUpdate)
 			
 			if (isBackground) {
-				SoundMixer.computeSpectrum(spectrum, false, 0)
+				/*SoundMixer.computeSpectrum(spectrum, false, 0)
 				
 				var rotate:Number = 0
 				for (var i = 0; i < 256; i += 8)
@@ -151,14 +154,14 @@ package world {
 				rotate = Math.min(Math.max(rotate, 0.05), 1.5)
 				camera.rotationY += elapsed/334
 				camera.rotationZ += rotate/1.1
-				camera.rotationX -= rotate
+				camera.rotationX -= rotate*/
 			} else {
-				/*var control:Vector3D = Game.controller.getOrientation()
+				var control:Vector3D = Game.controller.getOrientation()
 				velocity.x = computeVelocity(velocity.x, control.x)
 				velocity.y = computeVelocity(velocity.y, control.y)
 				
 				angle.z = computeVelocity(angle.z / 50, -control.x * elapsed / 50) * 50
-				angle.x = computeVelocity(angle.x / 50, -control.y * elapsed / 50) * 50*/
+				angle.x = computeVelocity(angle.x / 50, -control.y * elapsed / 50) * 50
 					
 				var walked:Vector3D = velocity.clone()
 				walked.scaleBy(elapsed)
@@ -167,7 +170,7 @@ package world {
 				var progress:Number = Math.max(position.z / OBSTACLE_DEPTH + 2, 0)
 				var next:int = int(progress) + 1
 				var last:int = Math.min(next+20, arcs.length)
-					
+				
 				if (next >= arcs.length)
 					return stage.dispatchEvent(new Event("win"))
 				
