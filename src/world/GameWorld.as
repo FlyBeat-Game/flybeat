@@ -9,7 +9,9 @@ package world {
 	import away3d.primitives.SkyBox;
 	import away3d.textures.BitmapCubeTexture;
 	import away3d.utils.Cast;
+	
 	import common.Game;
+	
 	import flash.events.Event;
 	import flash.geom.Vector3D;
 	import flash.media.SoundMixer;
@@ -63,7 +65,8 @@ package world {
 				loadContent()
 			else
 				resetArcs()
-				
+			
+			addArc(new Vector3D(0,0,-1)).visible = false
 			for (var i = 0; i < Game.notes.length; i++) {
 				var note = Game.notes[i]
 				if (note != -1)
@@ -100,7 +103,7 @@ package world {
 			content.addChild(staticLight)
 		}
 		
-		function addArc(pos:Vector3D) {
+		function addArc(pos:Vector3D) : Arc {
 			var colorBranch = int(arcs.length / COLOR_STEP)
 			var step = arcs.length - colorBranch * COLOR_STEP
 			
@@ -120,6 +123,7 @@ package world {
 			
 			content.addChild(arc)
 			arcs.push(arc)
+			return arc
 		}
 		
 		function resetArcs() {
@@ -163,7 +167,7 @@ package world {
 				camera.rotationY += elapsed/334
 				camera.rotationZ += rotate/1.1
 				camera.rotationX -= rotate
-			} else {
+			} else if (current < arcs.length) {
 				var control:Vector3D = Game.controller.getOrientation()
 				velocity.x = computeVelocity(velocity.x, control.x)
 				velocity.y = computeVelocity(velocity.y, control.y)
@@ -175,23 +179,19 @@ package world {
 				walked.scaleBy(elapsed)
 				position.incrementBy(walked)
 				
-				if ((position.z > arcs[current].z - OBSTACLE_DISTANCE) && (!soundPlaying)){					
-					Game.soundChannel = Game.sound.play()
-					soundPlaying = true;
-				}
-				
 				if (position.z > arcs[current].z) {
 					if (arcs[current].visible) {
 						Game.fuel -= 10
-						/*if (Game.fuel <= 0)
-							return stage.dispatchEvent(new Event("lost"))*/
+						if (Game.fuel <= 0)
+							return stage.dispatchEvent(new Event("lost"))
 					}
 					
 					current++
+					if (current == 1)
+						Game.soundChannel = Game.sound.play()
+					else if (current == arcs.length)
+						return stage.dispatchEvent(new Event("win"))
 				}
-				
-				if (current >= arcs.length)
-					return stage.dispatchEvent(new Event("win"))
 					
 				for (var i = current; i < Math.min(current+20, arcs.length); i++) {
 					var ratio = Math.min(OBSTACLE_DISTANCE * 3 / (arcs[i].z - position.z), 1)
@@ -207,10 +207,9 @@ package world {
 				plane.eulers.z += 90
 				camera.position = position
 				
-				if (current > 0)
+				if (current > 1)
 					checkIntersection(arcs[current-1])
 				checkIntersection(arcs[current])
-				checkIntersection(arcs[current+1])
 			}
 			
 			lastUpdate = time
@@ -228,7 +227,7 @@ package world {
 					if (xOff*xOff + yOff*yOff < 8000) {
 						arc.visible = false
 						
-						Game.progress += 1.0/arcs.length
+						Game.progress += 1.0/(arcs.length-1)
 						Game.fuel = Math.min(Game.fuel+5, 100)
 						Game.score += Game.fuel
 					}
@@ -265,8 +264,6 @@ package world {
 		
 		var aceleration:Vector3D, velocity:Vector3D, position:Vector3D, angle:Vector3D;
 		var current:Number;
-		
-		var soundPlaying:Boolean = false;
 		
 		public static const MAX_VELOCITY = 0.35;
 		public static const FRICTION = 0.05;
