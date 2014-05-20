@@ -27,7 +27,7 @@ package world {
 			stage.addEventListener(Event.RESIZE, resize)
 			addEventListener(Event.ENTER_FRAME, update)
 			addEventListener("home", showBackground)
-			addEventListener("buildMap", loadGame)
+			stage.addEventListener("buildMap", loadGame)
 			
 			camera.lens.far = 10000
 			content.visible = false
@@ -49,7 +49,8 @@ package world {
 			}
 			
 			loadGame(null)*/
-			// TEST CODE END //	
+			// TEST CODE END //
+			
 		}
 		
 		function showBackground(e:Event) {
@@ -67,7 +68,7 @@ package world {
 			for (var i = 0; i < Game.notes.length; i++) {
 				var note = Game.notes[i]
 				if (note != -1)
-					addArc(new Vector3D(note / 6.5 - 1.0, Game.energy[i], i))
+					addArc(new Vector3D(note / 6.5 - 1.0, Game.energy[i],i))
 			}
 			
 			if (SceneObject.numLoading > 0)	
@@ -136,15 +137,19 @@ package world {
 		function startGame(e:Event) {
 			SceneObject.events.removeEventListener("modelsLoaded", startGame)
 			
+			isBackground = false
+			
 			aceleration	= new Vector3D()
 			velocity = new Vector3D(0, 0, 0.7)
 			position = new Vector3D(0, 0, -2000)
 			angle = new Vector3D()
+
 			current = 0
-				
+			
 			isBackground = false
 			content.visible = true
 			camera.eulers = new Vector3D
+			Game.sound.play()
 		}
 
 		function update(e:Event) {
@@ -152,7 +157,7 @@ package world {
 			var elapsed:Number = (time - lastUpdate)
 			
 			if (isBackground) {
-				SoundMixer.computeSpectrum(spectrum, false, 0)
+				/*SoundMixer.computeSpectrum(spectrum, false, 0)
 				
 				var rotate:Number = 0
 				for (var i = 0; i < 256; i += 8)
@@ -161,7 +166,7 @@ package world {
 				rotate = Math.min(Math.max(rotate, 0.05), 1.5)
 				camera.rotationY += elapsed/334
 				camera.rotationZ += rotate/1.1
-				camera.rotationX -= rotate
+				camera.rotationX -= rotate*/
 			} else {
 				var control:Vector3D = Game.controller.getOrientation()
 				velocity.x = computeVelocity(velocity.x, control.x)
@@ -173,9 +178,9 @@ package world {
 				var walked:Vector3D = velocity.clone()
 				walked.scaleBy(elapsed)
 				position.incrementBy(walked)
-					
+
 				if (position.z > arcs[current].z) {
-					if (!arcs[current].visited) {
+					if (arcs[current].visible) {
 						Game.fuel -= 10
 						if (Game.fuel <= 0)
 							return stage.dispatchEvent(new Event("lost"))
@@ -215,13 +220,12 @@ package world {
 			if (arc.visible) {
 				var zOff:Number = arc.z - plane.position.z
 				
-				if (zOff*zOff < 200) {
+				if (zOff*zOff < 500) {
 					var xOff:Number = arc.x - plane.position.x
 					var yOff:Number = arc.y - plane.position.y
 					
 					if (xOff*xOff + yOff*yOff < 5000) {
-						arc.visited = true
-						arc.visible = false	
+						arc.visible = false
 						
 						Game.progress += 1.0/arcs.length
 						Game.fuel = Math.min(Game.fuel+5, 100)

@@ -1,14 +1,13 @@
 %main script
 disp('Starting server...');
 t = tcpip('0.0.0.0', 8086, 'NetworkRole', 'server');
-set(t,'Timeout',86400);
-set(t,'OutputBufferSize',100000);
+set(t,'Timeout',5);
+set(t,'OutputBufferSize',1000000);
+fopen(t);
+disp('Server started!');
+disp('New client!');
 
-while 1
-    fopen(t);
-    disp('Server started!');
-    disp('New client!');
-    
+while 1    
     %get data
     data = strcat(fread(t, 1, 'uchar'));
     if get(t,'BytesAvailable') > 1
@@ -29,5 +28,4 @@ while 1
         catch me
         end
     end
-    fclose(t);
 end;

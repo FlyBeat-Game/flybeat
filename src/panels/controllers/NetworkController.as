@@ -1,6 +1,5 @@
 package panels.controllers {
 	import common.Controller;
-	import flash.display.Stage;
 	import flash.events.DataEvent;
 	import flash.events.Event;
 	import flash.events.IEventDispatcher;
@@ -9,10 +8,12 @@ package panels.controllers {
 	import flash.events.SecurityErrorEvent;
 	import flash.geom.Vector3D;
 	import flash.net.Socket;
+	
+	import panels.Panel;
 
 	public class NetworkController implements Controller {
-		public function NetworkController(s:Stage, host:String, port:uint) {
-			stage = s;
+		public function NetworkController(panel:Panel,host:String, port:uint) {
+			this.panel = panel;
 			startNetworkListener(host, port);
 		}
 		
@@ -38,6 +39,11 @@ package panels.controllers {
 			dispatcher.addEventListener(SecurityErrorEvent.SECURITY_ERROR, securityErrorHandler);
 		}
 		
+		public function closeSocket(){
+			if (isConnected) socket.close();
+			isConnected = false;
+		}
+		
 		function readResponse():void{
 			recvstr = socket.readUTFBytes(socket.bytesAvailable);
 			updateOrientation(recvstr);
@@ -48,30 +54,31 @@ package panels.controllers {
 		}
 		
 		function closeHandler(event:Event):void {
-			trace("Connection lost. Switching to keyboard.");
-			// SEND EVENT TO WARN OF FAILURE?
+			trace("[ANDROID] Connection lost.");
+			isConnected = false;
+			panel.stage.dispatchEvent(new Event("deviceFailure"));
 		}
 		
 		function connectHandler(event:Event):void {
-			trace("[DEBUG] Connected.");
+			trace("[ANDROID] Connected.");
+			isConnected = true;
+			panel.stage.dispatchEvent(new Event("deviceConnected"));
 		}
 		
-		function dataHandler(event:DataEvent):void {
-			trace("dataHandler: " + event);
-		}
+		function dataHandler(event:DataEvent):void { }
 		
 		function ioErrorHandler(event:IOErrorEvent):void {
-			trace("Network error. Switching to keyboard.");
-			// SEND EVENT TO WARN OF FAILURE?
+			trace("[ANDROID] Network error.");
+			isConnected = false;
+			panel.stage.dispatchEvent(new Event("deviceFailure"));
 		}
 		
-		function progressHandler(event:ProgressEvent):void {
-			trace("progressHandler loaded:" + event.bytesLoaded + " total: " + event.bytesTotal);
-		}
+		function progressHandler(event:ProgressEvent):void { }
 		
 		function securityErrorHandler(event:SecurityErrorEvent):void {
-			trace("Controller is offline. Switching to keyboard.");
-			// SEND EVENT TO WARN OF FAILURE?
+			trace("[ANDROID] Controller is offline.");
+			isConnected = false;
+			panel.stage.dispatchEvent(new Event("deviceFailure"));
 		}
 		
 		function toScale(degrees:int) : Number{
@@ -91,8 +98,9 @@ package panels.controllers {
 		}
 		
 		var socket:Socket;
+		var isConnected:Boolean = false;
 		var recvstr:String;
-		var orientation:Vector3D;
-		var stage:Stage;
+		var panel:Panel;
+		var orientation:Vector3D  = new Vector3D;
 	}
 }

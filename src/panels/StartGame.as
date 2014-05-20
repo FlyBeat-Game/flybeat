@@ -1,28 +1,27 @@
 package panels {
-	import common.Game;
-	
-	import flash.display.Bitmap;
-	import flash.display.DisplayObject;
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.MouseEvent;
-	import flash.text.TextField;
+	import flash.filesystem.File;
+	import flash.media.Sound;
+	import flash.media.SoundChannel;
+	import flash.net.FileFilter;
 	import flash.text.TextFieldType;
-	import flash.ui.Keyboard;
 	
+	import common.Game;
+	
+	import panels.controllers.KeyboardController;
+	import panels.controllers.NetworkController;
 	import panels.widgets.Header;
 	import panels.widgets.LegButton;
 	import panels.widgets.NormalText;
 	import panels.widgets.SquareButton;
 	import panels.widgets.TextBox;
-	import flash.filesystem.File;
-	import flash.net.FileFilter;
-	
-	import flash.media.Sound;
-	import flash.media.SoundChannel;
 	
 	public class StartGame extends Panel {
 		public function StartGame() {
+			addressTextBox.addEventListener(Event.CHANGE, function() {connectDevice(addressTextBox.text.text)});
+			
 			var controller = addChild(new SquareButton("Controller", ""))
 			controller.setDisabled(1)
 			controller.x = 145
@@ -50,8 +49,8 @@ package panels {
 			cell.x = 550
 			cell.y = 325
 			
-			song.x = 145;
-			song.y = 250;
+			song.x = 145
+			song.y = 250
 			
 			selected.y = 250
 			displaySelected("None Selected")
@@ -61,10 +60,20 @@ package panels {
 			back.x = 140
 		}
 		
+		public override function startup(){
+			super.startup()
+			keyboardController = new KeyboardController(this)
+			Game.controller = keyboardController
+			stage.addEventListener("deviceFailure", function() {deviceFailure()})
+			stage.addEventListener("deviceConnected",  function() {deviceConnected()})
+		}
+		
 		public override function shown() {
 			Game.reset()
-			useKeyboard(1)
-			play.setDisabled(1)
+			if (file == null){
+				useKeyboard(1)
+				play.setDisabled(1)
+			}
 		}
 		
 		public override function resize(e:Event = null) {
@@ -76,6 +85,17 @@ package panels {
 		}
 		
 		function useKeyboard(useKeys:Boolean) {
+			if (useKeys) {
+				if (deviceController != null)
+					deviceController.closeSocket()
+				keyboardController.resume()
+				Game.controller = keyboardController
+			}
+			else {
+				keyboardController.stop()
+				connectDevice(addressTextBox.text.text)
+			}
+			
 			keyboard.alpha = useKeys ? 1 : 0.3
 			cell.alpha = useKeys ? 0.3 : 1
 			address.visible = !useKeys
@@ -103,16 +123,16 @@ package panels {
 			
 			if (soundChannel != null)
 				soundChannel.stop()
-			soundChannel = music.play()
+			//soundChannel = music.play()
 			
-			var musicInfo:String;
+			var musicInfo:String
 
 			if (music.id3.songName == null)
 				musicInfo = event.target.name
 			else
 				musicInfo = music.id3.songName + " - " + music.id3.artist
 			
-			displaySelected(musicInfo);
+			displaySelected(musicInfo)
 			Game.sound = music
 			Game.soundPath = event.target.nativePath
 			
@@ -124,20 +144,59 @@ package panels {
 			play.setDisabled(0)
 		}
 		
+		function connectDevice(ipAddress:String) {
+			if (validIP(ipAddress)){
+				if (deviceController != null)
+					deviceController.closeSocket()
+				deviceController = new NetworkController(this,ipAddress,8087)
+			}
+		}
+		
+		function validIP(ipAddress:String):Boolean{
+			var tokens:Array = ipAddress.split(".")
+			var token:int
+			
+			if (tokens.length != 4) return false
+			
+			for (var i:int=0;i<tokens.length;i++){
+				if (tokens[i].length == 0)
+					return false
+				token = parseInt(tokens[i])
+				if ((token < 1) || (token > 254))
+					return false
+			}
+			return true
+		}
+		
+		function deviceFailure(){
+			keyboardController.resume()
+			Game.controller = keyboardController
+		}
+		
+		function deviceConnected(){
+			keyboardController.stop()
+			Game.controller = deviceController
+		}
+		
 		var header = addChild(new Header("New Game"))	
 		var song = addChild(new SquareButton("Choose Song", chooseSong))
 		var selected = addChild(new TextBox("", 15))
 			
 		var keyboard = addChild(new Sprite)
 		var cell = addChild(new Sprite)
-		var address = addChild(new TextBox("128.134.234.001", 13))
+		
+		var addressTextBox = new TextBox("192.168.43.1", 13)
+		var address = addChild(addressTextBox)
 			
 		var back = addChild(new LegButton("Back", "home"))
-		var play = addChild(new LegButton("Play", "load"));
+		var play = addChild(new LegButton("Play", "load"))
 		
 		var musicFilter:FileFilter = new FileFilter("Music files", "*.mp3;*.wav;")
 		var file:File
 		var soundChannel:SoundChannel
+		
+		var keyboardController:KeyboardController
+		var deviceController:NetworkController;
 		
 		[Embed(source = "../../media/Keyboard.png", mimeType = "image/png")]
 		public var KeyboardImage:Class;
