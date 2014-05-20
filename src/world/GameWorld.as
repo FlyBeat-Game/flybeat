@@ -147,7 +147,6 @@ package world {
 			isBackground = false
 			content.visible = true
 			camera.eulers = new Vector3D
-			Game.sound.play()
 		}
 
 		function update(e:Event) {
@@ -185,11 +184,12 @@ package world {
 					}
 					
 					current++
-				}		
-						
-				if (current >= arcs.length)
-					return stage.dispatchEvent(new Event("win"))
-
+					if (current == 1)
+						Game.sound.play()
+					else if (current >= arcs.length)
+						return stage.dispatchEvent(new Event("win"))
+				}
+					
 				for (var i = current; i < Math.min(current+20, arcs.length); i++) {
 					var ratio = Math.min(OBSTACLE_DISTANCE * 3 / (arcs[i].z - position.z), 1)
 					
@@ -222,7 +222,7 @@ package world {
 					var xOff:Number = arc.x - plane.position.x
 					var yOff:Number = arc.y - plane.position.y
 					
-					if (xOff*xOff + yOff*yOff < 5000) {
+					if (xOff*xOff + yOff*yOff < 7000) {
 						arc.visible = false
 						
 						Game.progress += 1.0/arcs.length
