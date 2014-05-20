@@ -177,8 +177,8 @@ package world {
 				if (position.z > arcs[current].z) {
 					if (arcs[current].visible) {
 						Game.fuel -= 10
-						if (Game.fuel <= 0)
-							return stage.dispatchEvent(new Event("lost"))
+						/*if (Game.fuel <= 0)
+							return stage.dispatchEvent(new Event("lost"))*/
 					}
 					
 					current++
@@ -215,7 +215,7 @@ package world {
 			if (arc.visible) {
 				var zOff:Number = arc.z - plane.position.z
 				
-				if (zOff*zOff < 500) {
+				if (zOff*zOff < 200) {
 					var xOff:Number = arc.x - plane.position.x
 					var yOff:Number = arc.y - plane.position.y
 					

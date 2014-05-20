@@ -168,16 +168,16 @@ package world {
 		}
 		
 		[Embed(source="../../media/Spaceship.obj", mimeType="application/octet-stream")]
-		public static var ModelData:Class;
-		public static var Model = new ModelData;
+		public static const ModelData:Class;
+		public static const Model = new ModelData;
 	
 		[Embed(source = "../media/WhiteMetal.jpg")]
-		public static var MetalImage:Class;
-		public static var MetalTexture:BitmapTexture = Cast.bitmapTexture(MetalImage);
+		public static const MetalImage:Class;
+		public static const MetalTexture:BitmapTexture = Cast.bitmapTexture(MetalImage);
 		
 		[Embed(source = "../media/Particle.png")]
-		public static var FireImage:Class;
-		public static var FireTexture:BitmapTexture = Cast.bitmapTexture(FireImage);
+		public static const FireImage:Class;
+		public static const FireTexture:BitmapTexture = Cast.bitmapTexture(FireImage);
 		
 		var coloredMetal:TextureMaterial = new TextureMaterial(MetalTexture);
 		var turboAnimator, leftAnimator, rightAnimator:ParticleAnimator;

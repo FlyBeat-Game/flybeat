@@ -9,8 +9,8 @@ package world {
 		public function Arc(material:ColorMaterial) {
 			super(Model, onLoad)
 			this.material = material
-			this.rotationY = 90
-			this.scale(10)
+			this.rotationX = 90
+			this.scale(15)
 		}
 		
 		private function onLoad(e:LoaderEvent) {
@@ -21,7 +21,7 @@ package world {
 		public var material:ColorMaterial;
 		
 		[Embed(source="../../media/Arc.obj", mimeType="application/octet-stream")]
-		public static var ModelData:Class;
+		public static const ModelData:Class;
 		public static const Model = new ModelData;
 	}
 }
