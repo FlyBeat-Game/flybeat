@@ -70,8 +70,10 @@ package panels {
 		
 		public override function shown() {
 			Game.reset()
-			useKeyboard(1)
-			play.setDisabled(1)
+			if (file == null){
+				useKeyboard(1)
+				play.setDisabled(1)
+			}
 		}
 		
 		public override function resize(e:Event = null) {
