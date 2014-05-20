@@ -34,7 +34,7 @@ package world {
 			resize()
 			
 			// TEST CODE //
-			Game.notes = new Array()
+			/*Game.notes = new Array()
 			Game.energy = new Array()
 			Game.reset()
 				
@@ -48,7 +48,7 @@ package world {
 				}
 			}
 			
-			loadGame(null)
+			loadGame(null)*/
 			// TEST CODE END //	
 		}
 		
@@ -163,22 +163,22 @@ package world {
 				camera.rotationZ += rotate/1.1
 				camera.rotationX -= rotate
 			} else {
-				/*var control:Vector3D = Game.controller.getOrientation()
+				var control:Vector3D = Game.controller.getOrientation()
 				velocity.x = computeVelocity(velocity.x, control.x)
 				velocity.y = computeVelocity(velocity.y, control.y)
 				
 				angle.z = computeVelocity(angle.z / 50, -control.x * elapsed / 50) * 50
-				angle.x = computeVelocity(angle.x / 50, -control.y * elapsed / 50) * 50*/
+				angle.x = computeVelocity(angle.x / 50, -control.y * elapsed / 50) * 50
 					
 				var walked:Vector3D = velocity.clone()
 				walked.scaleBy(elapsed)
 				position.incrementBy(walked)
 					
 				if (position.z > arcs[current].z) {
-					if (arcs[current].visible) {
+					if (!arcs[current].visited) {
 						Game.fuel -= 10
-						/*if (Game.fuel <= 0)
-							return stage.dispatchEvent(new Event("lost"))*/
+						if (Game.fuel <= 0)
+							return stage.dispatchEvent(new Event("lost"))
 					}
 					
 					current++
@@ -220,7 +220,8 @@ package world {
 					var yOff:Number = arc.y - plane.position.y
 					
 					if (xOff*xOff + yOff*yOff < 5000) {
-						arc.visible = false
+						arc.visited = true
+						arc.visible = false	
 						
 						Game.progress += 1.0/arcs.length
 						Game.fuel = Math.min(Game.fuel+5, 100)

@@ -14,11 +14,12 @@ package world {
 		}
 		
 		private function onLoad(e:LoaderEvent) {
-			meshes[0].material = material;
+			meshes[0].material = material
 		}
 		
 		public var finalPosition:Vector3D;
 		public var material:ColorMaterial;
+		public var visited:Boolean = false;
 		
 		[Embed(source="../../media/Arc.obj", mimeType="application/octet-stream")]
 		public static const ModelData:Class;
