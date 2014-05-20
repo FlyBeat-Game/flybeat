@@ -13,7 +13,7 @@ package panels.widgets {
 			callback = event
 			mouseChildren = false
 			addChild(background)
-			addChild(new NormalText(label, 17))
+			labelText=addChild(new NormalText(label, 17))
 			setDisabled(0)
 			showOver(0)
 			
@@ -43,6 +43,13 @@ package panels.widgets {
 			buttonMode = !disable
 		}
 		
+		public function setLabelPosition(x:Number,y:Number){
+			
+			labelText.x += x
+			labelText.y += y;
+	
+		}
+		
 		function onClick(e:Event) {
 			if (buttonMode)
 				if (callback is String)
@@ -54,6 +61,6 @@ package panels.widgets {
 		function onMouseOut(e:MouseEvent) {showOver(0)}
 		function onMouseOver(e:MouseEvent) {showOver(1)}
 		
-		var callback
+		var callback,labelText
 	}
 }
