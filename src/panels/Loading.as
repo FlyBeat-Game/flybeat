@@ -11,6 +11,8 @@ package panels {
 		
 		public override function shown() {
 			matlabServer.sendFilename(Game.soundPath)
+			if (Game.soundChannel != null)
+				Game.soundChannel.stop()
 		}
 		
 		public override function resize(e:Event = null) {

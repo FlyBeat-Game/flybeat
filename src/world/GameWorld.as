@@ -59,9 +59,6 @@ package world {
 		}
 		
 		function loadGame(e:Event) {
-			if (Game.soundChannel != null)
-				Game.soundChannel.stop()
-			
 			if (plane == null)
 				loadContent()
 			else
