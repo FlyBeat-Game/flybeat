@@ -139,7 +139,7 @@ package world {
 			
 			aceleration	= new Vector3D()
 			velocity = new Vector3D(0, 0, Game.bpm * OBSTACLE_DISTANCE / (60*1000))
-			position = new Vector3D(0, 0, -2000)
+			position = new Vector3D(0, 0, -10000)
 			angle = new Vector3D()
 
 			current = 0
@@ -175,18 +175,21 @@ package world {
 				var walked:Vector3D = velocity.clone()
 				walked.scaleBy(elapsed)
 				position.incrementBy(walked)
-
+				
+				if ((position.z > arcs[current].z - OBSTACLE_DISTANCE) && (!soundPlaying)){
+					soundPlaying = true;
+					Game.sound.play()
+				}
+				
 				if (position.z > arcs[current].z) {
 					if (arcs[current].visible) {
 						Game.fuel -= 10
-						if (Game.fuel <= 0)
-							return stage.dispatchEvent(new Event("lost"))
+						/*if (Game.fuel <= 0)
+							return stage.dispatchEvent(new Event("lost"))*/
 					}
 					
 					current++
-					if (current == 1)
-						Game.sound.play()
-					else if (current >= arcs.length)
+					if (current >= arcs.length)
 						return stage.dispatchEvent(new Event("win"))
 				}
 					
@@ -222,7 +225,7 @@ package world {
 					var xOff:Number = arc.x - plane.position.x
 					var yOff:Number = arc.y - plane.position.y
 					
-					if (xOff*xOff + yOff*yOff < 7000) {
+					if (xOff*xOff + yOff*yOff < 8000) {
 						arc.visible = false
 						
 						Game.progress += 1.0/arcs.length
@@ -262,6 +265,8 @@ package world {
 		
 		var aceleration:Vector3D, velocity:Vector3D, position:Vector3D, angle:Vector3D;
 		var current:Number;
+		
+		var soundPlaying:Boolean = false;
 		
 		public static const MAX_VELOCITY = 0.35;
 		public static const FRICTION = 0.05;
