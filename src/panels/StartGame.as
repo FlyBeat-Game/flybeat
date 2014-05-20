@@ -90,6 +90,7 @@ package panels {
 				keyboardController.resume()
 				Game.controller = keyboardController
 				validController = true
+				updatePlayState()
 			}
 			else {
 				keyboardController.stop()
@@ -150,6 +151,8 @@ package panels {
 					deviceController.closeSocket()
 				deviceController = new NetworkController(this,ipAddress,8087)
 			}
+			addressTextBox.setColor(0xffffff)
+			validController = false
 		}
 		
 		function validIP(ipAddress:String):Boolean{
