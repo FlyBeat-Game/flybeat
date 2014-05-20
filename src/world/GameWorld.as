@@ -135,8 +135,7 @@ package world {
 		
 		function startGame(e:Event) {
 			SceneObject.events.removeEventListener("modelsLoaded", startGame)
-			
-			isBackground = false
+			stage.dispatchEvent(new Event("start"))
 			
 			aceleration	= new Vector3D()
 			velocity = new Vector3D(0, 0, 0.7)
