@@ -12,9 +12,9 @@ package panels {
 	public class Scores extends Panel {
 		public function Scores(){
 			next.setRotation(1)
-			next.setTextPosition(-20, 17)
+			next.setTextPosition(-15,20)
 			previous.setRotation(0)
-			previous.setTextPosition(-20, 17)
+			previous.setTextPosition(-75, 20)
 			
 			for(var i=0; i<MAX_PER_PAGE; i++) {
 				display[i] = addChild(new ScoreDisplay)
@@ -33,8 +33,10 @@ package panels {
 			var first = page * perPage
 			
 			next.setDisabled(first+perPage >= scores.length)
+			next.visible= !(first+perPage >= scores.length)
 			previous.setDisabled(first == 0)
-			
+			previous.visible = !(first == 0)
+				
 			for (var i = 0; i < MAX_PER_PAGE; i++) {
 				var k:int = first + i
 				
