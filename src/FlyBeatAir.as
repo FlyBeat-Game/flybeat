@@ -4,15 +4,12 @@ package {
 	import flash.display.StageDisplayState;
 	import flash.display.StageScaleMode;
 	import flash.events.Event;
-	import flash.geom.Vector3D;
-	import flash.utils.getTimer;
 	import panels.*;
 	import world.GameWorld;
-	import flash.desktop.NativeApplication;
 
 	[SWF(width="1024", height="720", wmode="direct")]
 	public class FlyBeatAir extends Sprite {
-		public function FlyBeatAir() {
+		public function FlyBeatAir() {	
 			if (stage)
 				startup(null);
 			else
