@@ -12,7 +12,13 @@ package panels {
 	
 	public class Scores extends Panel {
 		public function Scores(){
-			for(var i=0; i<PER_PAGE; i++) {
+			next.setRotation(1)
+			next.setTextPosition(-20, 17)
+			previous.setRotation(0)
+			previous.setTextPosition(-20, 17)
+			back.setRotation(0x0F)
+			
+			for(var i=0; i<MAX_PER_PAGE; i++) {
 				display[i] = addChild(new ScoreDisplay)
 				display[i].y = 33 * i + 215
 				display[i].x = 120
@@ -24,15 +30,15 @@ package panels {
 		}
 		
 		public override function shown() {
-			var first = page * PER_PAGE
+			var first = page * perPage
 			
-			next.setDisabled(first+PER_PAGE >= LocalStorage.scores.length)
+			next.setDisabled(first+perPage >= LocalStorage.scores.length)
 			previous.setDisabled(first == 0)
 			
-			for (var i = 0; i < PER_PAGE; i++) {
+			for (var i = 0; i < MAX_PER_PAGE; i++) {
 				var k:int = first + i
 				
-				display[i].visible = k < LocalStorage.scores.length
+				display[i].visible = k < LocalStorage.scores.length && i < perPage
 				if (display[i].visible)
 					display[i].setText(LocalStorage.scores[k].song, LocalStorage.scores[k].points, LocalStorage.scores[k].beats)
 			}
@@ -41,19 +47,13 @@ package panels {
 		public override function resize(e:Event = null) {
 			header.reposition()
 		
-			back.setRotation(0x0F)
 			back.y = stage.stageHeight - 100
 			back.x = 140
 			
 			next.x = stage.stageWidth/2 + 100	
-			next.y = stage.stageHeight - 180
-			next.setRotation(1)
-			next.setLabelPosition(-15,10);
-			
+			next.y = stage.stageHeight - 180			
 			previous.x = stage.stageWidth/2 -(100)
 			previous.y = stage.stageHeight - 180
-			previous.setRotation(0)
-			previous.setLabelPosition(-30,10);
 				
 			beats.x= 120
 			beats.y = 180
@@ -63,9 +63,9 @@ package panels {
 				
 			song.x = (stage.stageWidth-song.width)/2
 			song.y = 180
-				
-			for (var i = 0; i < PER_PAGE; i++)
-				display[i].resize()
+			
+			perPage = int(Math.min(MAX_PER_PAGE, (stage.stageHeight - 430) / 33))
+			shown()
 		}
 
 		function previousList(e:Event){
@@ -83,13 +83,12 @@ package panels {
 		var beats = addChild(new NormalText('<font color="#48A2A2">Beats</font>', 18))
 		var score = addChild(new NormalText('<font color="#48A2A2">Score</font>', 18))
 		var song = addChild(new NormalText('<font color="#48A2A2">Song</font>', 18))
-		var next = addChild(new ArrowButton("Next Page",nextList))
+		var next = addChild(new ArrowButton("Next",nextList))
 		var previous = addChild(new ArrowButton("Previous",previousList))
-		
-		var page = 0
-		var listSize = 0
+			
+		var page:Number = 0, perPage:Number
 		var display:Array = new Array()
 			
-		public static const PER_PAGE = 19
+		public static const MAX_PER_PAGE = 19
 	}
 }
