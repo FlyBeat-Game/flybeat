@@ -28,6 +28,7 @@ package panels {
 			
 
 			registerClassAlias("Score", Score)
+			LocalStorage.loadScores()
 		}
 		
 		public override function shown() {
