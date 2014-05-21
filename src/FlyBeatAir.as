@@ -24,6 +24,8 @@ package {
 			stage.addEventListener("credits", function() {showPanel(credits)})
 			stage.addEventListener("load", function() {showPanel(loading)})
 			stage.addEventListener("start", function() {showPanel(overlay)})
+			stage.addEventListener("win", function() {showPanel(win)})
+			stage.addEventListener("lost", function() {showPanel(lost)})
 			
 			stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE
 			stage.stageWidth = width
@@ -55,5 +57,7 @@ package {
 		var credits = addChild(new Credits)
 		var loading = addChild(new Loading)
 		var overlay = addChild(new GameOverlay)
+		var win = addChild(new Win)
+		var lost = addChild(new Lost)
 	}
 }

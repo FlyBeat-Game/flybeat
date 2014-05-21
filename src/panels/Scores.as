@@ -9,7 +9,6 @@ package panels {
 	
 	public class Scores extends Panel {
 		public function Scores(){
-			//Para efeitos de teste
 			var i;
 			for(i=0;i<21;i=i+3){
 				
@@ -17,11 +16,9 @@ package panels {
 				scores[i+1]= [55,"Muse - Hysteria",1337]
 				scores[i+2]= [55,"Muse - Madness",1337]
 			}
-			//
-			
 		}
+		
 		public override function resize(e:Event = null) {
-			
 			header.reposition()
 		
 			back.setRotation(0x0F)
@@ -112,16 +109,6 @@ package panels {
 			}
 		}
 		
-		var header = addChild(new Header("Highscores"))
-		var back = addChild(new LegButton("Back", "home"))
-		var beats = addChild(new NormalText('<font color="#48A2A2">Beats</font>', 18))
-		var score = addChild(new NormalText('<font color="#48A2A2">Score</font>', 18))
-		var song = addChild(new NormalText('<font color="#48A2A2">Song</font>', 18))
-		var next = addChild(new NextPageButton("Next Page",nextList))
-		var previous = addChild(new NextPageButton("Previous",previousList))
-		var songIndexStart = 0
-		var listSize= 0
-		var display:Array = new Array()
 		function previousList(e:Event){
 			displayScores(0,false)
 		}
@@ -130,11 +117,17 @@ package panels {
 			displayScores(1,false)
 		}
 		
-		
-		//Test
+		var header = addChild(new Header("Highscores"))
+		var back = addChild(new LegButton("Back", "home"))
+		var beats = addChild(new NormalText('<font color="#48A2A2">Beats</font>', 18))
+		var score = addChild(new NormalText('<font color="#48A2A2">Score</font>', 18))
+		var song = addChild(new NormalText('<font color="#48A2A2">Song</font>', 18))
+		var next = addChild(new NextPageButton("Next Page",nextList))
+		var previous = addChild(new NextPageButton("Previous",previousList))
+			
+		var songIndexStart = 0
+		var listSize= 0
+		var display:Array = new Array()
 		var scores:Array = new Array()
-		//
-		
-		
 	}
 }
