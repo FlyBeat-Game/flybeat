@@ -13,7 +13,7 @@ package panels.widgets {
 			callback = event
 			mouseChildren = false
 			addChild(background)
-			labelText=addChild(new NormalText(label, 17))
+			addChild(new NormalText(label, 17))
 			setDisabled(0)
 			showOver(0)
 			
@@ -25,9 +25,7 @@ package panels.widgets {
 			var background = getChildAt(0)
 			background.getChildAt(0).visible = !show
 			background.getChildAt(1).visible = show
-			
-			this.
-			
+
 			scaleX = show ? 1.1 : 1
 			scaleY = show ? 1.1 : 1
 		}
@@ -44,9 +42,10 @@ package panels.widgets {
 			buttonMode = !disable
 		}
 		
-		public function setLabelPosition(x:Number,y:Number) {
-			labelText.x += x
-			labelText.y += y;
+		public function setTextPosition(x:Number,y:Number) {
+			var label = getChildAt(1)
+			label.x = x
+			label.y = y
 		}
 		
 		function onClick(e:Event) {
@@ -60,6 +59,6 @@ package panels.widgets {
 		function onMouseOut(e:MouseEvent) {showOver(0)}
 		function onMouseOver(e:MouseEvent) {showOver(1)}
 		
-		var callback,labelText
+		var callback
 	}
 }
