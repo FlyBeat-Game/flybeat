@@ -15,6 +15,7 @@ package panels {
 			next.setTextPosition(-20, 17)
 			previous.setRotation(0)
 			previous.setTextPosition(-20, 17)
+			back.setRotation(0x0F)
 			
 			for(var i=0; i<MAX_PER_PAGE; i++) {
 				display[i] = addChild(new ScoreDisplay)
@@ -47,7 +48,6 @@ package panels {
 		public override function resize(e:Event = null) {
 			header.reposition()
 		
-			back.setRotation(0x0F)
 			back.y = stage.stageHeight - 100
 			back.x = 140
 			

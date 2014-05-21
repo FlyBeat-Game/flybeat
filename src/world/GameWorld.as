@@ -122,12 +122,13 @@ package world {
 			SceneObject.events.removeEventListener("modelsLoaded", startGame)
 			stage.dispatchEvent(new Event("start"))
 			
-			aceleration	= new Vector3D()
-			velocity = new Vector3D(0, 0, Game.bpm * OBSTACLE_DISTANCE / (60*1000))
+			maxAcceleration = CONTROL_STRENGTH * Game.bpm
+			maxVelocity = MAX_VELOCITY * Game.bpm
+			velocity = new Vector3D(0, 0, Game.bpm*OBSTACLE_DISTANCE / (60*1000))
 			position = new Vector3D(0, 0, -velocity.z*7000)
 			angle = new Vector3D
 			current = 0
-				
+			
 			isBackground = false
 			content.visible = true
 			camera.eulers = new Vector3D
@@ -150,11 +151,11 @@ package world {
 				camera.rotationX -= rotate
 			} else if (current < arcs.length) {
 				var control:Vector3D = Game.controller.getOrientation()
-				velocity.x = computeVelocity(velocity.x, control.x)
-				velocity.y = computeVelocity(velocity.y, control.y)
+				velocity.x = computeVelocity(velocity.x, control.x * maxAcceleration, maxVelocity)
+				velocity.y = computeVelocity(velocity.y, control.y * maxAcceleration, maxVelocity)
 				
-				angle.z = computeVelocity(angle.z / 50, -control.x * elapsed / 50) * 50
-				angle.x = computeVelocity(angle.x / 50, -control.y * elapsed / 50) * 50
+				angle.z = computeVelocity(angle.z, -control.x * elapsed, MAX_ANGLE)
+				angle.x = computeVelocity(angle.x, -control.y * elapsed, MAX_ANGLE)
 					
 				var walked:Vector3D = velocity.clone()
 				walked.scaleBy(elapsed)
@@ -217,17 +218,17 @@ package world {
 			}
 		}
 		
-		function computeVelocity(velocity:Number, control:Number) : Number {
-			var aceleration = control * CONTROL_STRENGTH
+		function computeVelocity(velocity:Number, control:Number, limit:Number) : Number {
+			var aceleration:Number = control
 			if (aceleration < 0)
 				aceleration = -Math.sqrt(-aceleration)
 			else
 				aceleration = Math.sqrt(aceleration)
 			
 			if (aceleration == 0 || (control > 0 && velocity < 0) || (control < 0 && velocity >0))
-				aceleration += velocity * - FRICTION
+				aceleration -= velocity * FRICTION
 			
-			return Math.min(Math.max(velocity + aceleration, -MAX_VELOCITY), MAX_VELOCITY)
+			return Math.min(Math.max(velocity + aceleration, -limit), limit)
 		}
 		
 		function resize(e:Event = null) {
@@ -244,12 +245,13 @@ package world {
 		var plane:Spaceship;
 		var arcs:Vector.<Arc> = new Vector.<Arc>;
 		
-		var aceleration:Vector3D, velocity:Vector3D, position:Vector3D, angle:Vector3D;
-		var current:Number;
+		var velocity:Vector3D, position:Vector3D, angle:Vector3D;
+		var current:Number, maxVelocity:Number, maxAcceleration:Number;
 		
-		public static const MAX_VELOCITY = 0.35;
+		public static const MAX_VELOCITY = 0.003;
+		public static const MAX_ANGLE = 17.5;
 		public static const FRICTION = 0.05;
-		public static const CONTROL_STRENGTH = 0.01;
+		public static const CONTROL_STRENGTH = 0.000084;
 		
 		public static const OBSTACLE_DISTANCE = 355;
 		public static const COLORS = [[0x00, 0xBD, 0xD5], [0xD5, 0x00, 0xBD], [0xBD, 0xD5, 0x00]];

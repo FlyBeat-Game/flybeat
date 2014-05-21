@@ -39,7 +39,7 @@ package panels {
 			phrase.text = phrases[int(Math.random() * phrases.length)] + "..."
 		}
 	
-		var phrases:Array = ["Checking combustor", "Fueling ships", "Measuring beats", "Powering rings", "Checking for asteroid collision"]
+		var phrases:Array = ["Checking combustor", "Fueling ships", "Measuring beats", "Powering rings", "Checking for asteroid collision", "Being awesome"]
 		var timer:Timer = new Timer(10000, 0)
 		var matlabServer:Matlab
 			
