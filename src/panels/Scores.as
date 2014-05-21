@@ -23,9 +23,9 @@ package panels {
 			}
 			
 			for(var i=0; i<21; i=i+3){
-				scores[i]= new Score("Muse - Time Is Running Out",1337, 55)
+				scores[i]= new Score("Muse - Time Is Running Out",1337, 89)
 				scores[i+1]= new Score("Muse - Hysteria", 1337, 55)
-				scores[i+2]= new Score("Muse - Madness", 1337, 55)
+				scores[i+2]= new Score("Muse - Madness", 1337, 37)
 			}
 		}
 		
