@@ -1,4 +1,10 @@
 package world {
+	import flash.events.Event;
+	import flash.geom.Vector3D;
+	import flash.media.SoundMixer;
+	import flash.utils.ByteArray;
+	import flash.utils.getTimer;
+	
 	import away3d.containers.ObjectContainer3D;
 	import away3d.containers.View3D;
 	import away3d.lights.DirectionalLight;
@@ -11,12 +17,6 @@ package world {
 	import away3d.utils.Cast;
 	
 	import common.Game;
-	
-	import flash.events.Event;
-	import flash.geom.Vector3D;
-	import flash.media.SoundMixer;
-	import flash.utils.ByteArray;
-	import flash.utils.getTimer;
 
 	public class GameWorld extends View3D  {
 		public function startup() {

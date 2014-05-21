@@ -1,13 +1,14 @@
 package panels {
 	import flash.events.Event;
+	import flash.net.registerClassAlias;
 	
+	import panels.external.LocalStorage;
 	import panels.external.Score;
 	import panels.widgets.ArrowButton;
 	import panels.widgets.Header;
 	import panels.widgets.LegButton;
 	import panels.widgets.NormalText;
 	import panels.widgets.ScoreDisplay;
-	
 	
 	public class Scores extends Panel {
 		public function Scores(){
@@ -17,25 +18,23 @@ package panels {
 				display[i].x = 120
 			}
 			
-			for(var i=0; i<21; i=i+3){
-				scores[i]= new Score("Muse - Time Is Running Out",1337, 55)
-				scores[i+1]= new Score("Muse - Hysteria", 1337, 55)
-				scores[i+2]= new Score("Muse - Madness", 1337, 55)
-			}
+			registerClassAlias("Score", Score)
+			LocalStorage.loadScores()
+			
 		}
 		
 		public override function shown() {
 			var first = page * PER_PAGE
 			
-			next.setDisabled(first+PER_PAGE >= scores.length)
+			next.setDisabled(first+PER_PAGE >= LocalStorage.scores.length)
 			previous.setDisabled(first == 0)
 			
 			for (var i = 0; i < PER_PAGE; i++) {
 				var k:int = first + i
 				
-				display[i].visible = k < scores.length
+				display[i].visible = k < LocalStorage.scores.length
 				if (display[i].visible)
-					display[i].setText(scores[k].song, scores[k].points, scores[k].beats)
+					display[i].setText(LocalStorage.scores[k].song, LocalStorage.scores[k].points, LocalStorage.scores[k].beats)
 			}
 		}
 		
@@ -86,11 +85,10 @@ package panels {
 		var song = addChild(new NormalText('<font color="#48A2A2">Song</font>', 18))
 		var next = addChild(new ArrowButton("Next Page",nextList))
 		var previous = addChild(new ArrowButton("Previous",previousList))
-			
+		
 		var page = 0
 		var listSize = 0
 		var display:Array = new Array()
-		var scores:Array = new Array()
 			
 		public static const PER_PAGE = 19
 	}
