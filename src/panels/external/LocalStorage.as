@@ -1,5 +1,6 @@
 package panels.external {
 	import flash.filesystem.*;
+	
 	import panels.external.Score;
 	
 	public class LocalStorage {
@@ -25,10 +26,27 @@ package panels.external {
 		}
 		
 		public static function saveScore(score:Score) {
-			scores.push(score)
+			var i
+			for(i=0;i<scores.length;i++){
+				if(scores[i].song == score.song) break
+			}
+			
+			if(i==scores.length){
+				scores.push(score)
+			}
+			else if(scores[i].points < score.points){
+				scores[i]=score	
+			}
 			saveScores()
 		}
 		
+		public static function searchSong(song:String){
+			var i
+			for(i=0;i<scores.length;i++){
+				if(scores[i].song == song) break
+			}
+			return i
+		}
 		public static var scores:Vector.<Score> = new Vector.<Score>
 		static var scoresPath:String = "scores.fly"
 	}

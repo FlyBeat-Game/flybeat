@@ -68,7 +68,7 @@ package panels {
 		}
 		
 		var score = addChild(new NormalText('', 20))
-		var progress = addChild(new NormalText('Progress: ', 15))
+		var progress = addChild(new NormalText('Beats: ', 16))
 		var progressValue = addChild(new NormalText('00%', 25))
 		var fuelBorder, fuelFill = addChild(new Sprite)
 		var fuelMask = fuelFill.addChild(new Shape)
