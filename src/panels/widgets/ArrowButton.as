@@ -1,8 +1,8 @@
 package panels.widgets
 {
-	public class NextPageButton extends GraphicalButton
+	public class ArrowButton extends GraphicalButton
 	{
-		public function NextPageButton(label:String,event)
+		public function ArrowButton(label:String,event)
 		{
 			super(label, new NormalTexture(), new OverTexture(), event)
 		}

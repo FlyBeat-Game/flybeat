@@ -36,6 +36,7 @@ package panels.widgets {
 		public function setDisabled(disable:Boolean) {
 			if (disable) {
 				removeEventListener(MouseEvent.MOUSE_OVER, onMouseOver)
+				showOver(0)
 			} else {
 				addEventListener(MouseEvent.MOUSE_OVER, onMouseOver)
 			}
@@ -43,11 +44,9 @@ package panels.widgets {
 			buttonMode = !disable
 		}
 		
-		public function setLabelPosition(x:Number,y:Number){
-			
+		public function setLabelPosition(x:Number,y:Number) {
 			labelText.x += x
 			labelText.y += y;
-	
 		}
 		
 		function onClick(e:Event) {

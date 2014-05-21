@@ -1,20 +1,41 @@
 package panels {
 	import flash.events.Event;
+	
+	import panels.external.Score;
+	import panels.widgets.ArrowButton;
 	import panels.widgets.Header;
 	import panels.widgets.LegButton;
-	import panels.widgets.NextPageButton;
 	import panels.widgets.NormalText;
 	import panels.widgets.ScoreDisplay;
 	
 	
 	public class Scores extends Panel {
 		public function Scores(){
-			var i;
-			for(i=0;i<21;i=i+3){
+			for(var i=0; i<PER_PAGE; i++) {
+				display[i] = addChild(new ScoreDisplay)
+				display[i].y = 33 * i + 215
+				display[i].x = 120
+			}
+			
+			for(var i=0; i<21; i=i+3){
+				scores[i]= new Score("Muse - Time Is Running Out",1337, 55)
+				scores[i+1]= new Score("Muse - Hysteria", 1337, 55)
+				scores[i+2]= new Score("Muse - Madness", 1337, 55)
+			}
+		}
+		
+		public override function shown() {
+			var first = page * PER_PAGE
+			
+			next.setDisabled(first+PER_PAGE >= scores.length)
+			previous.setDisabled(first == 0)
+			
+			for (var i = 0; i < PER_PAGE; i++) {
+				var k:int = first + i
 				
-				scores[i]= [55,"Muse - Time Is Running Out",1337]
-				scores[i+1]= [55,"Muse - Hysteria",1337]
-				scores[i+2]= [55,"Muse - Madness",1337]
+				display[i].visible = k < scores.length
+				if (display[i].visible)
+					display[i].setText(scores[k].song, scores[k].points, scores[k].beats)
 			}
 		}
 		
@@ -34,7 +55,6 @@ package panels {
 			previous.y = stage.stageHeight - 180
 			previous.setRotation(0)
 			previous.setLabelPosition(-30,10);
-			
 				
 			beats.x= 120
 			beats.y = 180
@@ -44,77 +64,19 @@ package panels {
 				
 			song.x = (stage.stageWidth-song.width)/2
 			song.y = 180
-			
-			
-			displayScores(3,true)
-			
-			if(songIndexStart!=0){
-				previous.setDisabled(false)
-			}
-			else{
-				previous.setDisabled(true)
-			}
-			
-			if(songIndexStart>=scores.length-1){
-				next.setDisabled(true)
-			}
-			else next.setDisabled(false)
+				
+			for (var i = 0; i < PER_PAGE; i++)
+				display[i].resize()
 		}
-		
-		public function displayScores(type:Number,resize:Boolean){
-			var size = 180+30
-			var i =songIndexStart,x
-				
-			if(type ==1 && (songIndexStart+listSize)<scores.length){
-				i=songIndexStart+listSize
-				songIndexStart=i
-				if(songIndexStart+listSize>=scores.length-1){
-					next.setDisabled(true)
-				}
-				if(songIndexStart>0){
-					previous.setDisabled(false)
-				}
-			}
-			else if(type==0){
-				i= Math.max(songIndexStart-listSize,0)
-				songIndexStart=i
-				
-				if(songIndexStart!=0){
-					previous.setDisabled(false)
-				}
-				else previous.setDisabled(true)
-					
-				if(songIndexStart<scores.length-1){
-					next.setDisabled(false)
-				}
-			}
-			
-			for(x=0;x<display.length;x++){
-				if(display[x]!=null){
-					removeChild(display[x])
-					display[x]= null
-				}
-			}
-			while(size+35<stage.stageHeight-170 && i<scores.length){
-				display[i] = addChild(new ScoreDisplay(scores[i][0],scores[i][1],scores[i][2],stage.stageWidth-240))
-				display[i].x = 120
-				display[i].y = size
-				
-				size += 35
-				i += 1
-			}
-			if(resize){
-				listSize=i-(songIndexStart);
-				
-			}
-		}
-		
+
 		function previousList(e:Event){
-			displayScores(0,false)
+			page--
+			shown()
 		}
 		
-		function nextList(e:Event){
-			displayScores(1,false)
+		function nextList(e:Event) {
+			page++
+			shown()
 		}
 		
 		var header = addChild(new Header("Highscores"))
@@ -122,12 +84,14 @@ package panels {
 		var beats = addChild(new NormalText('<font color="#48A2A2">Beats</font>', 18))
 		var score = addChild(new NormalText('<font color="#48A2A2">Score</font>', 18))
 		var song = addChild(new NormalText('<font color="#48A2A2">Song</font>', 18))
-		var next = addChild(new NextPageButton("Next Page",nextList))
-		var previous = addChild(new NextPageButton("Previous",previousList))
+		var next = addChild(new ArrowButton("Next Page",nextList))
+		var previous = addChild(new ArrowButton("Previous",previousList))
 			
-		var songIndexStart = 0
-		var listSize= 0
+		var page = 0
+		var listSize = 0
 		var display:Array = new Array()
 		var scores:Array = new Array()
+			
+		public static const PER_PAGE = 19
 	}
 }
