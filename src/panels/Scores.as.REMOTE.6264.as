@@ -13,12 +13,10 @@ package panels {
 	public class Scores extends Panel {
 		public function Scores(){
 			next.setRotation(1)
-			next.setTextPosition(-15,20)
+			next.setTextPosition(-20, 17)
 			previous.setRotation(0)
-
 			previous.setTextPosition(-20, 17)
 			back.setRotation(0x0F)
-
 			
 			for(var i=0; i<MAX_PER_PAGE; i++) {
 				display[i] = addChild(new ScoreDisplay)
@@ -26,20 +24,16 @@ package panels {
 				display[i].x = 120
 			}
 			
-
 			registerClassAlias("Score", Score)
+			LocalStorage.loadScores()
 		}
 		
 		public override function shown() {
 			var first = page * perPage
 			
-
 			next.setDisabled(first+perPage >= LocalStorage.scores.length)
-			next.visible= !(first+perPage >= LocalStorage.scores.length)
-
 			previous.setDisabled(first == 0)
-			previous.visible = !(first == 0)
-				
+			
 			for (var i = 0; i < MAX_PER_PAGE; i++) {
 				var k:int = first + i
 				

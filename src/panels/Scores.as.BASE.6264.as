@@ -1,8 +1,6 @@
 package panels {
 	import flash.events.Event;
-	import flash.net.registerClassAlias;
 	
-	import panels.external.LocalStorage;
 	import panels.external.Score;
 	import panels.widgets.ArrowButton;
 	import panels.widgets.Header;
@@ -10,15 +8,13 @@ package panels {
 	import panels.widgets.NormalText;
 	import panels.widgets.ScoreDisplay;
 	
+	
 	public class Scores extends Panel {
 		public function Scores(){
 			next.setRotation(1)
-			next.setTextPosition(-15,20)
+			next.setTextPosition(-20, 17)
 			previous.setRotation(0)
-
 			previous.setTextPosition(-20, 17)
-			back.setRotation(0x0F)
-
 			
 			for(var i=0; i<MAX_PER_PAGE; i++) {
 				display[i] = addChild(new ScoreDisplay)
@@ -26,32 +22,32 @@ package panels {
 				display[i].x = 120
 			}
 			
-
-			registerClassAlias("Score", Score)
+			for(var i=0; i<21; i=i+3){
+				scores[i]= new Score("Muse - Time Is Running Out",1337, 55)
+				scores[i+1]= new Score("Muse - Hysteria", 1337, 55)
+				scores[i+2]= new Score("Muse - Madness", 1337, 55)
+			}
 		}
 		
 		public override function shown() {
 			var first = page * perPage
 			
-
-			next.setDisabled(first+perPage >= LocalStorage.scores.length)
-			next.visible= !(first+perPage >= LocalStorage.scores.length)
-
+			next.setDisabled(first+perPage >= scores.length)
 			previous.setDisabled(first == 0)
-			previous.visible = !(first == 0)
-				
+			
 			for (var i = 0; i < MAX_PER_PAGE; i++) {
 				var k:int = first + i
 				
-				display[i].visible = k < LocalStorage.scores.length && i < perPage
+				display[i].visible = k < scores.length && i < perPage
 				if (display[i].visible)
-					display[i].setText(LocalStorage.scores[k].song, LocalStorage.scores[k].points, LocalStorage.scores[k].beats)
+					display[i].setText(scores[k].song, scores[k].points, scores[k].beats)
 			}
 		}
 		
 		public override function resize(e:Event = null) {
 			header.reposition()
 		
+			back.setRotation(0x0F)
 			back.y = stage.stageHeight - 100
 			back.x = 140
 			
@@ -93,6 +89,7 @@ package panels {
 			
 		var page:Number = 0, perPage:Number
 		var display:Array = new Array()
+		var scores:Array = new Array()
 			
 		public static const MAX_PER_PAGE = 19
 	}

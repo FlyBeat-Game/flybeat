@@ -128,10 +128,18 @@ package panels {
 			
 			var musicInfo:String
 
-			if (music.id3.songName == null)
+			if (music.id3.songName == null){
 				musicInfo = event.target.name
-			else
-				musicInfo = music.id3.songName + " - " + music.id3.artist
+			}
+			else{
+				if (music.id3.songName.length < 2)
+					musicInfo = event.target.name
+				else
+					musicInfo = music.id3.songName + " - " + music.id3.artist
+			}
+			
+			
+			Game.songName = musicInfo
 			
 			displaySelected(musicInfo)
 			Game.sound = music

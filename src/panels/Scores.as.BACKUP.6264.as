@@ -15,10 +15,12 @@ package panels {
 			next.setRotation(1)
 			next.setTextPosition(-15,20)
 			previous.setRotation(0)
-
+<<<<<<< HEAD
+			previous.setTextPosition(-75, 20)
+=======
 			previous.setTextPosition(-20, 17)
 			back.setRotation(0x0F)
-
+>>>>>>> 104d81e7e97a2e6e116918841b6c1b8c95782611
 			
 			for(var i=0; i<MAX_PER_PAGE; i++) {
 				display[i] = addChild(new ScoreDisplay)
@@ -26,17 +28,27 @@ package panels {
 				display[i].x = 120
 			}
 			
-
+<<<<<<< HEAD
+			for(var i=0; i<21; i=i+3){
+				scores[i]= new Score("Muse - Time Is Running Out",1337, 89)
+				scores[i+1]= new Score("Muse - Hysteria", 1337, 55)
+				scores[i+2]= new Score("Muse - Madness", 1337, 37)
+			}
+=======
 			registerClassAlias("Score", Score)
+			LocalStorage.loadScores()
+>>>>>>> 104d81e7e97a2e6e116918841b6c1b8c95782611
 		}
 		
 		public override function shown() {
 			var first = page * perPage
 			
-
+<<<<<<< HEAD
+			next.setDisabled(first+perPage >= scores.length)
+			next.visible= !(first+perPage >= scores.length)
+=======
 			next.setDisabled(first+perPage >= LocalStorage.scores.length)
-			next.visible= !(first+perPage >= LocalStorage.scores.length)
-
+>>>>>>> 104d81e7e97a2e6e116918841b6c1b8c95782611
 			previous.setDisabled(first == 0)
 			previous.visible = !(first == 0)
 				
