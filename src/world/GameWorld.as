@@ -33,25 +33,6 @@ package world {
 			camera.lens.far = 10000
 			content.visible = false
 			resize()
-			
-			// TEST CODE //
-			/*Game.notes = new Array()
-			Game.energy = new Array()
-			Game.reset()
-				
-			for (var i = 0; i < 100; i++) {
-				if (i % 10 > 3) {
-					Game.notes.push(Math.sin(i / 20 * Math.PI) * 6.5 + 6.5)
-					Game.energy.push(Math.sin(i*i / 40 * Math.PI) * 50 + 50)
-				} else {
-					Game.notes.push(-1)
-					Game.energy.push(0)
-				}
-			}
-			
-			loadGame(null)*/
-			// TEST CODE END //
-			
 		}
 		
 		function showBackground(e:Event) {
@@ -181,9 +162,10 @@ package world {
 				
 				if (position.z > arcs[current].z) {
 					if (arcs[current].visible) {
-						Game.fuel -= 10
-						if (Game.fuel <= 0)
+						if (Game.fuel <= 10)
 							return stage.dispatchEvent(new Event("lost"))
+						
+						Game.fuel *= 0.7
 					}
 					
 					current++
@@ -229,7 +211,7 @@ package world {
 						
 						Game.progress += 1.0/(arcs.length-1)
 						Game.fuel = Math.min(Game.fuel+5, 100)
-						Game.score += Game.fuel
+						Game.score += int(Game.fuel)
 					}
 				}
 			}
