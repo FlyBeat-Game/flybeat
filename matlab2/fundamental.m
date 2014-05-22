@@ -7,7 +7,7 @@ function pnote = fundamental(note)
         end
         pnote = pnote*2;
     end
-    while pnote > 539
+    while pnote > 509
         pnote = pnote/2;
     end
 end
