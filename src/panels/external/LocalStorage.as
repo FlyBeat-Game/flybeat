@@ -8,6 +8,7 @@ package panels.external {
 			var file:File = File.applicationStorageDirectory.resolvePath(scoresPath)
 			if (!file.exists)
 				return
+				
 			var fileStream:FileStream = new FileStream()
 			fileStream.open(file, FileMode.READ)
 
@@ -26,8 +27,7 @@ package panels.external {
 		}
 		
 		public static function saveScore(score:Score) {
-			var i
-			for(i=0;i<scores.length;i++){
+			for(var i=0;i<scores.length;i++){
 				if(scores[i].song == score.song) break
 			}
 			
@@ -41,18 +41,18 @@ package panels.external {
 		}
 		
 		public static function searchSong(song:String){
-			var i
-			for(i=0;i<scores.length;i++){
+			for(var i=0;i<scores.length;i++){
 				if(scores[i].song == song) break
 			}
 			return i
 		}
 		
-		public static function resetScores(){
+		public static function resetScores() {
 			var file:File = File.applicationStorageDirectory.resolvePath(scoresPath)
 			if (file.exists)
 				file.deleteFile()
 		}
+		
 		public static var scores:Vector.<Score> = new Vector.<Score>
 		static var scoresPath:String = "scores.fly"
 	}
