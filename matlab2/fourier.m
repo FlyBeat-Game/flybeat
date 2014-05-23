@@ -5,7 +5,7 @@ function [notes,e,bpm] = fourier(w,fs)
     end
 
     bpm = round(getBPM(w,fs));
-    
+
     intervalo = (60/bpm)*1000;
     r = abs(stfft(w,fs,intervalo,intervalo,0));
     
@@ -15,14 +15,14 @@ function [notes,e,bpm] = fourier(w,fs)
     for i=1:length(notes)
         notes(i) = notes(i)-1;
     end
-    
+
     we = energy(w,fs,intervalo);
     e = zeros(1,length(we));
     m = max(we)-1;
     for i=1:length(we)
         e(i) = (round(we(i) * 100 / m));
     end
-    
+
     %nnotes = {'-';'Dó';'Dó#';'Ré';'Ré#';'Mi';'Fá';'Fá#';'Sol';'Sol#';'Lá';'Lá#';'Si';'Dó2'};
     %for i=1:length(notes)
     %    disp(nnotes(notes(i)));
