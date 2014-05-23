@@ -17,7 +17,8 @@ package panels {
 		}
 		
 		public override function shown() {
-			Game.soundChannel.stop()
+			if (Game.soundChannel != null)
+				Game.soundChannel.stop()
 			
 			fadebox.alpha = 0
 			lastUpdate = getTimer()
