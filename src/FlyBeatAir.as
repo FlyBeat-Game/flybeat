@@ -4,7 +4,10 @@ package {
 	import flash.display.StageDisplayState;
 	import flash.display.StageScaleMode;
 	import flash.events.Event;
+	
 	import panels.*;
+	import panels.external.LocalStorage;
+	
 	import world.GameWorld;
 
 	[SWF(width="1024", height="720", wmode="direct")]
@@ -28,11 +31,11 @@ package {
 			stage.addEventListener("lost", function() {showPanel(lost)})
 			stage.addEventListener("retry", function() {showPanel(overlay)})
 			
-			/*stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE
+			stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE
 			stage.stageWidth = width
 			stage.stageHeight = height
 			stage.scaleMode = StageScaleMode.NO_SCALE
-			stage.align = StageAlign.TOP_LEFT*/
+			stage.align = StageAlign.TOP_LEFT
 			
 			for (var i = 0; i < numChildren; i++)
 				Object(getChildAt(i)).startup()

@@ -29,9 +29,9 @@ package panels {
 		}
 		
 		var header = addChild(new Header("FlyBeat"));
-		var start = addChild(new LegButton("Start", "lost"))
+		var start = addChild(new LegButton("Start", "play"))
 		var scores = addChild(new LegButton("Scores", "scores"))
-		var credits = addChild(new LegButton("Credits", "win"))
+		var credits = addChild(new LegButton("Credits", "credits"))
 		var exit = addChild(new LegButton("Exit", function(e:Event) {
 			NativeApplication.nativeApplication.exit()
 		}))

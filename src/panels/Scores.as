@@ -18,22 +18,19 @@ package panels {
 
 			previous.setTextPosition(-20, 17)
 			back.setRotation(0x0F)
-
-			
+	
 			for(var i=0; i<MAX_PER_PAGE; i++) {
 				display[i] = addChild(new ScoreDisplay)
 				display[i].y = 33 * i + 215
 				display[i].x = 120
 			}
 			
-
-			registerClassAlias("Score", Score)
-			LocalStorage.loadScores()
+			//registerClassAlias("Score", Score)
+			//LocalStorage.loadScores()
 		}
 		
 		public override function shown() {
-			var first = page * perPage
-			
+			/*var first = page * perPage
 
 			next.setDisabled(first+perPage >= LocalStorage.scores.length)
 			next.visible= !(first+perPage >= LocalStorage.scores.length)
@@ -47,7 +44,7 @@ package panels {
 				display[i].visible = k < LocalStorage.scores.length && i < perPage
 				if (display[i].visible)
 					display[i].setText(LocalStorage.scores[k].song, LocalStorage.scores[k].points, LocalStorage.scores[k].beats)
-			}
+			}*/
 		}
 		
 		public override function resize(e:Event = null) {
