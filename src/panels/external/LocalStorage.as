@@ -47,6 +47,12 @@ package panels.external {
 			}
 			return i
 		}
+		
+		public static function resetScores(){
+			var file:File = File.applicationStorageDirectory.resolvePath(scoresPath)
+			if (file.exists)
+				file.deleteFile()
+		}
 		public static var scores:Vector.<Score> = new Vector.<Score>
 		static var scoresPath:String = "scores.fly"
 	}

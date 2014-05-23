@@ -27,11 +27,11 @@ package {
 			stage.addEventListener("win", function() {showPanel(win)})
 			stage.addEventListener("lost", function() {showPanel(lost)})
 			
-			stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE
+			/*stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE
 			stage.stageWidth = width
 			stage.stageHeight = height
 			stage.scaleMode = StageScaleMode.NO_SCALE
-			stage.align = StageAlign.TOP_LEFT
+			stage.align = StageAlign.TOP_LEFT*/
 			
 			for (var i = 0; i < numChildren; i++)
 				Object(getChildAt(i)).startup()

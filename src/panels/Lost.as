@@ -17,10 +17,10 @@ package panels {
 		public override function resize(e:Event=null){
 			
 			retry.x = (stage.stageWidth-retry.width)/2-150
-			retry.y = stage.stageHeight/2 
+			retry.y =stage.stageHeight - 100
 				
 			giveup.x = (stage.stageWidth)/2+150 
-			giveup.y = stage.stageHeight/2
+			giveup.y = stage.stageHeight - 100
 			
 			header.x = (stage.stageWidth-header.width)/2
 			header.y = stage.stageHeight/2 -200
@@ -35,22 +35,25 @@ package panels {
 			var time:Number = getTimer()
 			var elapsed:Number = (time - lastUpdate)
 				
-			fadebox.alpha += elapsed/5000
+			fadebox.alpha += elapsed/1000
 			
 			lastUpdate = time
 		}
 		
 		public override function shown(){
+			lastUpdate = getTimer()
 			fadebox.alpha = 0
-			stage.addEventListener(Event.ENTER_FRAME, fade)
+			addEventListener(Event.ENTER_FRAME, fade)
 		}
 		
-		var lastUpdate=0
+		var lastUpdate:Number
 		var fadebox = addChild(new Shape)
 		var retry = addChild(new LegButton("Retry?",""))
 		var giveup = addChild(new LegButton("Give up",""))
 		var header = addChild(new NormalText('<font color="#FF0000">Game Over</font>',100))
-		
+		var score = addChild(new NormalText("",18))
+		var beats = addChild(new NormalText("",18))
+		var highscore = addChild(new NormalText("",18))
 	}
 	
 }
