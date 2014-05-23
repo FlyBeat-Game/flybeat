@@ -29,18 +29,18 @@ package panels {
 		}
 		
 		public override function resize(e:Event=null) {
-			retry.x = (stage.stageWidth-retry.width)/2-150
+			retry.x = (stage.stageWidth - retry.width) / 2-150
 			retry.y = stage.stageHeight/2 
 				
-			giveup.x = (stage.stageWidth)/2+150 
+			giveup.x = stage.stageWidth/2 + 150 
 			giveup.y = stage.stageHeight/2
 			
-			header.x = (stage.stageWidth-header.width)/2
+			header.x = (stage.stageWidth - header.width)/2
 			header.y = stage.stageHeight/2 -200
 				
 			fadebox.graphics.clear()
 			fadebox.graphics.beginFill(0x000000)
-			fadebox.graphics.drawRect(0,0,stage.stageWidth,stage.stageHeight)
+			fadebox.graphics.drawRect(0,0, stage.stageWidth, stage.stageHeight)
 			fadebox.graphics.endFill()
 		}
 		
@@ -56,8 +56,6 @@ package panels {
 		var fadebox = addChild(new Shape)
 		var retry = addChild(new LegButton("Retry?","retry"))
 		var giveup = addChild(new LegButton("Give up", "home"))
-		var header = addChild(new NormalText('<font color="#FF0000">Game Over</font>', 100))
-		
+		var header = addChild(new NormalText('<font color="#FF0000">Game Over</font>', 100))	
 	}
-	
 }
