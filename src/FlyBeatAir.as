@@ -26,6 +26,7 @@ package {
 			stage.addEventListener("start", function() {showPanel(overlay)})
 			stage.addEventListener("win", function() {showPanel(win)})
 			stage.addEventListener("lost", function() {showPanel(lost)})
+			stage.addEventListener("retry", function() {showPanel(overlay)})
 			
 			/*stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE
 			stage.stageWidth = width

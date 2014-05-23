@@ -1,10 +1,4 @@
 package world {
-	import flash.events.Event;
-	import flash.geom.Vector3D;
-	import flash.media.SoundMixer;
-	import flash.utils.ByteArray;
-	import flash.utils.getTimer;
-	
 	import away3d.containers.ObjectContainer3D;
 	import away3d.containers.View3D;
 	import away3d.lights.DirectionalLight;
@@ -17,6 +11,12 @@ package world {
 	import away3d.utils.Cast;
 	
 	import common.Game;
+	
+	import flash.events.Event;
+	import flash.geom.Vector3D;
+	import flash.media.SoundMixer;
+	import flash.utils.ByteArray;
+	import flash.utils.getTimer;
 
 	public class GameWorld extends View3D  {
 		public function startup() {
@@ -25,10 +25,10 @@ package world {
 			scene.addChild(content)
 			scene.addChild(new SkyBox(new BitmapCubeTexture(Cast.bitmapData(SpacePosX), Cast.bitmapData(SpaceNegX), Cast.bitmapData(SpacePosY), Cast.bitmapData(SpaceNegY), Cast.bitmapData(SpacePosZ), Cast.bitmapData(SpaceNegZ))))
 			stage.addEventListener(Event.RESIZE, resize)
+			stage.addEventListener("home", showBackground)
 			stage.addEventListener("buildMap", loadGame)
-				
-			addEventListener(Event.ENTER_FRAME, update)
-			addEventListener("home", showBackground)
+			stage.addEventListener("retry", retryGame)
+			stage.addEventListener(Event.ENTER_FRAME, update)
 			
 			camera.lens.far = 10000
 			content.visible = false
@@ -36,18 +36,17 @@ package world {
 		}
 		
 		function showBackground(e:Event) {
+			clearArcs()
 			content.visible = false
-			isBackground = true
-			resetArcs()
+			mode = 0
 		}
 		
 		function loadGame(e:Event) {
 			if (plane == null)
 				loadContent()
 			else
-				resetArcs()
+				clearArcs()
 			
-			addArc(new Vector3D(0,0,-1)).visible = false
 			for (var i = 0; i < Game.notes.length; i++) {
 				var note = Game.notes[i]
 				if (note != -1)
@@ -82,6 +81,8 @@ package world {
 				
 			content.addChild(plane)
 			content.addChild(staticLight)
+				
+			addArc(new Vector3D(0,0,-1)).visible = false
 		}
 		
 		function addArc(pos:Vector3D) : Arc {
@@ -107,8 +108,8 @@ package world {
 			return arc
 		}
 		
-		function resetArcs() {
-			for (var i = 0; i < arcs.length; i++)
+		function clearArcs() {
+			for (var i = 1; i < arcs.length; i++)
 				content.removeChild(arcs[i])
 			
 			arcs = new Vector.<Arc>
@@ -121,24 +122,46 @@ package world {
 		function startGame(e:Event) {
 			SceneObject.events.removeEventListener("modelsLoaded", startGame)
 			stage.dispatchEvent(new Event("start"))
-			
+				
 			maxAcceleration = CONTROL_STRENGTH * Game.bpm
 			maxVelocity = MAX_VELOCITY * Game.bpm
+			
+			content.visible = true
+			resetGame()
+		}
+		
+		function retryGame(e:Event = null) {
+			for (var i = 1; i < arcs.length; i++) {
+				arcs[i].visible = true
+				arcs[i].x = 0
+				arcs[i].y = 0
+			}
+			
+			resetGame()
+		}
+		
+		function resetGame() {
+			Game.reset()
+			
+			lastUpdate = getTimer()
+			camera.eulers = new Vector3D
 			velocity = new Vector3D(0, 0, Game.bpm*OBSTACLE_DISTANCE / (60*1000))
 			position = new Vector3D(0, 0, -velocity.z*7000)
 			angle = new Vector3D
 			current = 0
-			
-			isBackground = false
-			content.visible = true
-			camera.eulers = new Vector3D
+			mode = 1
+		}
+		
+		function endGame(event:String) : void {
+			stage.dispatchEvent(new Event(event))
+			mode = 2
 		}
 
 		function update(e:Event) {
 			var time:Number = getTimer()
 			var elapsed:Number = (time - lastUpdate)
 			
-			if (isBackground) {
+			if (mode == 0) {
 				SoundMixer.computeSpectrum(spectrum, false, 0)
 				
 				var rotate:Number = 0
@@ -149,7 +172,8 @@ package world {
 				camera.rotationY += elapsed/334
 				camera.rotationZ += rotate/1.1
 				camera.rotationX -= rotate
-			} else if (current < arcs.length) {
+				
+			} else if (mode == 1) {
 				var control:Vector3D = Game.controller.getOrientation()
 				velocity.x = computeVelocity(velocity.x, control.x * maxAcceleration, maxVelocity)
 				velocity.y = computeVelocity(velocity.y, control.y * maxAcceleration, maxVelocity)
@@ -164,7 +188,7 @@ package world {
 				if (position.z > arcs[current].z) {
 					if (arcs[current].visible) {
 						if (Game.fuel <= 10)
-							return stage.dispatchEvent(new Event("lost"))
+							return endGame("lost")
 						
 						Game.fuel *= 0.7
 					}
@@ -173,7 +197,7 @@ package world {
 					if (current == 1)
 						Game.soundChannel = Game.sound.play()
 					else if (current == arcs.length)
-						return stage.dispatchEvent(new Event("win"))
+						return endGame("win")
 				}
 					
 				for (var i = current; i < Math.min(current+20, arcs.length); i++) {
@@ -236,8 +260,8 @@ package world {
 			height = stage.stageHeight
 		}
 		
-		var lastUpdate = 0
-		var isBackground = true
+		var mode:Number = 0
+		var lastUpdate:Number = getTimer()
 		var spectrum:ByteArray = new ByteArray()
 			
 		var content:ObjectContainer3D = new ObjectContainer3D;

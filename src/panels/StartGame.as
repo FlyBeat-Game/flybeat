@@ -68,7 +68,6 @@ package panels {
 		}
 		
 		public override function shown() {
-			Game.reset()
 			if (file == null){
 				useKeyboard(1)
 				play.setDisabled(1)
