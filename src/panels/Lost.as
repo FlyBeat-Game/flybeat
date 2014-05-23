@@ -1,7 +1,10 @@
 package panels {
+	import common.Game;
+	
+	import flash.display.Shape;
 	import flash.events.Event;
 	import flash.utils.getTimer;
-	import flash.display.Shape;
+	
 	import panels.external.Score;
 	import panels.widgets.Header;
 	import panels.widgets.LegButton;
@@ -11,11 +14,21 @@ package panels {
 		public function Lost(){
 			retry.setRotation(0xF)
 			giveup.setRotation(0xFF)
-			
 		}
 		
-		public override function resize(e:Event=null){
+		public override function shown() {
+			Game.soundChannel.stop()
 			
+			fadebox.alpha = 0
+			lastUpdate = getTimer()
+			stage.addEventListener(Event.ENTER_FRAME, fade)
+		}
+		
+		public override function hidden() {
+			stage.removeEventListener(Event.ENTER_FRAME, fade)
+		}
+		
+		public override function resize(e:Event=null) {
 			retry.x = (stage.stageWidth-retry.width)/2-150
 			retry.y = stage.stageHeight/2 
 				
@@ -31,25 +44,19 @@ package panels {
 			fadebox.graphics.endFill()
 		}
 		
-		public function fade(e:Event) {
+		function fade(e:Event) {
 			var time:Number = getTimer()
-			var elapsed:Number = (time - lastUpdate)
-				
-			fadebox.alpha += elapsed/5000
+			var elapsed:Number = time - lastUpdate
 			
+			fadebox.alpha += elapsed/5000
 			lastUpdate = time
 		}
 		
-		public override function shown(){
-			fadebox.alpha = 0
-			stage.addEventListener(Event.ENTER_FRAME, fade)
-		}
-		
-		var lastUpdate=0
+		var lastUpdate:Number
 		var fadebox = addChild(new Shape)
-		var retry = addChild(new LegButton("Retry?",""))
-		var giveup = addChild(new LegButton("Give up",""))
-		var header = addChild(new NormalText('<font color="#FF0000">Game Over</font>',100))
+		var retry = addChild(new LegButton("Retry?","retry"))
+		var giveup = addChild(new LegButton("Give up", "home"))
+		var header = addChild(new NormalText('<font color="#FF0000">Game Over</font>', 100))
 		
 	}
 	
