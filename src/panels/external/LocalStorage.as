@@ -45,7 +45,10 @@ package panels.external {
 			for(i=0;i<scores.length;i++){
 				if(scores[i].song == song) break
 			}
-			return i
+			if(i<scores.length){
+				return scores[i]
+			}
+			else	return null
 		}
 		
 		public static function resetScores(){
