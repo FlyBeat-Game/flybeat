@@ -4,7 +4,10 @@ package {
 	import flash.display.StageDisplayState;
 	import flash.display.StageScaleMode;
 	import flash.events.Event;
+	
 	import panels.*;
+	import panels.external.LocalStorage;
+	
 	import world.GameWorld;
 
 	[SWF(width="1024", height="720", wmode="direct")]

@@ -55,6 +55,7 @@ package panels.external {
 				Game.energy = energy
 				
 				trace("[MATLAB] BPM=" + bpm)
+				recvstr = ""
 				
 				panel.stage.dispatchEvent(new Event("buildMap"))
 			}

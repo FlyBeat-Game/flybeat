@@ -11,6 +11,8 @@ while 1
     %get data
     data = strcat(fread(t, 1, 'uchar'));
     if get(t,'BytesAvailable') > 1
+        disp('Received data');
+        
         data = strcat(data,fread(t, t.BytesAvailable, 'uchar')');
         data = data(2:length(data));
 
