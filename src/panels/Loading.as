@@ -40,7 +40,7 @@ package panels {
 		}
 	
 		var phrases:Array = ["Checking combustor", "Fueling ships", "Measuring beats", "Powering rings", "Checking for asteroid collision", "Being awesome"]
-		var timer:Timer = new Timer(7000, 0)
+		var timer:Timer = new Timer(3000, 0)
 		var matlabServer:Matlab
 			
 		var header = addChild(new NormalText('Loading', 40))

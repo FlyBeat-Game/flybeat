@@ -12,8 +12,13 @@ package panels
 		}
 		
 		public override function resize(e:Event = null) {
+			logo.scaleX=Math.min(stage.stageWidth/1080,stage.stageHeight/1080)
+			logo.scaleY = logo.scaleX
+				
 			logo.x = (stage.stageWidth-logo.width)/2
 			logo.y = (stage.stageHeight-logo.height)/2
+				
+			
 				
 			background.graphics.clear()
 			background.graphics.beginFill(0x000000)

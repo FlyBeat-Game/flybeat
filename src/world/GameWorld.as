@@ -26,7 +26,7 @@ package world {
 			scene.addChild(new SkyBox(new BitmapCubeTexture(Cast.bitmapData(SpacePosX), Cast.bitmapData(SpaceNegX), Cast.bitmapData(SpacePosY), Cast.bitmapData(SpaceNegY), Cast.bitmapData(SpacePosZ), Cast.bitmapData(SpaceNegZ))))
 			stage.addEventListener(Event.ENTER_FRAME, update)
 			stage.addEventListener(Event.RESIZE, resize)
-			stage.addEventListener("home", showBackground)
+			stage.addEventListener("play", showBackground)
 			stage.addEventListener("buildMap", loadGame)
 			stage.addEventListener("retry", retryGame)
 			
