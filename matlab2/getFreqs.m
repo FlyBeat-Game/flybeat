@@ -8,11 +8,9 @@ function [freqs,amps] = getFreqs(f,fs,wstep,start)
     for i=1:s(2)
         amps(i) = max(f(:,i))/wstep;
         index = getHarm3(f(:,i),dfh);
-        %index = hps(f(:,i),fs);
         freqs(i) = index*dfh;
         if (freqs(i) < start)
             freqs(i) = 0;
         end
-        plot(freqs,'o');
     end
 end

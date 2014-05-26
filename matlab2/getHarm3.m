@@ -1,14 +1,13 @@
 function m = getHarm3(f,dfh)
     f = f(1:floor(length(f)/2));
     %low pass
-    %for i=1:floor(200/dfh)
-    %    f(i) = 0;
-    %end
+    for i=1:floor(100/dfh)
+        f(i) = 0;
+    end
     %high pass
-    %for i=floor(2000/dfh):length(f)
-    %    f(i) = 0;
-    %end
-    
+    for i=floor(1000/dfh):length(f)
+        f(i) = 0;
+    end
     
     [f,mag] = getMaxs(f,20);
 
@@ -23,7 +22,7 @@ function m = getHarm3(f,dfh)
                 q = a/b;
                 diff = abs(q-round(q));
                 if (diff < 0.08)
-                    harmonics(i) = harmonics(i) + 1;
+                    harmonics(i) = harmonics(i) + mag(j);
                     f(j) = 0;
                 end
             end
