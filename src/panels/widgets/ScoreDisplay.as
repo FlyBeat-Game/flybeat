@@ -14,7 +14,7 @@ package panels.widgets {
 			fill.mask = beatsMask
 			
 			beatsFill.addChild(fill)
-			beatsFill.x = 2
+			beatsFill.x = 3
 			beatsFill.y = 2
 		}
 		

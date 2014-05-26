@@ -30,6 +30,7 @@ package {
 			stage.addEventListener("win", function() {showPanel(win)})
 			stage.addEventListener("lost", function() {showPanel(lost)})
 			stage.addEventListener("retry", function() {showPanel(overlay)})
+			stage.addEventListener("splash", function() {showPanel(splash)})
 			
 			stage.displayState = StageDisplayState.FULL_SCREEN_INTERACTIVE
 			stage.stageWidth = width
@@ -40,7 +41,7 @@ package {
 			for (var i = 0; i < numChildren; i++)
 				Object(getChildAt(i)).startup()
 
-			showPanel(home)
+			showPanel(splash)
 		}
 		
 		function showPanel(panel:Panel) {
@@ -63,5 +64,6 @@ package {
 		var overlay = addChild(new GameOverlay)
 		var win = addChild(new Win)
 		var lost = addChild(new Lost)
+		var splash =addChild(new SplashScreen)
 	}
 }

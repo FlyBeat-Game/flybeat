@@ -24,11 +24,11 @@ package world {
 			
 			scene.addChild(content)
 			scene.addChild(new SkyBox(new BitmapCubeTexture(Cast.bitmapData(SpacePosX), Cast.bitmapData(SpaceNegX), Cast.bitmapData(SpacePosY), Cast.bitmapData(SpaceNegY), Cast.bitmapData(SpacePosZ), Cast.bitmapData(SpaceNegZ))))
+			stage.addEventListener(Event.ENTER_FRAME, update)
 			stage.addEventListener(Event.RESIZE, resize)
 			stage.addEventListener("home", showBackground)
 			stage.addEventListener("buildMap", loadGame)
 			stage.addEventListener("retry", retryGame)
-			stage.addEventListener(Event.ENTER_FRAME, update)
 			
 			camera.lens.far = 10000
 			content.visible = false
@@ -143,7 +143,6 @@ package world {
 		function resetGame() {
 			Game.reset()
 			
-			lastUpdate = getTimer()
 			camera.eulers = new Vector3D
 			velocity = new Vector3D(0, 0, Game.bpm*OBSTACLE_DISTANCE / (60*1000))
 			position = new Vector3D(0, 0, -velocity.z*7000)
@@ -159,68 +158,72 @@ package world {
 
 		function update(e:Event) {
 			var time:Number = getTimer()
-			var elapsed:Number = (time - lastUpdate)
-			
-			if (mode == 0) {
-				SoundMixer.computeSpectrum(spectrum, false, 0)
 				
-				var rotate:Number = 0
-				for (var i = 0; i < 256; i += 8)
-					rotate += (elapsed/200) * Math.abs(spectrum.readFloat())
+			if (mode != 2) {
+				var elapsed:Number = time - lastUpdate
 				
-				rotate = Math.min(Math.max(rotate, 0.05), 1.5)
-				camera.rotationY += elapsed/334
-				camera.rotationZ += rotate/1.1
-				camera.rotationX -= rotate
-				
-			} else if (mode == 1) {
-				var control:Vector3D = Game.controller.getOrientation()
-				velocity.x = computeVelocity(velocity.x, control.x * maxAcceleration, maxVelocity)
-				velocity.y = computeVelocity(velocity.y, control.y * maxAcceleration, maxVelocity)
-				
-				angle.z = computeVelocity(angle.z, -control.x * elapsed, MAX_ANGLE)
-				angle.x = computeVelocity(angle.x, -control.y * elapsed, MAX_ANGLE)
+				if (mode == 0) {
+					SoundMixer.computeSpectrum(spectrum, false, 0)
 					
-				var walked:Vector3D = velocity.clone()
-				walked.scaleBy(elapsed)
-				position.incrementBy(walked)
-				
-				if (position.z > arcs[current].z) {
-					if (arcs[current].visible) {
-						if (Game.fuel <= 10)
-							return endGame("lost")
+					var rotate:Number = 0
+					for (var i = 0; i < 256; i += 8)
+						rotate += (elapsed/200) * Math.abs(spectrum.readFloat())
+					
+					rotate = Math.min(Math.max(rotate, 0.05), 1.5)
+					camera.rotationY += elapsed/334
+					camera.rotationZ += rotate/1.1
+					camera.rotationX -= rotate
+					
+				} else {
+					var control:Vector3D = Game.controller.getOrientation()
+					velocity.x = computeVelocity(velocity.x, control.x * maxAcceleration, maxVelocity)
+					velocity.y = computeVelocity(velocity.y, control.y * maxAcceleration, maxVelocity)
+					
+					angle.z = computeVelocity(angle.z, -control.x * elapsed, MAX_ANGLE)
+					angle.x = computeVelocity(angle.x, -control.y * elapsed, MAX_ANGLE)
 						
-						Game.fuel *= 0.7
+					var walked:Vector3D = velocity.clone()
+					walked.scaleBy(elapsed)
+					position.incrementBy(walked)
+					
+					if (position.z > arcs[current].z) {
+						if (arcs[current].visible) {
+							if (Game.fuel <= 10)
+								return endGame("lost")
+							
+							Game.fuel *= 0.7
+						}
+						
+						current++
+						if (current == 1)
+							Game.soundChannel = Game.sound.play()
+						else if (current == arcs.length)
+							return endGame("win")
 					}
-					
-					current++
-					if (current == 1)
-						Game.soundChannel = Game.sound.play()
-					else if (current == arcs.length)
-						return endGame("win")
-				}
-					
-				for (var i = current; i < Math.min(current+20, arcs.length); i++) {
-					var ratio = Math.min(OBSTACLE_DISTANCE * 3 / (arcs[i].z - position.z), 1)
-					
-					arcs[i].y = arcs[i].finalPosition.y * ratio
-					arcs[i].x = arcs[i].finalPosition.x * ratio
-				}
-			
-				plane.setColor(arcs[current].material.color)
-				plane.setEngineUsage(angle.x/20, angle.z/20)
-				plane.position = position.add(new Vector3D(0, -30, 300))
-				plane.eulers = angle
-				plane.eulers.z += 90
-				camera.position = position
+						
+					for (var i = current; i < Math.min(current+20, arcs.length); i++) {
+						var ratio = Math.min(OBSTACLE_DISTANCE * 3 / (arcs[i].z - position.z), 1)
+						
+						arcs[i].y = arcs[i].finalPosition.y * ratio
+						arcs[i].x = arcs[i].finalPosition.x * ratio
+					}
 				
-				if (current > 1)
-					checkIntersection(arcs[current-1])
-				checkIntersection(arcs[current])
+					plane.setColor(arcs[current].material.color)
+					plane.setEngineUsage(angle.x/20, angle.z/20)
+					plane.position = position.add(new Vector3D(0, -30, 300))
+					plane.eulers = angle
+					plane.eulers.z += 90
+					camera.position = position
+					
+					if (current > 1)
+						checkIntersection(arcs[current-1])
+					checkIntersection(arcs[current])
+				}
+				
+				render()
 			}
 			
 			lastUpdate = time
-			render()
 		}
 		
 		function checkIntersection(arc:Arc) {
