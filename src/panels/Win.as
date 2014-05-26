@@ -20,8 +20,6 @@ package panels {
 		}
 		
 		public override function shown() {
-			LocalStorage.saveScore(new Score(Game.songName,Game.score, int(Game.progress*1000)/10))
-
 			Game.soundChannel.stop()
 			
 			registerClassAlias("Score", Score)
@@ -43,8 +41,7 @@ package panels {
 				else highscore.text = "New record! Well done!"
 			}
 			
-			
-			
+			LocalStorage.saveScore(new Score(Game.songName,Game.score, int(Game.progress*1000)/10))
 		}
 		
 		public override function hidden() {
@@ -77,7 +74,7 @@ package panels {
 		
 		
 		var changesong = addChild(new LegButton("Change song","play"))
-		var menu = addChild(new LegButton("Main menu", "home"))
+		var menu = addChild(new LegButton("Play again", "retry"))
 		var header = addChild(new NormalText('<font color="#00FF00">You win!</font>', 100))
 		var score = addChild(new NormalText("", 25))
 		var beats = addChild(new NormalText("", 25))

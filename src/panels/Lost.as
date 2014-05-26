@@ -41,16 +41,13 @@ package panels {
 				highscore.text = "Highscore: " + high.points.toString()
 			}
 			
-			//if(i<LocalStorage.scores.length({
-			//	highscore.text = "Highscore:" + LocalStorage.scores[i].song
-			//}
-			//else highscore.text= "Highscore: Not yet played"
 			
 		}
 		
 		public override function hidden() {
 			stage.removeEventListener(Event.ENTER_FRAME, fade)
 		}
+		
 		
 		public override function resize(e:Event=null) {
 			retry.x = (stage.stageWidth - retry.width) / 2-150
@@ -87,6 +84,10 @@ package panels {
 			
 			fadebox.alpha += elapsed/1000
 			lastUpdate = time
+			
+			if (fadebox.alpha >= 1){
+				stage.removeEventListener(Event.ENTER_FRAME, fade)
+			}
 		}
 		
 		var lastUpdate:Number
