@@ -31,7 +31,7 @@ package panels {
 			var high:Score = LocalStorage.searchSong(Game.songName)
 				
 			song.text = Game.songName 
-			score.text = "Score: " + Game.score.toString()
+			score.text = "Your score: " + Game.score.toString()
 			beats.text = "Beats: "+ (int(Game.progress*1000)/10).toString()+"%"
 			
 			if(high == null){
