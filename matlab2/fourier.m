@@ -1,16 +1,25 @@
-function [notes,e,bpm] = fourier(w,fs)
+function [notes,e,bpm,x] = fourier(w,fs)
     if (size(w,2) > 1)
         fusao = (w(:,1)+w(:,2))/2;
         w = fusao;
     end
-
+    
     bpm = round(getBPM(w,fs));
-
+    
     intervalo = (60/bpm)*1000;
+    
     r = abs(stfft(w,fs,intervalo,intervalo,0));
     
     wstep = floor(intervalo/1000*fs);
     [f,amps] = getFreqs(r,fs,wstep,0);
+    
+    musicNotes = [0,262,277,294,311,330,349,370,392,415,440,466,494,524];
+    for i=1:length(f)
+        ind = getNote(f(i));
+        f(i) = musicNotes(ind);
+    end
+    x = freqsToSignal(f,amps,wstep,fs);
+    
     notes = getNotes(f);
     for i=1:length(notes)
         notes(i) = notes(i)-1;
