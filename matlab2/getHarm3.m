@@ -22,7 +22,7 @@ function m = getHarm3(f,dfh)
                 b = min(f(j),f(i));
                 q = a/b;
                 diff = abs(q-round(q));
-                if (diff < 0.08.p)
+                if (diff < 0.08)
                     harmonics(i) = harmonics(i) + 1;
                     f(j) = 0;
                 end

@@ -5,6 +5,7 @@ function [notes,e,bpm,x] = fourier(w,fs)
     end
     
     bpm = round(getBPM(w,fs));
+    bpm = bpm*2;
     intervalo = (60/bpm)*1000;
     
     r = abs(stfft(w,fs,intervalo,intervalo,0));
