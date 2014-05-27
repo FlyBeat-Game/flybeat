@@ -29,7 +29,7 @@ package world {
 				
 			stage.addEventListener("unpause", function(e:Event) {mode = 1})
 			stage.addEventListener("pause", function(e:Event) {mode = 2})
-			stage.addEventListener("home", showBackground)
+			stage.addEventListener("play", showBackground)
 			stage.addEventListener("buildMap", loadGame)
 			stage.addEventListener("retry", retryGame)
 			
