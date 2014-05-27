@@ -26,6 +26,9 @@ package world {
 			scene.addChild(new SkyBox(new BitmapCubeTexture(Cast.bitmapData(SpacePosX), Cast.bitmapData(SpaceNegX), Cast.bitmapData(SpacePosY), Cast.bitmapData(SpaceNegY), Cast.bitmapData(SpacePosZ), Cast.bitmapData(SpaceNegZ))))
 			stage.addEventListener(Event.ENTER_FRAME, update)
 			stage.addEventListener(Event.RESIZE, resize)
+				
+			stage.addEventListener("unpause", function(e:Event) {mode = 1})
+			stage.addEventListener("pause", function(e:Event) {mode = 2})
 			stage.addEventListener("home", showBackground)
 			stage.addEventListener("buildMap", loadGame)
 			stage.addEventListener("retry", retryGame)
@@ -219,11 +222,10 @@ package world {
 						checkIntersection(arcs[current-1])
 					checkIntersection(arcs[current])
 				}
-				
-				render()
 			}
 			
 			lastUpdate = time
+			render()
 		}
 		
 		function checkIntersection(arc:Arc) {
