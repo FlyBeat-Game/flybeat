@@ -34,8 +34,8 @@ package world {
 				loadParticles()
 			})
 			
-			this.rotationY = 180
-			this.scale(30)
+			rotationY = 180
+			scale(30)
 		}
 		
 		public function setColor(color:uint) {
@@ -73,6 +73,18 @@ package world {
 				state = ParticleScaleState(turboAnimator.getAnimationState(particleScale));
 				state.maxScale = 0.25 * y;
 				state.minScale = y;
+			}
+		}
+		
+		public function setAnimating(animate:Boolean) {
+			if (animate) {
+				turboAnimator.start()
+				leftAnimator.start()
+				rightAnimator.start()
+			} else {
+				turboAnimator.stop()
+				leftAnimator.stop()
+				rightAnimator.stop()
 			}
 		}
 		
@@ -154,10 +166,6 @@ package world {
 			rightWing.animator = rightAnimator
 			rightWing.rotationZ *= -1
 			rightWing.x *= -1
-
-			turboAnimator.start()
-			leftAnimator.start()
-			rightAnimator.start()
 		}
 		
 		function loadParticle(prop:ParticleProperties) {

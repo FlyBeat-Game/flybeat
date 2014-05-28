@@ -27,8 +27,8 @@ package world {
 			stage.addEventListener(Event.ENTER_FRAME, update)
 			stage.addEventListener(Event.RESIZE, resize)
 				
-			stage.addEventListener("unpause", function(e:Event) {mode = 1})
-			stage.addEventListener("pause", function(e:Event) {mode = 2})
+			stage.addEventListener("unpause", function(e:Event) {setGamePaused(false)})
+			stage.addEventListener("pause", function(e:Event) {setGamePaused(true)})
 			stage.addEventListener("play", showBackground)
 			stage.addEventListener("buildMap", loadGame)
 			stage.addEventListener("retry", retryGame)
@@ -151,12 +151,18 @@ package world {
 			position = new Vector3D(0, 0, -velocity.z*7000)
 			angle = new Vector3D
 			current = 0
-			mode = 1
+				
+			setGamePaused(false)
 		}
 		
-		function endGame(event:String) : void {
+		function stopGame(event:String) {
 			stage.dispatchEvent(new Event(event))
-			mode = 2
+			setGamePaused(true)
+		}
+		
+		function setGamePaused(paused:Boolean) {
+			plane.setAnimating(!paused)
+			mode = paused ? 2 : 1
 		}
 
 		function update(e:Event) {
@@ -192,7 +198,7 @@ package world {
 					if (position.z > arcs[current].z) {
 						if (arcs[current].visible) {
 							if (Game.fuel <= 10)
-								return endGame("lost")
+								return stopGame("lost")
 							
 							Game.fuel *= 0.7
 						}
@@ -201,7 +207,7 @@ package world {
 						if (current == 1)
 							Game.soundChannel = Game.sound.play()
 						else if (current == arcs.length)
-							return endGame("win")
+							return stopGame("win")
 					}
 						
 					for (var i = current; i < Math.min(current+20, arcs.length); i++) {
