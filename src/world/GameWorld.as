@@ -204,7 +204,7 @@ package world {
 							
 							Game.fuel *= 0.7
 						}
-						trace(arcs[current].z);
+
 						current++
 						if (current == 1)
 							Game.soundChannel = Game.sound.play()
