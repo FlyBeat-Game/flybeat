@@ -121,8 +121,12 @@ package panels {
 		function pause(){
 			if(pausebox.visible == true){
 				pausebox.visible = false
+				stage.dispatchEvent(new Event("unpause"))
 			}
-			else pausebox.visible = true
+			else{
+				pausebox.visible = true
+				stage.dispatchEvent(new Event("pause"))
+			}
 				
 			
 		}
