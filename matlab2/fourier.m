@@ -31,7 +31,12 @@ function [notes,e,bpm,x] = fourier(w,fs)
     for i=1:length(we)
         e(i) = (round(we(i) * 100 / m));
     end
-
+    
+    for i=1:length(notes)
+        if (e(i) < 1)
+            notes(i) = 0;
+        end
+    end
     %nnotes = {'-';'Dó';'Dó#';'Ré';'Ré#';'Mi';'Fá';'Fá#';'Sol';'Sol#';'Lá';'Lá#';'Si';'Dó2'};
     %for i=1:length(notes)
     %    disp(nnotes(notes(i)));
