@@ -1,10 +1,11 @@
 package panels
 {
+	import flash.display.Shape;
 	import flash.display.Sprite;
 	import flash.events.Event;
-	import flash.utils.getTimer;
 	import flash.events.MouseEvent;
-	import flash.display.Shape;
+	import flash.ui.Mouse;
+	import flash.utils.getTimer;
 	
 	public class SplashScreen extends Panel {
 		public function SplashScreen(){
@@ -30,7 +31,7 @@ package panels
 			logo.alpha = 0
 			lastUpdate = getTimer()
 			stage.addEventListener(Event.ENTER_FRAME, fade)
-
+			Mouse.hide()
 		}
 		
 		function fade(e:Event) {
@@ -47,31 +48,26 @@ package panels
 			}
 			
 		}
-		
-		public override function hidden() {
-		}
-		
+
 		public function wait(e:Event){
 			var time:Number = getTimer()
 			var elapsed:Number = time - lastUpdate
 			
-			waitTime = waitTime + elapsed
+			waitTime -= elapsed
 			lastUpdate = time
 			
-			if(waitTime>3250){
-				disable(null)
-			}
-			
+			if (waitTime <= 0)
+				disable()
 		}
 		
-		function disable(e:Event){
+		function disable(e:Event=null){
 			stage.removeEventListener(MouseEvent.CLICK, disable)
 			stage.removeEventListener(Event.ENTER_FRAME, wait)
 			stage.dispatchEvent(new Event("home"))
 		}
 		
 		var background = addChild(new Shape)
-		var waitTime = 0
+		var waitTime = 3250
 		var lastUpdate:Number
 		var logo = addChild(new Sprite);
 		[Embed(source = "../../media/logo.png", mimeType = "image/png")]

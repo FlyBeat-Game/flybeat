@@ -53,7 +53,7 @@ package world {
 			for (var i = 0; i < Game.notes.length; i++) {
 				var note = Game.notes[i]
 				if (note != -1)
-					addArc(new Vector3D(note / 6.5 - 1.0, Game.energy[i] / 50 - 1.0, i))
+					addArc(new Vector3D(note / 6.5 - 1.0, Game.energy[i] / 50 - 1.0, i), note)
 			}
 			
 			if (SceneObject.numLoading > 0)	
@@ -85,12 +85,13 @@ package world {
 			content.addChild(plane)
 			content.addChild(staticLight)
 				
-			addArc(new Vector3D(0,0,-1)).visible = false
+			addArc(new Vector3D(0,0,-1),1).visible = false
 		}
 		
-		function addArc(pos:Vector3D) : Arc {
-			var colorBranch = int(arcs.length / COLOR_STEP)
-			var step = arcs.length - colorBranch * COLOR_STEP
+		function addArc(pos:Vector3D, note:int) : Arc {
+			var index = arcs.length + colorOff
+			var colorBranch = int(index / COLOR_STEP)
+			var step = index - colorBranch * COLOR_STEP
 			
 			var from = COLORS[colorBranch % COLORS.length]
 			var to = COLORS[(colorBranch+1) % COLORS.length]
@@ -113,9 +114,9 @@ package world {
 		
 		function clearArcs() {
 			for (var i = 1; i < arcs.length; i++)
-				content.removeChild(arcs[i])
-			
-			arcs = new Vector.<Arc>
+				content.removeChild(arcs.pop())
+		
+			colorOff = int(Math.random() * COLOR_STEP * COLORS.length)
 		}
 		
 		function interpolateColor(from:int, to:int, step:int) : int {
@@ -279,6 +280,7 @@ package world {
 		var lights:StaticLightPicker;
 		var plane:Spaceship;
 		var arcs:Vector.<Arc> = new Vector.<Arc>;
+		var colorOff:Number = 0;
 		
 		var velocity:Vector3D, position:Vector3D, angle:Vector3D;
 		var current:Number, maxVelocity:Number, maxAcceleration:Number;

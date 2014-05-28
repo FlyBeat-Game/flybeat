@@ -3,6 +3,10 @@ package panels {
 	import flash.events.Event;
 
 	public class Panel extends Sprite {
+		public function Panel() {
+			visible = false
+		}
+		
 		public function startup() {
 			stage.addEventListener(Event.RESIZE, resize)
 			resize()

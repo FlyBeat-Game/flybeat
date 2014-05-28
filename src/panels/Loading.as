@@ -4,6 +4,7 @@ package panels {
 	import flash.events.Event;
 	import flash.events.TimerEvent;
 	import flash.utils.Timer;
+	import flash.ui.Mouse;
 	
 	import panels.external.Matlab;
 	import panels.widgets.NormalText;
@@ -21,6 +22,8 @@ package panels {
 				
 			if (Game.soundChannel != null)
 				Game.soundChannel.stop()
+
+			Mouse.hide()
 		}
 		
 		public override function hidden() {

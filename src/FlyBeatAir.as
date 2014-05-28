@@ -6,7 +6,6 @@ package {
 	import flash.events.Event;
 	
 	import panels.*;
-	import panels.external.LocalStorage;
 	
 	import world.GameWorld;
 
@@ -41,14 +40,16 @@ package {
 			for (var i = 0; i < numChildren; i++)
 				Object(getChildAt(i)).startup()
 
-			showPanel(home)
+			showPanel(splash)
 		}
 		
 		function showPanel(panel:Panel) {
 			for (var i = 1; i < numChildren; i++) {
 				var child:Panel = Panel(getChildAt(i))
+				if (child.visible)
+					child.hidden()
+
 				child.visible = false
-				child.hidden()
 			}
 			
 			panel.visible = true

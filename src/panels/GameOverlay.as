@@ -7,6 +7,7 @@ package panels {
 	import flash.events.Event;
 	import flash.events.KeyboardEvent;
 	import flash.ui.Keyboard;
+	import flash.ui.Mouse;
 	
 	import mx.charts.Legend;
 	
@@ -14,7 +15,7 @@ package panels {
 	import panels.widgets.NormalText;
 	
 	public class GameOverlay extends Panel {
-		public function GameOverlay() {	
+		public function GameOverlay() {
 			var fill:Bitmap = new FuelFill
 			fill.mask = fuelMask
 			
@@ -44,6 +45,7 @@ package panels {
 		}
 		
 		public override function shown() {
+			Mouse.hide()
 			Game.reset()
 			pausebox.visible = false
 			stage.addEventListener(Event.ENTER_FRAME, update)
@@ -51,6 +53,7 @@ package panels {
 		}
 		
 		public override function hidden() {
+			Mouse.show()
 			stage.removeEventListener(Event.ENTER_FRAME, update)
 			stage.removeEventListener(KeyboardEvent.KEY_DOWN, onKey)
 		}
@@ -104,6 +107,15 @@ package panels {
 			if(e.keyCode == Keyboard.P) {
 				pausebox.visible = !pausebox.visible
 				stage.dispatchEvent(new Event(pausebox.visible ? "pause" : "unpause"))
+
+				if (pausebox.visible) {
+					pausePositon = Game.soundChannel.position
+					Game.soundChannel.stop()
+					Mouse.show()
+				} else {
+					Game.soundChannel = Game.sound.play(pausePositon)
+					Mouse.hide()
+				}
 			}
 		}
 		
@@ -122,6 +134,7 @@ package panels {
 		var exit = pausebox.addChild(new LegButton("Exit", onExit))
 		var retry = pausebox.addChild(new LegButton("Restart",onRetry))
 		var pauseText = pausebox.addChild(new NormalText("Pause",20))
+		var pausePositon:Number
 			
 		var score = addChild(new NormalText('', 20))
 		var progress = addChild(new NormalText('Beats: ', 18))

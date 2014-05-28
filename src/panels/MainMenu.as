@@ -1,6 +1,7 @@
 package panels {
 	import flash.desktop.NativeApplication;
 	import flash.events.Event;
+	import flash.ui.Mouse;
 	
 	import panels.widgets.Header;
 	import panels.widgets.LegButton;
@@ -28,6 +29,10 @@ package panels {
 			exit.y = centerY + 100
 		}
 		
+		public override function shown() {
+			Mouse.show()
+		}
+
 		var header = addChild(new Header("FlyBeat"));
 		var start = addChild(new LegButton("Start", "play"))
 		var scores = addChild(new LegButton("Scores", "scores"))
