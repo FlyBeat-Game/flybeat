@@ -113,7 +113,7 @@ package world {
 		}
 		
 		function clearArcs() {
-			for (var i = 1; i < arcs.length; i++)
+			while (arcs.length > 1)
 				content.removeChild(arcs.pop())
 		
 			colorOff = int(Math.random() * COLOR_STEP * COLORS.length)
