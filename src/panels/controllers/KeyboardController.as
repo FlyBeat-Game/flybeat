@@ -20,13 +20,13 @@ package panels.controllers {
 			if (!usingKeyboard)
 				return
 			
-			if (event.keyCode == Keyboard.W || event.keyCode == Keyboard.UP)
+			if (event.keyCode == Keyboard.W )
 				top = true;
-			else if (event.keyCode == Keyboard.S || event.keyCode == Keyboard.DOWN)
+			else if (event.keyCode == Keyboard.S )
 				down = true;
-			else if(event.keyCode == Keyboard.A || event.keyCode == Keyboard.LEFT)
+			else if(event.keyCode == Keyboard.A )
 				left = true;
-			else if (event.keyCode == Keyboard.D || event.keyCode == Keyboard.RIGHT)
+			else if (event.keyCode == Keyboard.D)
 				right = true;
 
 			updateOrientation();
