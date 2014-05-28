@@ -41,7 +41,7 @@ package {
 			for (var i = 0; i < numChildren; i++)
 				Object(getChildAt(i)).startup()
 
-			showPanel(splash)
+			showPanel(home)
 		}
 		
 		function showPanel(panel:Panel) {
