@@ -1,10 +1,11 @@
 package panels
 {
+	import flash.display.Shape;
 	import flash.display.Sprite;
 	import flash.events.Event;
-	import flash.utils.getTimer;
 	import flash.events.MouseEvent;
-	import flash.display.Shape;
+	import flash.ui.Mouse;
+	import flash.utils.getTimer;
 	
 	public class SplashScreen extends Panel {
 		public function SplashScreen(){
@@ -30,7 +31,7 @@ package panels
 			logo.alpha = 0
 			lastUpdate = getTimer()
 			stage.addEventListener(Event.ENTER_FRAME, fade)
-
+			Mouse.hide()
 		}
 		
 		function fade(e:Event) {

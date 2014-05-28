@@ -1,10 +1,11 @@
 package panels {
-	import common.Game;
-	
 	import flash.display.Shape;
 	import flash.events.Event;
 	import flash.net.registerClassAlias;
+	import flash.ui.Mouse;
 	import flash.utils.getTimer;
+	
+	import common.Game;
 	
 	import panels.external.LocalStorage;
 	import panels.external.Score;
@@ -21,6 +22,7 @@ package panels {
 		
 		public override function shown() {
 			Game.soundChannel.stop()
+			Mouse.show()
 			
 			registerClassAlias("Score", Score)
 			LocalStorage.loadScores()

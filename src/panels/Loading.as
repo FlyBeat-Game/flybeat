@@ -4,6 +4,7 @@ package panels {
 	import flash.events.Event;
 	import flash.events.TimerEvent;
 	import flash.utils.Timer;
+	import flash.ui.Mouse;
 	
 	import panels.external.Matlab;
 	import panels.widgets.NormalText;
@@ -15,6 +16,7 @@ package panels {
 		}
 		
 		public override function shown() {
+			Mouse.hide()
 			matlabServer.sendFilename(Game.soundPath)
 			changePhrase(null)
 			timer.start()

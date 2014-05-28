@@ -1,20 +1,21 @@
 package panels {
-	import common.Game;
-	
 	import flash.display.Bitmap;
 	import flash.display.Shape;
 	import flash.display.Sprite;
 	import flash.events.Event;
 	import flash.events.KeyboardEvent;
 	import flash.ui.Keyboard;
+	import flash.ui.Mouse;
 	
 	import mx.charts.Legend;
+	
+	import common.Game;
 	
 	import panels.widgets.LegButton;
 	import panels.widgets.NormalText;
 	
 	public class GameOverlay extends Panel {
-		public function GameOverlay() {	
+		public function GameOverlay() {
 			var fill:Bitmap = new FuelFill
 			fill.mask = fuelMask
 			
@@ -44,6 +45,7 @@ package panels {
 		}
 		
 		public override function shown() {
+			Mouse.hide()
 			Game.reset()
 			pausebox.visible = false
 			stage.addEventListener(Event.ENTER_FRAME, update)

@@ -6,7 +6,6 @@ package {
 	import flash.events.Event;
 	
 	import panels.*;
-	import panels.external.LocalStorage;
 	
 	import world.GameWorld;
 
