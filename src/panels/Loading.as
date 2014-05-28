@@ -16,13 +16,14 @@ package panels {
 		}
 		
 		public override function shown() {
-			Mouse.hide()
 			matlabServer.sendFilename(Game.soundPath)
 			changePhrase(null)
 			timer.start()
 				
 			if (Game.soundChannel != null)
 				Game.soundChannel.stop()
+
+			Mouse.hide()
 		}
 		
 		public override function hidden() {

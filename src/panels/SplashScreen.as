@@ -48,31 +48,26 @@ package panels
 			}
 			
 		}
-		
-		public override function hidden() {
-		}
-		
+
 		public function wait(e:Event){
 			var time:Number = getTimer()
 			var elapsed:Number = time - lastUpdate
 			
-			waitTime = waitTime + elapsed
+			waitTime -= elapsed
 			lastUpdate = time
 			
-			if(waitTime>3250){
-				disable(null)
-			}
-			
+			if (waitTime <= 0)
+				disable()
 		}
 		
-		function disable(e:Event){
+		function disable(e:Event=null){
 			stage.removeEventListener(MouseEvent.CLICK, disable)
 			stage.removeEventListener(Event.ENTER_FRAME, wait)
 			stage.dispatchEvent(new Event("home"))
 		}
 		
 		var background = addChild(new Shape)
-		var waitTime = 0
+		var waitTime = 3250
 		var lastUpdate:Number
 		var logo = addChild(new Sprite);
 		[Embed(source = "../../media/logo.png", mimeType = "image/png")]

@@ -46,8 +46,10 @@ package {
 		function showPanel(panel:Panel) {
 			for (var i = 1; i < numChildren; i++) {
 				var child:Panel = Panel(getChildAt(i))
+				if (child.visible)
+					child.hidden()
+
 				child.visible = false
-				child.hidden()
 			}
 			
 			panel.visible = true

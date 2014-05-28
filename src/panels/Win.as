@@ -22,7 +22,6 @@ package panels {
 		
 		public override function shown() {
 			Game.soundChannel.stop()
-			Mouse.show()
 			
 			registerClassAlias("Score", Score)
 			LocalStorage.loadScores()

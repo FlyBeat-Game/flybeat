@@ -1,4 +1,6 @@
 package panels {
+	import common.Game;
+	
 	import flash.display.Bitmap;
 	import flash.display.Shape;
 	import flash.display.Sprite;
@@ -6,10 +8,6 @@ package panels {
 	import flash.events.KeyboardEvent;
 	import flash.ui.Keyboard;
 	import flash.ui.Mouse;
-	
-	import mx.charts.Legend;
-	
-	import common.Game;
 	
 	import panels.widgets.LegButton;
 	import panels.widgets.NormalText;
@@ -49,16 +47,17 @@ package panels {
 			Game.reset()
 			pausebox.visible = false
 			stage.addEventListener(Event.ENTER_FRAME, update)
-			stage.addEventListener(KeyboardEvent.KEY_DOWN, keyDownHandler)
+			stage.addEventListener(KeyboardEvent.KEY_DOWN, onKey)
 		}
 		
 		public override function hidden() {
+			Mouse.show()
 			stage.removeEventListener(Event.ENTER_FRAME, update)
-			stage.removeEventListener(KeyboardEvent.KEY_DOWN, keyDownHandler)
+			stage.removeEventListener(KeyboardEvent.KEY_DOWN, onKey)
 		}
 		
 		public override function resize(e:Event = null) {
-			progress.x = stage.stageWidth - 235
+			progress.x = stage.stageWidth - 195
 			progress.y = stage.stageHeight - 50
 				
 			progressValue.x = stage.stageWidth - 90
@@ -102,40 +101,38 @@ package panels {
 				noise.getChildAt(i).visible = i == level
 		}
 		
-		function exitplay(e:Event){
+		function onKey(e:KeyboardEvent){
+			if(e.keyCode == Keyboard.P) {
+				pausebox.visible = !pausebox.visible
+				stage.dispatchEvent(new Event(pausebox.visible ? "pause" : "unpause"))
+
+				if (pausebox.visible) {
+					pausePositon = Game.soundChannel.position
+					Game.soundChannel.stop()
+					Mouse.show()
+				} else {
+					Game.soundChannel = Game.sound.play(pausePositon)
+					Mouse.hide()
+				}
+			}
+		}
+		
+		function onExit(e:Event){
 			Game.soundChannel.stop()
 			stage.dispatchEvent(new Event("play"))
 		}
 		
-		function keyDownHandler(e:KeyboardEvent){
-			if(e.keyCode == Keyboard.P){
-				pause()
-			}
-		}
-		
-		function retryfunc(e:Event){
+		function onRetry(e:Event){
 			Game.soundChannel.stop()
 			stage.dispatchEvent(new Event("retry"))
 		}
 		
-		function pause(){
-			if(pausebox.visible == true){
-				pausebox.visible = false
-				stage.dispatchEvent(new Event("unpause"))
-				Mouse.hide()
-			}
-			else{
-				pausebox.visible = true
-				stage.dispatchEvent(new Event("pause"))
-				Mouse.show()
-			}
-		}
-		
 		var pausebox = addChild( new Sprite)
 		var pauseBackground = pausebox.addChild(new Shape)
-		var exit = pausebox.addChild(new LegButton("Exit", exitplay))
-		var retry = pausebox.addChild(new LegButton("Restart",retryfunc))
+		var exit = pausebox.addChild(new LegButton("Exit", onExit))
+		var retry = pausebox.addChild(new LegButton("Restart",onRetry))
 		var pauseText = pausebox.addChild(new NormalText("Pause",20))
+		var pausePositon:Number
 			
 		var score = addChild(new NormalText('', 20))
 		var progress = addChild(new NormalText('Beats: ', 18))

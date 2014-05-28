@@ -20,7 +20,6 @@ package panels {
 		}
 		
 		public override function shown() {
-			Mouse.show()
 			Game.soundChannel.stop()
 			
 			registerClassAlias("Score", Score)

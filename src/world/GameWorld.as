@@ -1,10 +1,4 @@
 package world {
-	import flash.events.Event;
-	import flash.geom.Vector3D;
-	import flash.media.SoundMixer;
-	import flash.utils.ByteArray;
-	import flash.utils.getTimer;
-	
 	import away3d.containers.ObjectContainer3D;
 	import away3d.containers.View3D;
 	import away3d.lights.DirectionalLight;
@@ -17,6 +11,12 @@ package world {
 	import away3d.utils.Cast;
 	
 	import common.Game;
+	
+	import flash.events.Event;
+	import flash.geom.Vector3D;
+	import flash.media.SoundMixer;
+	import flash.utils.ByteArray;
+	import flash.utils.getTimer;
 
 	public class GameWorld extends View3D  {
 		public function startup() {
@@ -90,8 +90,9 @@ package world {
 		}
 		
 		function addArc(pos:Vector3D, note:int) : Arc {
-			var colorBranch = int(arcs.length / COLOR_STEP)
-			var step = arcs.length - colorBranch * COLOR_STEP
+			var index = arcs.length + colorOff
+			var colorBranch = int(index / COLOR_STEP)
+			var step = index - colorBranch * COLOR_STEP
 			
 			var from = COLORS[colorBranch % COLORS.length]
 			var to = COLORS[(colorBranch+1) % COLORS.length]
@@ -99,7 +100,6 @@ package world {
 				interpolateColor(from[1], to[1], step) * 0x100 +
 				interpolateColor(from[2], to[2], step)
 			
-			color = CCOLORS[note-1];
 			var material = new ColorMaterial(color, .9)
 			material.lightPicker = lights
 			
@@ -115,9 +115,9 @@ package world {
 		
 		function clearArcs() {
 			for (var i = 1; i < arcs.length; i++)
-				content.removeChild(arcs[i])
-			
-			arcs = new Vector.<Arc>
+				content.removeChild(arcs.pop())
+		
+			colorOff = int(Math.random() * COLOR_STEP * COLORS.length)
 		}
 		
 		function interpolateColor(from:int, to:int, step:int) : int {
@@ -281,6 +281,7 @@ package world {
 		var lights:StaticLightPicker;
 		var plane:Spaceship;
 		var arcs:Vector.<Arc> = new Vector.<Arc>;
+		var colorOff:Number = 0;
 		
 		var velocity:Vector3D, position:Vector3D, angle:Vector3D;
 		var current:Number, maxVelocity:Number, maxAcceleration:Number;
@@ -293,7 +294,6 @@ package world {
 		public static const OBSTACLE_DISTANCE = 355;
 		public static const COLORS = [[0x00, 0xBD, 0xD5], [0xD5, 0x00, 0xBD], [0xBD, 0xD5, 0x00]];
 		public static const COLOR_STEP = 30;
-		public static const CCOLORS = [0xFF0000, 0xFF6600, 0xFFCC00, 0xFFFF33, 0xCCFF33, 0x33FF33, 0x00CC99, 0x00CCFF, 0x0000CC, 0x9900CC, 0xCC33FF, 0xFF00CC];
 		
 		[Embed(source="../../media/skybox/Space_posX.jpg")]
 		public static var SpacePosX:Class;
