@@ -122,13 +122,13 @@ package panels {
 			if(pausebox.visible == true){
 				pausebox.visible = false
 				stage.dispatchEvent(new Event("unpause"))
+				Mouse.hide()
 			}
 			else{
 				pausebox.visible = true
 				stage.dispatchEvent(new Event("pause"))
+				Mouse.show()
 			}
-				
-			
 		}
 		
 		var pausebox = addChild( new Sprite)

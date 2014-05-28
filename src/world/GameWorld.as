@@ -2,7 +2,6 @@ package world {
 	import flash.events.Event;
 	import flash.geom.Vector3D;
 	import flash.media.SoundMixer;
-	import flash.ui.Mouse;
 	import flash.utils.ByteArray;
 	import flash.utils.getTimer;
 	
