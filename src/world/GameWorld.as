@@ -52,8 +52,9 @@ package world {
 			
 			for (var i = 0; i < Game.notes.length; i++) {
 				var note = Game.notes[i]
-				if (note != -1)
-					addArc(new Vector3D(note / 6.5 - 1.0, Game.energy[i] / 50 - 1.0, i), note)
+				var arc:Arc = addArc(new Vector3D(note / 6.5 - 1.0, Game.energy[i] / 50 - 1.0, i), note)
+				if (note == 0)
+					arc.visible = false;
 			}
 			
 			if (SceneObject.numLoading > 0)	
@@ -84,7 +85,7 @@ package world {
 				
 			content.addChild(plane)
 			content.addChild(staticLight)
-				
+			
 			addArc(new Vector3D(0,0,-1),1).visible = false
 		}
 		
@@ -203,11 +204,11 @@ package world {
 							
 							Game.fuel *= 0.7
 						}
-						
+
 						current++
 						if (current == 1)
 							Game.soundChannel = Game.sound.play()
-						else if (current == arcs.length)
+						if (current == arcs.length)
 							return stopGame("win")
 					}
 						

@@ -5,6 +5,9 @@ function [notes,e,bpm,x] = fourier(w,fs)
     end
     
     bpm = round(getBPM(w,fs));
+    if (bpm > 250)
+        bpm = bpm/2;
+    end
     
     intervalo = (60/bpm)*1000;
     

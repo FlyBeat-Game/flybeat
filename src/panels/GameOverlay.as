@@ -9,8 +9,6 @@ package panels {
 	import flash.ui.Keyboard;
 	import flash.ui.Mouse;
 	
-	import mx.charts.Legend;
-	
 	import panels.widgets.LegButton;
 	import panels.widgets.NormalText;
 	
