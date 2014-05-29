@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <deployment-project plugin="plugin.deploytool" plugin-version="1.0">
-  <configuration target="target.standalone.win" target-name="Windows Standalone Application" name="flybeatMatlabModule" location="C:\Users\andrebaptista\Desktop\multimedia\flybeat\matlab" file="C:\Users\andrebaptista\Desktop\multimedia\flybeat\matlab\flybeatMatlabModule.prj" build-checksum="1487670024">
+  <configuration target="target.standalone.win" target-name="Windows Standalone Application" name="flybeatMatlabModule" location="C:\Users\andrebaptista\Desktop\multimedia\flybeat\matlab" file="C:\Users\andrebaptista\Desktop\multimedia\flybeat\matlab\flybeatMatlabModule.prj" build-checksum="2812991308">
     <param.project.name>C:\Users\andrebaptista\Desktop\multimedia\flybeat\matlab\flybeatMatlabModule.prj</param.project.name>
     <param.target.type>Windows Standalone Application</param.target.type>
     <param.appname>flybeatMatlabModule</param.appname>
@@ -8,7 +8,6 @@
     <param.output>${PROJECT_ROOT}\flybeatMatlabModule\distrib</param.output>
     <param.embed.ctf>true</param.embed.ctf>
     <param.tbx_on_path>
-      <item>comm</item>
       <item>instrument</item>
       <item>wavelet</item>
     </param.tbx_on_path>
