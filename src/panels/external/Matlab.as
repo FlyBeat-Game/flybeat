@@ -26,7 +26,7 @@ package panels.external {
 		
 		public function startMatlabAnalyzer(hostName:String, port:uint) : void {
 			socket = new Socket()
-			socket.timeout = 500
+			socket.timeout = 1000
 			configListeners(socket)
 			if (hostName && port) socket.connect(hostName, port)
 		}
@@ -49,6 +49,9 @@ package panels.external {
 				var bpm:int = parseInt(s[0])
 				var notes:Array = parseArray(s[1])
 				var energy:Array = parseArray(s[2])
+				
+				for (var i=0;i<notes.length;i++)
+					notes[i] -= 1;
 				
 				Game.bpm = bpm
 				Game.notes = notes

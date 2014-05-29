@@ -53,7 +53,7 @@ package world {
 			for (var i = 0; i < Game.notes.length; i++) {
 				var note = Game.notes[i]
 				var arc:Arc = addArc(new Vector3D(note / 6.5 - 1.0, Game.energy[i] / 50 - 1.0, i), note)
-				if (note == 0)
+				if (note == -1)
 					arc.visible = false;
 			}
 			
@@ -140,6 +140,11 @@ package world {
 				arcs[i].visible = true
 				arcs[i].x = 0
 				arcs[i].y = 0
+			}
+			
+			for (var i = 0; i < Game.notes.length; i++) {
+				if (Game.notes[i] == -1)
+					arcs[i+1].visible = false
 			}
 			
 			resetGame()
