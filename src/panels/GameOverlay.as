@@ -77,10 +77,10 @@ package panels {
 			pauseBackground.graphics.endFill()
 			
 			retry.x = (pauseBackground.width- retry.width)/2 - 150
-			retry.y = pauseBackground.height/2 + 100
+			retry.y = pauseBackground.height/2 + 50
 				
 			exit.x = pauseBackground.width/2 + 150
-			exit.y = pauseBackground.height/2 + 100
+			exit.y = pauseBackground.height/2 + 50
 			
 			pauseText.x = (pauseBackground.width-pauseText.width)/2
 			pauseText.y = (pauseBackground.height)/2 - 120
