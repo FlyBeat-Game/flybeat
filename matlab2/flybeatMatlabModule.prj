@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <deployment-project plugin="plugin.deploytool" plugin-version="1.0">
-  <configuration target="target.standalone.win" target-name="Windows Standalone Application" name="flybeatMatlabModule" location="C:\Users\andrebaptista\Desktop\multimedia\flybeat\matlab2" file="C:\Users\andrebaptista\Desktop\multimedia\flybeat\matlab2\flybeatMatlabModule.prj" build-checksum="1668458297">
+  <configuration target="target.standalone.win" target-name="Windows Standalone Application" name="flybeatMatlabModule" location="C:\Users\andrebaptista\Desktop\multimedia\flybeat\matlab2" file="C:\Users\andrebaptista\Desktop\multimedia\flybeat\matlab2\flybeatMatlabModule.prj" build-checksum="2722612082">
     <param.project.name>C:\Users\andrebaptista\Desktop\multimedia\flybeat\matlab2\flybeatMatlabModule.prj</param.project.name>
     <param.target.type>Windows Standalone Application</param.target.type>
     <param.appname>flybeatMatlabModule</param.appname>

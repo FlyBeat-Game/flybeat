@@ -26,7 +26,7 @@ package panels.external {
 		
 		public function startMatlabAnalyzer(hostName:String, port:uint) : void {
 			socket = new Socket()
-			socket.timeout = 1000
+			socket.timeout = 2000
 			configListeners(socket)
 			if (hostName && port) socket.connect(hostName, port)
 		}

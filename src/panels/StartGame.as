@@ -207,7 +207,7 @@ package panels {
 		var cell = addChild(new Sprite)
 		var online = addChild(new Sprite)
 		
-		var addressTextBox:TextBox  = new TextBox("192.168.43.2", 13)
+		var addressTextBox:TextBox  = new TextBox("192.168.1.1", 13)
 		var address = addChild(addressTextBox)
 			
 		var back = addChild(new LegButton("Back", "home"))
