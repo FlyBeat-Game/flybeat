@@ -5,7 +5,7 @@ set(t,'Timeout',200000);
 set(t,'OutputBufferSize',10000000);
 fopen(t);
 disp('Server started!');
-disp('New client!');
+system('FlyBeatAir.exe');
 
 while 1    
     %get data

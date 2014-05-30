@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <deployment-project plugin="plugin.deploytool" plugin-version="1.0">
-  <configuration target="target.standalone.win" target-name="Windows Standalone Application" name="flybeatMatlabModule" location="C:\Users\andrebaptista\Desktop\multimedia\flybeat\matlab" file="C:\Users\andrebaptista\Desktop\multimedia\flybeat\matlab\flybeatMatlabModule.prj" build-checksum="1487670024">
-    <param.project.name>C:\Users\andrebaptista\Desktop\multimedia\flybeat\matlab\flybeatMatlabModule.prj</param.project.name>
+  <configuration target="target.standalone.win" target-name="Windows Standalone Application" name="flybeatMatlabModule" location="C:\Users\andrebaptista\Desktop\multimedia\flybeat\matlab2" file="C:\Users\andrebaptista\Desktop\multimedia\flybeat\matlab2\flybeatMatlabModule.prj" build-checksum="1668458297">
+    <param.project.name>C:\Users\andrebaptista\Desktop\multimedia\flybeat\matlab2\flybeatMatlabModule.prj</param.project.name>
     <param.target.type>Windows Standalone Application</param.target.type>
     <param.appname>flybeatMatlabModule</param.appname>
     <param.intermediate>${PROJECT_ROOT}\flybeatMatlabModule\src</param.intermediate>
@@ -66,8 +66,8 @@
       <file special-file="file.mcr" reference-mode="direct">${MATLAB_ROOT}\toolbox\compiler\deploy\win64\MCRInstaller.exe</file>
     </fileset.package>
     <build-deliverables>
-      <file name="flybeatMatlabModule.exe" location="${PROJECT_ROOT}\flybeatMatlabModule\distrib" optional="false">C:\Users\andrebaptista\Desktop\multimedia\flybeat\matlab\flybeatMatlabModule\distrib\flybeatMatlabModule.exe</file>
-      <file name="readme.txt" location="${PROJECT_ROOT}\flybeatMatlabModule\distrib" optional="true">C:\Users\andrebaptista\Desktop\multimedia\flybeat\matlab\flybeatMatlabModule\distrib\readme.txt</file>
+      <file name="readme.txt" location="${PROJECT_ROOT}\flybeatMatlabModule\distrib" optional="true">C:\Users\andrebaptista\Desktop\multimedia\flybeat\matlab2\flybeatMatlabModule\distrib\readme.txt</file>
+      <file name="flybeatMatlabModule.exe" location="${PROJECT_ROOT}\flybeatMatlabModule\distrib" optional="false">C:\Users\andrebaptista\Desktop\multimedia\flybeat\matlab2\flybeatMatlabModule\distrib\flybeatMatlabModule.exe</file>
     </build-deliverables>
     <workflow />
     <matlab>
