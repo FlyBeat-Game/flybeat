@@ -68,12 +68,12 @@ package panels {
 			speaker.y = stage.stageHeight - 65
 			noise.y = stage.stageHeight - 85
 				
-			pausebox.x =  stage.stageWidth/4
+			pausebox.x = 0
 			pausebox.y = stage.stageHeight/3
 				
 			pauseBackground.graphics.clear()
 			pauseBackground.graphics.beginFill(0x000000)
-			pauseBackground.graphics.drawRect(0,0, stage.stageWidth/2, stage.stageHeight/3)
+			pauseBackground.graphics.drawRect(0,0, stage.stageWidth, stage.stageHeight/3)
 			pauseBackground.graphics.endFill()
 			
 			retry.x = (pauseBackground.width- retry.width)/2 - 150
@@ -82,8 +82,8 @@ package panels {
 			exit.x = pauseBackground.width/2 + 150
 			exit.y = pauseBackground.height/2 + 50
 			
-			pauseText.x = (pauseBackground.width-pauseText.width)/2
-			pauseText.y = (pauseBackground.height)/2 - 120
+			pauseText.x = (pauseBackground.width-pauseText.width)/2 
+			pauseText.y = (pauseBackground.height)/2 - 90
 		}
 		
 		function update(e:Event) {
@@ -131,7 +131,7 @@ package panels {
 		var pauseBackground = pausebox.addChild(new Shape)
 		var exit = pausebox.addChild(new LegButton("Exit", onExit))
 		var retry = pausebox.addChild(new LegButton("Restart",onRetry))
-		var pauseText = pausebox.addChild(new NormalText("Pause",20))
+		var pauseText = pausebox.addChild(new NormalText("Pause",26))
 		var pausePositon:Number
 			
 		var score = addChild(new NormalText('', 20))
