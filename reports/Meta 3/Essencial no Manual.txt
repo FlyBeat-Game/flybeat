@@ -1,8 +1,0 @@
-Introdução/Descrição do Jogo
-Requisitos Mínimos
-Instruções de Instalação (ilustradas)
-	- Aplicação Android
-	- Jogo em Windows e Mac
-Instruções de Utilização (ilustradas)
-
-## Escrever o manual em inglês!
