@@ -34,7 +34,6 @@ package panels.external {
 		public static function saveScore(score:Score) {
 			var best:Score = searchSong(score.song)
 			
-			trace(best, scores.length)
 			if (best != null)  {
 				if (best.points < score.points) {
 					best.points = score.points
@@ -47,7 +46,6 @@ package panels.external {
 					 	break
 					}
 				
-				trace(i)
 				if (i == scores.length)
 					scores.push(score)
 			}

@@ -1,0 +1,16 @@
+Resolver:
+- Controlo do teclado
+- Colisão avião (asas)
+- Cor inicial avião
+- Nomes de música (passa extensão, outros nomes ficam cortados em playMenu, enormes nos outros screens)
+- Números no hiscore têm de usar fonte monospace
+- Escalar as pontuações mais pequenas
+- gameOver e gameWin screens precisão de ser redesigned
+- Poder ordenar os scores ou por nome, ou por beats, ou por score
+
+Ideias:
+- Fazer pra ambientes moveis (tablets, etc)
+- Modos de jogo
+	- "Relaxed Mode": modo em que nunca perdes, para enjoying the music
+		- Se em iPad, poder usar lista de reprodução de iTunes (com ou sem shufle e tudo)
+- Controler de rato e comando ps2 style

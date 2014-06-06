@@ -1,19 +1,20 @@
 %main script
 disp('Starting server...');
 t = tcpip('0.0.0.0', 8086, 'NetworkRole', 'server');
-set(t,'Timeout',5);
+set(t,'Timeout',200000);
 set(t,'OutputBufferSize',10000000);
 fopen(t);
 disp('Server started!');
-disp('New client!');
 
 while 1    
     %get data
     data = strcat(fread(t, 1, 'uchar'));
     if get(t,'BytesAvailable') > 1
+        disp('Received data');
+        
         data = strcat(data,fread(t, t.BytesAvailable, 'uchar')');
         data = data(2:length(data));
-        try
+
             [w,fs] = audioread(data);
             [notes,e,bpm] = fourier(w,fs);
             sdata1 = num2str(bpm);
@@ -26,7 +27,5 @@ while 1
             sdata = strcat(sdata,sdata3);
             sdata = strcat(sdata,'e');
             fwrite(t,sdata);
-        catch me
-        end
-    end
+    end;
 end;
