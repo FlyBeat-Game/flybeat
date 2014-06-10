@@ -2,6 +2,7 @@ Resolver:
 - Controlo do teclado
 - Colisão avião (asas)
 - Cor inicial avião
+- Música imprimir força de rotação no fundo, não velocidade
 - Nomes de música (passa extensão, outros nomes ficam cortados em playMenu, enormes nos outros screens)
 - Números no hiscore têm de usar fonte monospace
 - Escalar as pontuações mais pequenas
@@ -14,3 +15,11 @@ Ideias:
 	- "Relaxed Mode": modo em que nunca perdes, para enjoying the music
 		- Se em iPad, poder usar lista de reprodução de iTunes (com ou sem shufle e tudo)
 - Controler de rato e comando ps2 style
+
+Tecnologias Possíveis:
+- libGDX (Java)
+- jMonkeyEngine (Java)
+- cocos3d (Objective-C)
+- OpenSceneGraph
+- Mono
+- Unity
