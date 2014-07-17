@@ -7,3 +7,7 @@ Conferências:
 - AES, Audio for Games
 - Audio Mostly
 - CMMR
+
+A Medir:
+- Precisão
+- Tempo de Computação
