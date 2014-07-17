@@ -1,0 +1,9 @@
+Referências:
+- Karin Dressler
+- Justin Salamon
+- Licínio Roque
+
+Conferências:
+- AES, Audio for Games
+- Audio Mostly
+- CMMR
