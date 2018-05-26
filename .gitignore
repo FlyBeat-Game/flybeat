@@ -1,2 +1,3 @@
 bin-debug/*
+Build/*
 *.DS_Store
